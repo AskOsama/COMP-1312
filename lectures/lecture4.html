@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 4: Create Tables: Design and Handling</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="lecture4_ar.html" class="lang-button" title="Switch to Arabic">العربية</a>
+    </div>
+
+    <header>
+        <h1>Create Tables: Design and Handling</h1>
+        <p class="subtitle">Lecture 4: Database Fundamentals</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#objectives">Learning Objectives</a></li>
+            <li><a href="#poor-design">1. How Can Poor Table Design Affect a Database?</a></li>
+            <li><a href="#overview">2. Overview</a></li>
+            <li><a href="#intro-tables">3. Introduction to Tables</a></li>
+            <li><a href="#fields">4. What is a Field?</a></li>
+            <li><a href="#naming-rules">5. Field Naming Rules</a></li>
+            <li><a href="#records">6. What is a Record?</a></li>
+            <li><a href="#design-importance">7. Importance of Table Design</a></li>
+            <li><a href="#activity1">8. Activity 1: Identifying Design Problems</a></li>
+            <li><a href="#primary-key">9. Primary Key</a></li>
+            <li><a href="#pk-importance">10. Importance of Primary Key</a></li>
+            <li><a href="#table-operations">11. Table Operations</a></li>
+            <li><a href="#activity2">12. Activity 2: Applying Table Operations</a></li>
+            <li><a href="#table-handling">13. Table Handling</a></li>
+            <li><a href="#summary">Summary</a></li>
+            <li><a href="#review">Review Questions</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Learning Objectives -->
+        <section id="objectives" class="learning-objectives">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this lecture, you will be able to:</p>
+            <ul>
+                <li>Understand the concept of tables and their role in databases</li>
+                <li>Identify the components of a table: fields and records</li>
+                <li>Define and apply proper field naming rules</li>
+                <li>Explain the importance of primary keys in table design</li>
+                <li>Perform basic table operations (Insert, Update, Delete)</li>
+                <li>Apply best practices for table design and handling</li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Poor Design -->
+        <section id="poor-design" class="content-section">
+            <h2>1. How Can Poor Table Design Affect a Database?</h2>
+
+            <div class="key-message">
+                <p><strong>Key Question:</strong> What happens when a database table is not designed properly? Poor table design can lead to duplicate data, inconsistent records, and difficulty retrieving information.</p>
+            </div>
+
+            <p>Good table design is the foundation of every reliable database. Without proper design, data becomes disorganized and unreliable, making the database difficult to use and maintain.</p>
+
+            <div class="example">
+                <h4>Think About It</h4>
+                <p>Imagine a university stores student data without unique student IDs. Consider the following problems:</p>
+                <ul>
+                    <li><strong>Duplicate entries:</strong> Two students named "Ahmed Ali" cannot be distinguished</li>
+                    <li><strong>Data confusion:</strong> Updating one student's grade may accidentally change another's</li>
+                    <li><strong>Lost records:</strong> Without a unique identifier, records can be mixed up or lost</li>
+                    <li><strong>Inefficient searches:</strong> Finding a specific student becomes slow and unreliable</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 2: Overview -->
+        <section id="overview" class="content-section">
+            <h2>2. Overview</h2>
+
+            <p>This lecture covers the essential concepts of creating and managing tables in a database. Here are the key topics we will explore:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">📊</div>
+                    <h4>Tables</h4>
+                    <p>The basic structure for storing data in rows and columns</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📋</div>
+                    <h4>Fields & Records</h4>
+                    <p>The building blocks of every table: columns (fields) and rows (records)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔑</div>
+                    <h4>Primary Keys</h4>
+                    <p>Unique identifiers that distinguish each record in a table</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">⚙️</div>
+                    <h4>Table Operations</h4>
+                    <p>Insert, Update, and Delete operations for managing table data</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Introduction to Tables -->
+        <section id="intro-tables" class="content-section">
+            <h2>3. Introduction to Tables</h2>
+
+            <div class="definition">
+                <h3>What is a Table?</h3>
+                <p>A <strong>table</strong> is a structured collection of related data organized in rows and columns. Tables are the primary objects used to store data in a relational database.</p>
+            </div>
+
+            <h3>Properties of a Table</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Columns (Fields)</h4>
+                    <p>Each column represents a specific attribute or characteristic of the data (e.g., Name, Age, ID)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Rows (Records)</h4>
+                    <p>Each row represents a single, complete entry containing values for all the fields</p>
+                </div>
+                <div class="property-item">
+                    <h4>Table Name</h4>
+                    <p>Every table has a unique, descriptive name that identifies the type of data it stores</p>
+                </div>
+                <div class="property-item">
+                    <h4>Data Values</h4>
+                    <p>Each cell contains a single data value at the intersection of a row and a column</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Example: Students Table</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>StudentID</th>
+                                <th>Name</th>
+                                <th>Major</th>
+                                <th>GPA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>Ahmed Ali</td>
+                                <td>Computer Science</td>
+                                <td>3.8</td>
+                            </tr>
+                            <tr>
+                                <td>1002</td>
+                                <td>Sara Mohammed</td>
+                                <td>Information Systems</td>
+                                <td>3.5</td>
+                            </tr>
+                            <tr>
+                                <td>1003</td>
+                                <td>Khalid Omar</td>
+                                <td>Computer Science</td>
+                                <td>3.9</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>This table has <strong>4 fields</strong> (columns) and <strong>3 records</strong> (rows).</p>
+            </div>
+        </section>
+
+        <!-- Section 4: What is a Field? -->
+        <section id="fields" class="content-section">
+            <h2>4. What is a Field?</h2>
+
+            <div class="definition">
+                <h3>Field Definition</h3>
+                <p>A <strong>field</strong> is a single column in a table that represents a specific attribute of the data. Each field has a name, data type, size, and description.</p>
+            </div>
+
+            <h3>Properties of a Field</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Field Name</h4>
+                    <p>A unique, descriptive label that identifies the field (e.g., StudentID, FirstName)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Data Type</h4>
+                    <p>Defines what kind of data the field can hold (text, number, date, etc.)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Field Size</h4>
+                    <p>The maximum amount of data the field can store (e.g., 50 characters for a name)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Description</h4>
+                    <p>An optional explanation of the field's purpose and what data it should contain</p>
+                </div>
+            </div>
+
+            <h3>Common Data Types</h3>
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">📝</div>
+                    <h4>Text</h4>
+                    <p>Stores letters, numbers, and symbols as text (e.g., names, addresses)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔢</div>
+                    <h4>Number</h4>
+                    <p>Stores numeric values for calculations (e.g., age, quantity, GPA)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📅</div>
+                    <h4>Date/Time</h4>
+                    <p>Stores dates and times (e.g., birth date, enrollment date)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✅</div>
+                    <h4>Yes/No</h4>
+                    <p>Stores boolean values — true/false, yes/no (e.g., IsActive, IsGraduated)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Field Naming Rules -->
+        <section id="naming-rules" class="content-section">
+            <h2>5. Field Naming Rules</h2>
+
+            <p>Choosing proper field names is essential for creating a clear and maintainable database. Follow these rules when naming fields:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Be Descriptive</h4>
+                    <p>Use names that clearly describe the data stored in the field (e.g., "StudentName" not "SN")</p>
+                </div>
+                <div class="property-item">
+                    <h4>Be Consistent</h4>
+                    <p>Follow the same naming convention throughout the database (e.g., always use CamelCase)</p>
+                </div>
+                <div class="property-item">
+                    <h4>No Spaces</h4>
+                    <p>Use underscores or CamelCase instead of spaces (e.g., "FirstName" or "first_name")</p>
+                </div>
+                <div class="property-item">
+                    <h4>No Reserved Words</h4>
+                    <p>Avoid using database keywords like "Table", "Select", "Date" as field names</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Good vs Poor Field Names</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Good Names</th>
+                                <th>Poor Names</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>StudentID</td>
+                                <td>ID</td>
+                                <td>Too vague — which ID?</td>
+                            </tr>
+                            <tr>
+                                <td>FirstName</td>
+                                <td>FN</td>
+                                <td>Abbreviation is unclear</td>
+                            </tr>
+                            <tr>
+                                <td>EnrollmentDate</td>
+                                <td>Date</td>
+                                <td>"Date" is a reserved word</td>
+                            </tr>
+                            <tr>
+                                <td>PhoneNumber</td>
+                                <td>Phone Number</td>
+                                <td>Contains a space</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: What is a Record? -->
+        <section id="records" class="content-section">
+            <h2>6. What is a Record?</h2>
+
+            <div class="definition">
+                <h3>Record Definition</h3>
+                <p>A <strong>record</strong> is a single row in a table that contains a complete set of related data values. Each record represents one instance of the entity described by the table.</p>
+            </div>
+
+            <div class="example">
+                <h4>Example: One Student Record</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>StudentID</th>
+                                <th>Name</th>
+                                <th>Major</th>
+                                <th>GPA</th>
+                                <th>EnrollmentDate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>Ahmed Ali</td>
+                                <td>Computer Science</td>
+                                <td>3.8</td>
+                                <td>2024-09-01</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>This single row is one <strong>record</strong>. It contains all the information about one specific student. Each value in the row corresponds to a field (column) in the table.</p>
+            </div>
+
+            <div class="tip-box">
+                <h4>Remember</h4>
+                <p>A record must have a value for each field in the table. Together, all records in a table form the complete dataset for that entity (e.g., all students in the university).</p>
+            </div>
+        </section>
+
+        <!-- Section 7: Importance of Table Design -->
+        <section id="design-importance" class="content-section">
+            <h2>7. Importance of Table Design</h2>
+
+            <p>The quality of a database depends heavily on how well its tables are designed. Good table design ensures data is stored efficiently and accurately.</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Good Design</h4>
+                    <p>Data is organized, easy to search, free from unnecessary duplication, and maintains integrity</p>
+                </div>
+                <div class="property-item">
+                    <h4>Poor Design</h4>
+                    <p>Data is duplicated, difficult to update, prone to errors, and wastes storage space</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Warning: Consequences of Poor Table Design</h4>
+                <p>Poor table design can lead to:</p>
+                <ul>
+                    <li>Data redundancy — the same data stored in multiple places</li>
+                    <li>Update anomalies — changing data in one place but not another</li>
+                    <li>Insertion anomalies — inability to add data without other unrelated data</li>
+                    <li>Deletion anomalies — losing important data when deleting a record</li>
+                    <li>Inconsistent data — conflicting information across the database</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 8: Activity 1 -->
+        <section id="activity1" class="content-section">
+            <h2>8. Activity 1: Identifying Design Problems</h2>
+
+            <div class="example">
+                <h4>Scenario: A Table Without a Student ID</h4>
+                <p>Consider the following table that does <strong>not</strong> include a StudentID field:</p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Major</th>
+                                <th>GPA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ahmed Ali</td>
+                                <td>Computer Science</td>
+                                <td>3.8</td>
+                            </tr>
+                            <tr>
+                                <td>Sara Mohammed</td>
+                                <td>Information Systems</td>
+                                <td>3.5</td>
+                            </tr>
+                            <tr>
+                                <td>Ahmed Ali</td>
+                                <td>Mathematics</td>
+                                <td>3.2</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p><strong>Problem:</strong> There are two students named "Ahmed Ali". Without a unique identifier, how can we tell which record belongs to which student?</p>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Discussion Questions:</strong></p>
+                <ul>
+                    <li>What problems could occur when updating Ahmed Ali's GPA?</li>
+                    <li>How would you uniquely identify each student?</li>
+                    <li>What field should be added to fix this design problem?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 9: Primary Key -->
+        <section id="primary-key" class="content-section">
+            <h2>9. Primary Key</h2>
+
+            <div class="definition">
+                <h3>Primary Key Definition</h3>
+                <p>A <strong>primary key</strong> is a field (or combination of fields) in a table that uniquely identifies each record. No two records can have the same primary key value.</p>
+            </div>
+
+            <h3>Properties of a Primary Key</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Unique</h4>
+                    <p>Each value must be different — no two records share the same primary key</p>
+                </div>
+                <div class="property-item">
+                    <h4>Not Null</h4>
+                    <p>The primary key field cannot be left empty — every record must have a value</p>
+                </div>
+                <div class="property-item">
+                    <h4>Unchanging</h4>
+                    <p>Once assigned, the primary key value should not change over time</p>
+                </div>
+                <div class="property-item">
+                    <h4>Single Value</h4>
+                    <p>Each primary key field holds exactly one value per record (atomic)</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Examples of Primary Keys</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Table</th>
+                                <th>Primary Key</th>
+                                <th>Why It Works</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Students</td>
+                                <td>StudentID</td>
+                                <td>Each student has a unique ID number</td>
+                            </tr>
+                            <tr>
+                                <td>Employees</td>
+                                <td>EmployeeID</td>
+                                <td>Each employee has a unique ID number</td>
+                            </tr>
+                            <tr>
+                                <td>Products</td>
+                                <td>ProductCode</td>
+                                <td>Each product has a unique code</td>
+                            </tr>
+                            <tr>
+                                <td>Courses</td>
+                                <td>CourseNumber</td>
+                                <td>Each course has a unique number</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Tip</h4>
+                <p>Names, phone numbers, and email addresses should <strong>not</strong> be used as primary keys because they can change or be shared by multiple people. Use a system-generated ID instead.</p>
+            </div>
+        </section>
+
+        <!-- Section 10: Importance of Primary Key -->
+        <section id="pk-importance" class="content-section">
+            <h2>10. Importance of Primary Key</h2>
+
+            <div class="key-message">
+                <p><strong>Why are primary keys essential?</strong> Primary keys are the backbone of a well-designed database. They ensure that every record can be uniquely identified and accessed.</p>
+            </div>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Ensures Uniqueness</h4>
+                    <p>Prevents duplicate records from being entered into the table</p>
+                </div>
+                <div class="property-item">
+                    <h4>Maintains Data Integrity</h4>
+                    <p>Guarantees that each record is distinct and can be reliably referenced</p>
+                </div>
+                <div class="property-item">
+                    <h4>Builds Relationships</h4>
+                    <p>Enables linking related tables together through foreign keys</p>
+                </div>
+                <div class="property-item">
+                    <h4>Efficient Data Access</h4>
+                    <p>Speeds up searching and retrieving specific records from the database</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 11: Table Operations -->
+        <section id="table-operations" class="content-section">
+            <h2>11. Table Operations</h2>
+
+            <p>Once a table is created, you need to perform operations to manage the data stored in it. The three fundamental operations are:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">➕</div>
+                    <h4>Insert</h4>
+                    <p>Add a new record to the table (e.g., register a new student)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✏️</div>
+                    <h4>Update</h4>
+                    <p>Modify existing data in a record (e.g., change a student's GPA)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🗑️</div>
+                    <h4>Delete</h4>
+                    <p>Remove a record from the table (e.g., remove a withdrawn student)</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Examples of Table Operations</h4>
+                <ul>
+                    <li><strong>Insert:</strong> A new student enrolls in the university — add their record to the Students table</li>
+                    <li><strong>Update:</strong> A student changes their major from "Mathematics" to "Computer Science" — update the Major field</li>
+                    <li><strong>Delete:</strong> A student withdraws from the university — remove their record from the table</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>Important: Be Careful with Delete</h4>
+                <p>Deleting a record is permanent. Always verify that you are removing the correct record before performing a delete operation. Consider keeping backup copies of data before making deletions.</p>
+            </div>
+        </section>
+
+        <!-- Section 12: Activity 2 -->
+        <section id="activity2" class="content-section">
+            <h2>12. Activity 2: Applying Table Operations</h2>
+
+            <div class="example">
+                <h4>Scenario: University Student Database</h4>
+                <p>Using the Students table below, determine which operation (Insert, Update, or Delete) should be used for each situation:</p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>StudentID</th>
+                                <th>Name</th>
+                                <th>Major</th>
+                                <th>GPA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>Ahmed Ali</td>
+                                <td>Computer Science</td>
+                                <td>3.8</td>
+                            </tr>
+                            <tr>
+                                <td>1002</td>
+                                <td>Sara Mohammed</td>
+                                <td>Information Systems</td>
+                                <td>3.5</td>
+                            </tr>
+                            <tr>
+                                <td>1003</td>
+                                <td>Khalid Omar</td>
+                                <td>Mathematics</td>
+                                <td>3.9</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ol>
+                    <li><strong>Situation 1:</strong> Ahmed Ali's GPA should be corrected from 3.8 to 3.7. Which operation?</li>
+                    <li><strong>Situation 2:</strong> Sara Mohammed has withdrawn from the university. Which operation?</li>
+                    <li><strong>Situation 3:</strong> A new student, Fatima Hassan (ID: 1004, Major: Computer Science, GPA: 3.6), enrolls. Which operation?</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Section 13: Table Handling -->
+        <section id="table-handling" class="content-section">
+            <h2>13. Table Handling</h2>
+
+            <p>Proper table handling ensures that data remains accurate, secure, and accessible. Follow these best practices:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Validate Data</h4>
+                    <p>Check that data entered into the table meets the required format and rules before saving</p>
+                </div>
+                <div class="property-item">
+                    <h4>Maintain Integrity</h4>
+                    <p>Ensure all records are complete, consistent, and free from errors or conflicts</p>
+                </div>
+                <div class="property-item">
+                    <h4>Backup Regularly</h4>
+                    <p>Create regular backup copies of tables to prevent data loss due to errors or failures</p>
+                </div>
+                <div class="property-item">
+                    <h4>Control Access</h4>
+                    <p>Restrict who can view, add, modify, or delete data to maintain security</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Warning: Common Table Handling Mistakes</h4>
+                <p>Avoid these common mistakes when working with tables:</p>
+                <ul>
+                    <li>Entering data without validation — may introduce errors and inconsistencies</li>
+                    <li>Not using primary keys — makes it impossible to uniquely identify records</li>
+                    <li>Skipping backups — risks permanent data loss</li>
+                    <li>Giving unrestricted access — compromises data security and integrity</li>
+                    <li>Ignoring data types — storing text in number fields causes errors</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary" class="content-section summary">
+            <h2>Summary and Key Takeaways</h2>
+
+            <h3>What We've Learned</h3>
+            <ol>
+                <li><strong>Tables:</strong> The primary structure for storing data in a database, organized in rows (records) and columns (fields).</li>
+
+                <li><strong>Fields:</strong> Columns that represent specific attributes of the data, each with a name, type, size, and description.</li>
+
+                <li><strong>Records:</strong> Rows that contain a complete set of related data values for one entity instance.</li>
+
+                <li><strong>Field Naming:</strong> Names should be descriptive, consistent, without spaces, and avoid reserved words.</li>
+
+                <li><strong>Table Design:</strong> Good design prevents redundancy, anomalies, and maintains data integrity.</li>
+
+                <li><strong>Primary Key:</strong> A unique identifier for each record — must be unique, not null, unchanging, and atomic.</li>
+
+                <li><strong>Primary Key Importance:</strong> Ensures uniqueness, maintains integrity, enables relationships, and speeds up access.</li>
+
+                <li><strong>Table Operations:</strong> Insert (add), Update (modify), and Delete (remove) are the three fundamental operations.</li>
+
+                <li><strong>Table Handling:</strong> Validate data, maintain integrity, backup regularly, and control access.</li>
+
+                <li><strong>Design Matters:</strong> A well-designed table is the foundation of a reliable and efficient database system.</li>
+            </ol>
+
+            <div class="key-message">
+                <p><strong>Looking Ahead:</strong> In the next lecture, we'll explore the Entity-Relationship Model and learn how to design relationships between multiple tables in a database.</p>
+            </div>
+        </section>
+
+        <!-- Review Questions -->
+        <section id="review" class="content-section">
+            <h2>Review Questions</h2>
+
+            <h3>Fill in the Blanks</h3>
+            <div class="example">
+                <ol>
+                    <li>A ________ is a structured collection of related data organized in rows and columns.</li>
+                    <li>A ________ is a single column in a table that represents a specific attribute.</li>
+                    <li>A ________ is a single row in a table that contains a complete set of data values.</li>
+                    <li>A ________ uniquely identifies each record in a table.</li>
+                    <li>The ________ data type stores letters, numbers, and symbols as text.</li>
+                    <li>Field names should not contain ________ or reserved words.</li>
+                    <li>The ________ operation adds a new record to a table.</li>
+                    <li>The ________ operation modifies existing data in a record.</li>
+                    <li>The ________ operation removes a record from a table.</li>
+                    <li>A primary key value cannot be ________ (empty).</li>
+                </ol>
+            </div>
+
+            <h3>True or False</h3>
+            <div class="example">
+                <ol>
+                    <li>A table stores data in rows and columns. (____)</li>
+                    <li>A primary key can have duplicate values. (____)</li>
+                    <li>Field names should be descriptive and consistent. (____)</li>
+                    <li>A record is a single column in a table. (____)</li>
+                    <li>The Delete operation adds new data to a table. (____)</li>
+                    <li>Primary key values can be left empty (null). (____)</li>
+                    <li>Good table design prevents data redundancy. (____)</li>
+                    <li>A student's name is a good choice for a primary key. (____)</li>
+                    <li>The Update operation changes existing data in a record. (____)</li>
+                    <li>Data validation helps maintain the accuracy of table data. (____)</li>
+                </ol>
+            </div>
+
+            <h3>Multiple Choice</h3>
+            <div class="example">
+                <ol>
+                    <li>What is a table in a database?
+                        <br>a) A single piece of data &nbsp; b) A structured collection of rows and columns &nbsp; c) A type of query &nbsp; d) A report format</li>
+                    <li>Which of the following is a property of a primary key?
+                        <br>a) Can be null &nbsp; b) Can have duplicates &nbsp; c) Must be unique &nbsp; d) Can change frequently</li>
+                    <li>What data type stores true/false values?
+                        <br>a) Text &nbsp; b) Number &nbsp; c) Date/Time &nbsp; d) Yes/No</li>
+                    <li>Which operation is used to add a new record?
+                        <br>a) Delete &nbsp; b) Update &nbsp; c) Insert &nbsp; d) Select</li>
+                    <li>What is a field in a database table?
+                        <br>a) A row &nbsp; b) A column &nbsp; c) A table &nbsp; d) A database</li>
+                    <li>Which is a good field name?
+                        <br>a) FN &nbsp; b) Date &nbsp; c) Phone Number &nbsp; d) StudentName</li>
+                    <li>What happens if a table has no primary key?
+                        <br>a) Data is faster &nbsp; b) Records cannot be uniquely identified &nbsp; c) Storage increases &nbsp; d) Nothing changes</li>
+                    <li>Which operation modifies existing data?
+                        <br>a) Insert &nbsp; b) Delete &nbsp; c) Update &nbsp; d) Create</li>
+                    <li>What should be done before deleting a record?
+                        <br>a) Nothing &nbsp; b) Add a new record &nbsp; c) Verify it is the correct record &nbsp; d) Change its primary key</li>
+                    <li>Why is data validation important?
+                        <br>a) To slow down data entry &nbsp; b) To ensure data accuracy &nbsp; c) To delete records &nbsp; d) To create new tables</li>
+                </ol>
+            </div>
+
+            <h3>Short Answer Questions</h3>
+            <div class="example">
+                <ol>
+                    <li>Mention two properties of a primary key.</li>
+                    <li>Mention two consequences of poor table design.</li>
+                    <li>Mention two common data types used in database fields.</li>
+                    <li>Mention two rules for naming fields in a database table.</li>
+                    <li>Mention two of the three basic table operations.</li>
+                    <li>Mention two best practices for table handling.</li>
+                    <li>Mention two reasons why primary keys are important.</li>
+                    <li>Mention two properties of a well-designed table.</li>
+                    <li>Mention two examples of entities that use a primary key (e.g., Students table uses StudentID).</li>
+                    <li>Mention two differences between a field and a record.</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>Credits</h2>
+            <p>Database Fundamentals Course Material</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html">&larr; Back to Course Home</a>
+        </p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحاضرة 1: مقدمة في قواعد البيانات</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="lecture1.html" class="lang-button" title="Switch to English">English</a>
+    </div>
+
+    <header>
+        <h1>مقدمة في قواعد البيانات</h1>
+        <p class="subtitle">المحاضرة 1: أساسيات قواعد البيانات</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>المحتويات</h2>
+        <ul>
+            <li><a href="#objectives">أهداف التعلم</a></li>
+            <li><a href="#data-info">1. البيانات مقابل المعلومات</a></li>
+            <li><a href="#why-db">2. لماذا قواعد البيانات؟</a></li>
+            <li><a href="#db-definition">3. تعريف قاعدة البيانات</a></li>
+            <li><a href="#data-types">4. أنواع البيانات</a></li>
+            <li><a href="#characteristics">5. خصائص قواعد البيانات</a></li>
+            <li><a href="#structure">6. بنية قاعدة البيانات</a></li>
+            <li><a href="#dbms">7. وظائف نظام إدارة قواعد البيانات</a></li>
+            <li><a href="#components">8. مكونات قاعدة البيانات</a></li>
+            <li><a href="#applications">9. تطبيقات قواعد البيانات</a></li>
+            <li><a href="#miniworld">10. مفهوم العالم المصغر</a></li>
+            <li><a href="#operations">11. عمليات قاعدة البيانات</a></li>
+            <li><a href="#summary">الملخص</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Learning Objectives -->
+        <section id="objectives" class="learning-objectives">
+            <h2>أهداف التعلم</h2>
+            <p>بنهاية هذه المحاضرة، ستكون قادراً على:</p>
+            <ul>
+                <li>التمييز بين البيانات والمعلومات</li>
+                <li>شرح لماذا قواعد البيانات ضرورية لإدارة البيانات</li>
+                <li>تعريف ما هي قاعدة البيانات ومفاهيمها الأساسية</li>
+                <li>تحديد أنواع البيانات المختلفة</li>
+                <li>وصف خصائص قاعدة البيانات</li>
+                <li>فهم بنية قاعدة البيانات (الجداول، السجلات، الحقول)</li>
+                <li>شرح وظائف نظام إدارة قواعد البيانات (DBMS)</li>
+                <li>تحديد مكونات نظام قاعدة البيانات</li>
+                <li>التعرف على تطبيقات قواعد البيانات في العالم الحقيقي</li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Data vs Information -->
+        <section id="data-info" class="content-section">
+            <h2>1. البيانات مقابل المعلومات</h2>
+
+            <div class="definition">
+                <h3>ما هي البيانات؟</h3>
+                <p><strong>البيانات (Data)</strong> هي حقائق وأرقام خام غير معالجة بدون أي سياق. البيانات بمفردها ليس لها معنى حتى تتم معالجتها وتنظيمها.</p>
+            </div>
+
+            <div class="definition">
+                <h3>ما هي المعلومات؟</h3>
+                <p><strong>المعلومات (Information)</strong> هي البيانات التي تمت معالجتها وتنظيمها وإعطاؤها سياقاً، مما يجعلها ذات معنى ومفيدة لاتخاذ القرارات.</p>
+            </div>
+
+            <div class="example">
+                <h4>مثال</h4>
+                <ul>
+                    <li><strong>بيانات:</strong> 25، أحمد، 3.8، علوم حاسب</li>
+                    <li><strong>معلومات:</strong> أحمد طالب عمره 25 سنة في تخصص علوم الحاسب بمعدل تراكمي 3.8</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>النقطة الأساسية:</strong> تصبح البيانات معلومات عندما تتم معالجتها وإعطاؤها معنى. المعلومات هي نتيجة تنظيم البيانات بطريقة توفر السياق والقيمة.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Why Databases? -->
+        <section id="why-db" class="content-section">
+            <h2>2. لماذا نحتاج قواعد البيانات؟</h2>
+
+            <h3>مشاكل أنظمة الملفات التقليدية</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>تكرار البيانات</h4>
+                    <p>نفس البيانات مخزنة في ملفات متعددة، مما يضيع المساحة ويسبب عدم الاتساق</p>
+                </div>
+                <div class="property-item">
+                    <h4>عدم اتساق البيانات</h4>
+                    <p>نسخ مختلفة من نفس البيانات قد لا تتطابق</p>
+                </div>
+                <div class="property-item">
+                    <h4>صعوبة الوصول للبيانات</h4>
+                    <p>لا توجد طريقة قياسية لاسترجاع البيانات بكفاءة</p>
+                </div>
+                <div class="property-item">
+                    <h4>عزل البيانات</h4>
+                    <p>البيانات مبعثرة في ملفات مختلفة بتنسيقات متنوعة</p>
+                </div>
+                <div class="property-item">
+                    <h4>مشاكل الأمان</h4>
+                    <p>صعوبة فرض قيود الوصول على البيانات</p>
+                </div>
+                <div class="property-item">
+                    <h4>مشاكل السلامة</h4>
+                    <p>صعوبة الحفاظ على دقة وصحة البيانات</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>الحل:</strong> أنظمة إدارة قواعد البيانات (DBMS) تحل هذه المشاكل من خلال توفير إدارة مركزية للبيانات، وتقليل التكرار، وضمان الاتساق، وتوفير وصول آمن وفعال للبيانات.</p>
+            </div>
+
+            <a href="../demos/file_system_problems_demo.html" class="demo-link">
+                تشغيل عرض مشاكل نظام الملفات
+            </a>
+        </section>
+
+        <!-- Section 3: Database Definition -->
+        <section id="db-definition" class="content-section">
+            <h2>3. تعريف قاعدة البيانات</h2>
+
+            <div class="definition">
+                <h3>ما هي قاعدة البيانات؟</h3>
+                <p><strong>قاعدة البيانات (Database)</strong> هي مجموعة مشتركة من البيانات المترابطة منطقياً، مصممة لتلبية احتياجات المعلومات لمنظمة ما. وهي تمثل بعض جوانب العالم الحقيقي (تسمى <em>العالم المصغر - Miniworld</em>).</p>
+            </div>
+
+            <h3>مفاهيم قاعدة البيانات الأساسية</h3>
+            <div class="db-concept">
+                <h4>مترابطة منطقياً</h4>
+                <p>البيانات في قاعدة البيانات منظمة بطريقة ذات معنى، مع تحديد العلاقات بين أجزاء البيانات المختلفة بوضوح.</p>
+            </div>
+
+            <div class="db-concept">
+                <h4>مجموعة مشتركة</h4>
+                <p>يمكن لمستخدمين وتطبيقات متعددة الوصول إلى قاعدة البيانات واستخدامها في وقت واحد.</p>
+            </div>
+
+            <div class="example">
+                <h4>مثال: قاعدة بيانات الجامعة</h4>
+                <p>قاعدة بيانات الجامعة تمثل عالماً مصغراً يحتوي على:</p>
+                <ul>
+                    <li>الطلاب (الرقم، الاسم، التخصص، المعدل)</li>
+                    <li>المقررات (الرمز، الاسم، الساعات، المدرس)</li>
+                    <li>التسجيل (علاقات الطالب-المقرر)</li>
+                    <li>أعضاء هيئة التدريس (الرقم، الاسم، القسم، المكتب)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 4: Data Types -->
+        <section id="data-types" class="content-section">
+            <h2>4. أنواع البيانات</h2>
+
+            <p>تخزن قواعد البيانات أنواعاً مختلفة من البيانات. إليك الفئات الرئيسية:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">123</div>
+                    <h4>البيانات الرقمية</h4>
+                    <p>أرقام تستخدم للحسابات</p>
+                    <span class="concept-detail">صحيح، عشري، عائم</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">ABC</div>
+                    <h4>البيانات النصية</h4>
+                    <p>أحرف وسلاسل نصية</p>
+                    <span class="concept-detail">حرف، نص متغير، نص</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📅</div>
+                    <h4>بيانات التاريخ/الوقت</h4>
+                    <p>قيم زمنية</p>
+                    <span class="concept-detail">تاريخ، وقت، تاريخ-وقت</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✓/✗</div>
+                    <h4>البيانات المنطقية</h4>
+                    <p>قيم صح/خطأ</p>
+                    <span class="concept-detail">Boolean, Bit</span>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>اختيار أنواع البيانات</h4>
+                <p>اختيار نوع البيانات المناسب لكل حقل أمر بالغ الأهمية لسلامة البيانات وكفاءة التخزين. على سبيل المثال، استخدم INTEGER للعمر، و VARCHAR للأسماء، و DATE لتواريخ الميلاد.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Database Characteristics -->
+        <section id="characteristics" class="content-section">
+            <h2>5. خصائص قواعد البيانات</h2>
+
+            <p>يتميز نظام قاعدة البيانات المصمم جيداً بالخصائص الرئيسية التالية:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>ذاتية الوصف</h4>
+                    <p>تحتوي على بيانات وصفية (بيانات عن البيانات) تصف بنيتها وأنواعها وقيودها</p>
+                </div>
+                <div class="property-item">
+                    <h4>استقلالية البيانات</h4>
+                    <p>البرامج معزولة عن التغييرات في تخزين وتنظيم البيانات</p>
+                </div>
+                <div class="property-item">
+                    <h4>تجريد البيانات</h4>
+                    <p>إخفاء تفاصيل التخزين وتقديم عرض مفاهيمي للبيانات للمستخدمين</p>
+                </div>
+                <div class="property-item">
+                    <h4>وجهات نظر متعددة</h4>
+                    <p>يمكن للمستخدمين المختلفين رؤية وجهات نظر مخصصة مختلفة لنفس البيانات</p>
+                </div>
+                <div class="property-item">
+                    <h4>مشاركة البيانات</h4>
+                    <p>يمكن لمستخدمين وتطبيقات متعددة الوصول للبيانات بشكل متزامن</p>
+                </div>
+                <div class="property-item">
+                    <h4>التكرار المتحكم فيه</h4>
+                    <p>إزالة التكرار غير الضروري مع السماح بالتكرار الاستراتيجي للأداء</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Database Structure -->
+        <section id="structure" class="content-section">
+            <h2>6. بنية قاعدة البيانات</h2>
+
+            <p>قاعدة البيانات العلائقية منظمة في جداول بمكونات محددة:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">📊</div>
+                    <h4>الجدول (العلاقة)</h4>
+                    <p>مجموعة من البيانات المترابطة منظمة في صفوف وأعمدة</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📋</div>
+                    <h4>السجل (الصف/الـ Tuple)</h4>
+                    <p>إدخال واحد في جدول يمثل مثيلاً واحداً للكيان</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📝</div>
+                    <h4>الحقل (العمود/الخاصية)</h4>
+                    <p>جزء محدد من البيانات، يمثل خاصية للكيان</p>
+                </div>
+            </div>
+
+            <h3>مثال بصري: جدول الطلاب</h3>
+            <div class="visual-table">
+                <div class="visual-table-header">جدول الطلاب (STUDENTS)</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>رقم_الطالب</th>
+                            <th>الاسم</th>
+                            <th>التخصص</th>
+                            <th>المعدل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1001</td>
+                            <td>أحمد علي</td>
+                            <td>علوم الحاسب</td>
+                            <td>3.8</td>
+                        </tr>
+                        <tr>
+                            <td>1002</td>
+                            <td>سارة محمد</td>
+                            <td>نظم المعلومات</td>
+                            <td>3.5</td>
+                        </tr>
+                        <tr>
+                            <td>1003</td>
+                            <td>عمر حسن</td>
+                            <td>علوم الحاسب</td>
+                            <td>3.9</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tip-box">
+                <p><strong>المصطلحات:</strong> كل <em>صف</em> هو سجل (طالب واحد)، كل <em>عمود</em> هو حقل (خاصية مثل الاسم أو المعدل)، والبنية الكاملة هي <em>جدول</em>.</p>
+            </div>
+
+            <a href="../demos/database_structure_demo.html" class="demo-link">
+                تشغيل عرض بنية قاعدة البيانات
+            </a>
+        </section>
+
+        <!-- Section 7: DBMS Functions -->
+        <section id="dbms" class="content-section">
+            <h2>7. وظائف نظام إدارة قواعد البيانات (DBMS)</h2>
+
+            <div class="definition">
+                <h3>ما هو DBMS؟</h3>
+                <p><strong>نظام إدارة قواعد البيانات (DBMS)</strong> هو برنامج يمكّن المستخدمين من تعريف وإنشاء وصيانة والتحكم في الوصول إلى قواعد البيانات. يعمل كواجهة بين المستخدمين وقاعدة البيانات الفعلية.</p>
+            </div>
+
+            <h3>الوظائف الرئيسية لـ DBMS</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>التعريف (Define)</h4>
+                    <p>تحديد أنواع وهياكل وقيود البيانات المراد تخزينها</p>
+                </div>
+                <div class="property-item">
+                    <h4>البناء (Construct)</h4>
+                    <p>تخزين البيانات على وسيط تخزين يتحكم فيه DBMS</p>
+                </div>
+                <div class="property-item">
+                    <h4>المعالجة (Manipulate)</h4>
+                    <p>الاستعلام عن قاعدة البيانات وتحديثها، وإنشاء التقارير</p>
+                </div>
+                <div class="property-item">
+                    <h4>المشاركة (Share)</h4>
+                    <p>السماح لمستخدمين وبرامج متعددة بالوصول لقاعدة البيانات بشكل متزامن</p>
+                </div>
+            </div>
+
+            <h3>قدرات DBMS الإضافية</h3>
+            <ul>
+                <li><strong>الأمان:</strong> التحكم في من يمكنه الوصول لأي بيانات</li>
+                <li><strong>النسخ الاحتياطي والاسترداد:</strong> حماية البيانات ضد الأعطال</li>
+                <li><strong>السلامة:</strong> ضمان دقة وصحة البيانات</li>
+                <li><strong>التحكم في التزامن:</strong> إدارة الوصول المتزامن</li>
+            </ul>
+        </section>
+
+        <!-- Section 8: Database Components -->
+        <section id="components" class="content-section">
+            <h2>8. مكونات نظام قاعدة البيانات</h2>
+
+            <p>يتكون نظام قاعدة البيانات الكامل من أربعة مكونات رئيسية:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">💾</div>
+                    <h4>البيانات</h4>
+                    <p>البيانات الفعلية المخزنة في قاعدة البيانات، بالإضافة إلى البيانات الوصفية التي تصف بنيتها</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">⚙️</div>
+                    <h4>برنامج DBMS</h4>
+                    <p>البرنامج الذي يدير قاعدة البيانات (مثل MySQL, Oracle, SQL Server)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">👥</div>
+                    <h4>المستخدمون</h4>
+                    <p>مديرو قواعد البيانات والمطورون والمستخدمون النهائيون الذين يتفاعلون مع قاعدة البيانات</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🖥️</div>
+                    <h4>الأجهزة</h4>
+                    <p>الأجهزة المادية: الخوادم، أجهزة التخزين، البنية التحتية للشبكة</p>
+                </div>
+            </div>
+
+            <div class="diagram-container">
+                <div class="diagram-title-section">
+                    <h3 class="diagram-title">معمارية نظام قاعدة البيانات</h3>
+                </div>
+                <div class="db-architecture">
+                    <div class="db-layer layer-users">
+                        <strong>المستخدمون</strong><br>
+                        <small>المستخدمون النهائيون، المطورون، مديرو قواعد البيانات</small>
+                    </div>
+                    <span class="db-arrow">↕</span>
+                    <div class="db-layer layer-app">
+                        <strong>برامج التطبيقات</strong><br>
+                        <small>تطبيقات الويب، تطبيقات سطح المكتب، التقارير</small>
+                    </div>
+                    <span class="db-arrow">↕</span>
+                    <div class="db-layer layer-dbms">
+                        <strong>برنامج DBMS</strong><br>
+                        <small>معالج الاستعلامات، مدير التخزين</small>
+                    </div>
+                    <span class="db-arrow">↕</span>
+                    <div class="db-layer layer-data">
+                        <strong>البيانات المخزنة</strong><br>
+                        <small>قاعدة البيانات + البيانات الوصفية</small>
+                    </div>
+                </div>
+            </div>
+
+            <a href="../demos/database_components_demo.html" class="demo-link">
+                تشغيل عرض مكونات قاعدة البيانات
+            </a>
+        </section>
+
+        <!-- Section 9: Database Applications -->
+        <section id="applications" class="content-section">
+            <h2>9. تطبيقات قواعد البيانات</h2>
+
+            <p>تُستخدم قواعد البيانات في كل صناعة تقريباً. إليك التطبيقات الشائعة في العالم الحقيقي:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">🏦</div>
+                    <h4>البنوك</h4>
+                    <p>إدارة الحسابات، المعاملات، القروض، عمليات الصراف الآلي</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✈️</div>
+                    <h4>شركات الطيران</h4>
+                    <p>الحجوزات، الجداول، معلومات الرحلات، بيانات الركاب</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🎓</div>
+                    <h4>الجامعات</h4>
+                    <p>سجلات الطلاب، تسجيل المقررات، الدرجات، معلومات هيئة التدريس</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🏥</div>
+                    <h4>الرعاية الصحية</h4>
+                    <p>سجلات المرضى، المواعيد، الوصفات، التاريخ الطبي</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🛒</div>
+                    <h4>التجارة الإلكترونية</h4>
+                    <p>كتالوجات المنتجات، الطلبات، العملاء، إدارة المخزون</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📱</div>
+                    <h4>وسائل التواصل الاجتماعي</h4>
+                    <p>ملفات المستخدمين، المنشورات، العلاقات، الرسائل، الإشعارات</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 10: Mini-World Concept -->
+        <section id="miniworld" class="content-section">
+            <h2>10. مفهوم العالم المصغر</h2>
+
+            <div class="definition">
+                <h3>ما هو العالم المصغر؟</h3>
+                <p><strong>العالم المصغر (Mini-World)</strong> أو كون الخطاب (UoD) هو الجزء المحدد من العالم الحقيقي الذي تمثله قاعدة البيانات. يحدد نطاق وحدود ما ستلتقطه وتديره قاعدة البيانات.</p>
+            </div>
+
+            <div class="example">
+                <h4>مثال: العالم المصغر للجامعة</h4>
+                <p>قاعدة بيانات الجامعة لا تلتقط كل شيء عن الجامعة. عالمها المصغر قد يشمل:</p>
+                <ul>
+                    <li><strong>مشمول:</strong> الطلاب، المقررات، التسجيل، الدرجات، هيئة التدريس، الأقسام</li>
+                    <li><strong>مستبعد:</strong> الأنظمة الكهربائية لمباني الحرم الجامعي، قائمة طعام الكافتيريا، تفاصيل موقف السيارات</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>مهم:</strong> تحديد العالم المصغر هو خطوة حاسمة في تصميم قاعدة البيانات. يحدد ما هي البيانات التي سيتم تخزينها وما هي العلاقات التي سيتم تتبعها. التغييرات في العالم الحقيقي التي تؤثر على العالم المصغر يجب أن تنعكس في قاعدة البيانات.</p>
+            </div>
+        </section>
+
+        <!-- Section 11: Database Operations -->
+        <section id="operations" class="content-section">
+            <h2>11. عمليات قاعدة البيانات (CRUD)</h2>
+
+            <p>العمليات الأربع الأساسية على أي قاعدة بيانات تُعرف مجتمعة بـ CRUD:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">➕</div>
+                    <h4>إنشاء (Create/Insert)</h4>
+                    <p>إضافة سجلات جديدة إلى قاعدة البيانات</p>
+                    <span class="concept-detail">INSERT INTO</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔍</div>
+                    <h4>قراءة (Read/Retrieve)</h4>
+                    <p>الاستعلام وجلب البيانات من قاعدة البيانات</p>
+                    <span class="concept-detail">SELECT FROM</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✏️</div>
+                    <h4>تحديث (Update)</h4>
+                    <p>تعديل السجلات الموجودة في قاعدة البيانات</p>
+                    <span class="concept-detail">UPDATE SET</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🗑️</div>
+                    <h4>حذف (Delete)</h4>
+                    <p>إزالة السجلات من قاعدة البيانات</p>
+                    <span class="concept-detail">DELETE FROM</span>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>أمثلة SQL</h4>
+                <div class="code-block">
+<span class="comment">-- إنشاء (إدراج طالب جديد)</span>
+<span class="keyword">INSERT INTO</span> Students (ID, Name, Major, GPA)
+<span class="keyword">VALUES</span> (<span class="number">1004</span>, <span class="string">'ليلى أحمد'</span>, <span class="string">'علوم الحاسب'</span>, <span class="number">3.7</span>);
+
+<span class="comment">-- قراءة (استرجاع جميع طلاب علوم الحاسب)</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Students
+<span class="keyword">WHERE</span> Major = <span class="string">'علوم الحاسب'</span>;
+
+<span class="comment">-- تحديث (تغيير معدل طالب)</span>
+<span class="keyword">UPDATE</span> Students
+<span class="keyword">SET</span> GPA = <span class="number">3.9</span>
+<span class="keyword">WHERE</span> ID = <span class="number">1004</span>;
+
+<span class="comment">-- حذف (إزالة طالب)</span>
+<span class="keyword">DELETE FROM</span> Students
+<span class="keyword">WHERE</span> ID = <span class="number">1004</span>;
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>CRUD عالمي:</strong> سواء كنت تستخدم SQL أو NoSQL أو أي تقنية قواعد بيانات أخرى، هذه العمليات الأربع تشكل أساس كل التعامل مع البيانات.</p>
+            </div>
+
+            <a href="../demos/crud_operations_demo.html" class="demo-link">
+                تشغيل عرض عمليات CRUD
+            </a>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary" class="content-section summary">
+            <h2>الملخص والنقاط الرئيسية</h2>
+
+            <h3>ما تعلمناه</h3>
+            <ol>
+                <li><strong>البيانات مقابل المعلومات:</strong> البيانات هي حقائق خام؛ المعلومات هي بيانات معالجة ذات معنى وسياق.</li>
+
+                <li><strong>قواعد البيانات تحل المشاكل:</strong> تعالج مشاكل مثل تكرار البيانات وعدم الاتساق والأمان التي تعاني منها أنظمة الملفات.</li>
+
+                <li><strong>تعريف قاعدة البيانات:</strong> مجموعة مشتركة من البيانات المترابطة منطقياً تمثل عالماً مصغراً.</li>
+
+                <li><strong>أنواع البيانات:</strong> البيانات الرقمية والنصية والتاريخ/الوقت والمنطقية تخزن أنواعاً مختلفة من المعلومات.</li>
+
+                <li><strong>خصائص قواعد البيانات:</strong> ذاتية الوصف، استقلالية البيانات، التجريد، وجهات النظر المتعددة، المشاركة، والتكرار المتحكم فيه.</li>
+
+                <li><strong>بنية قاعدة البيانات:</strong> الجداول تحتوي على سجلات (صفوف) وحقول (أعمدة) منظمة بطريقة منطقية.</li>
+
+                <li><strong>وظائف DBMS:</strong> التعريف، البناء، المعالجة، والمشاركة مع الأمان والسلامة.</li>
+
+                <li><strong>مكونات النظام:</strong> البيانات وبرنامج DBMS والمستخدمون والأجهزة تعمل معاً.</li>
+
+                <li><strong>التطبيقات:</strong> قواعد البيانات تشغل البنوك وشركات الطيران والجامعات والرعاية الصحية والتجارة الإلكترونية وأكثر.</li>
+
+                <li><strong>العالم المصغر:</strong> الجزء المحدد من الواقع الذي تمثله قاعدة البيانات.</li>
+
+                <li><strong>عمليات CRUD:</strong> إنشاء، قراءة، تحديث، حذف - العمليات الأساسية لقواعد البيانات.</li>
+            </ol>
+
+            <div class="key-message">
+                <p><strong>نظرة مستقبلية:</strong> في المحاضرة القادمة، سنستكشف نماذج قواعد البيانات المختلفة ونفهم كيف يتم تنظيم علاقات البيانات في أنظمة مختلفة.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>الاعتمادات</h2>
+            <p>مادة دورة أساسيات قواعد البيانات</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index_ar.html">→ العودة للصفحة الرئيسية</a>
+        </p>
+    </footer>
+</body>
+</html>

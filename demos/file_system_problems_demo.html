@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File System Problems Demo | Database Fundamentals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #4299e1;
+            --problem-color: #e53e3e;
+            --solution-color: #38a169;
+            --light-gray: #f7fafc;
+            --code-bg: #1a202c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        h1 {
+            font-size: 2em;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Scenario Selection */
+        .scenario-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .scenario-btn {
+            padding: 0.75rem 1.25rem;
+            border: 2px solid var(--secondary-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--secondary-color);
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scenario-btn:hover {
+            background: var(--light-gray);
+        }
+
+        .scenario-btn.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .approach-panel {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 3px solid transparent;
+        }
+
+        .approach-panel.file-system {
+            border-color: var(--problem-color);
+        }
+
+        .approach-panel.database {
+            border-color: var(--solution-color);
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-header h2 {
+            font-size: 1.4em;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-system .panel-header h2 { color: var(--problem-color); }
+        .database .panel-header h2 { color: var(--solution-color); }
+
+        .panel-subtitle {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* File/Table visualization */
+        .files-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .file-box {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .file-box.highlight-problem {
+            border-color: var(--problem-color);
+            box-shadow: 0 0 15px rgba(229, 62, 62, 0.3);
+            animation: problemPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes problemPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .file-header {
+            background: #2d3748;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-content {
+            padding: 0.75rem;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.8em;
+        }
+
+        .file-row {
+            padding: 0.25rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .file-row.highlight {
+            background: #fed7d7;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .file-row.highlight-good {
+            background: #c6f6d5;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .file-row.strikethrough {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
+
+        .file-row.updated {
+            background: #fefcbf;
+            animation: updateFlash 0.5s ease;
+        }
+
+        @keyframes updateFlash {
+            0% { background: #f6e05e; }
+            100% { background: #fefcbf; }
+        }
+
+        /* Database table visualization */
+        .db-visualization {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--solution-color);
+        }
+
+        .db-header {
+            background: var(--solution-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .db-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        .db-table th {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        .db-table td {
+            padding: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .db-table tr:nth-child(even) td {
+            background: var(--light-gray);
+        }
+
+        /* Status indicators */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .status-problem {
+            background: #fed7d7;
+            color: var(--problem-color);
+        }
+
+        .status-solution {
+            background: #c6f6d5;
+            color: var(--solution-color);
+        }
+
+        /* Info Panel */
+        .info-panel {
+            background: #ebf8ff;
+            border: 2px solid #90cdf4;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-panel.problem {
+            background: #fff5f5;
+            border-color: #feb2b2;
+        }
+
+        .info-panel.solution {
+            background: #f0fff4;
+            border-color: #9ae6b4;
+        }
+
+        .info-panel h3 {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-panel.problem h3 { color: var(--problem-color); }
+        .info-panel.solution h3 { color: var(--solution-color); }
+
+        .info-panel p {
+            line-height: 1.6;
+            color: #2d3748;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(43, 108, 176, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: #333;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        /* Query box for database side */
+        .query-box {
+            background: var(--code-bg);
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.8em;
+            color: #e2e8f0;
+        }
+
+        .query-box .keyword { color: #c678dd; }
+        .query-box .string { color: #98c379; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../lectures/lecture1.html#why-db" class="back-link">&larr; Back to Lecture 1</a>
+
+        <header>
+            <h1>File System Problems vs Database Solutions</h1>
+            <p class="subtitle">See why databases are essential for data management</p>
+        </header>
+
+        <!-- Scenario Selection -->
+        <div class="scenario-buttons">
+            <button class="scenario-btn active" onclick="selectScenario('redundancy')" id="btn-redundancy">
+                Data Redundancy
+            </button>
+            <button class="scenario-btn" onclick="selectScenario('inconsistency')" id="btn-inconsistency">
+                Data Inconsistency
+            </button>
+            <button class="scenario-btn" onclick="selectScenario('access')" id="btn-access">
+                Difficult Access
+            </button>
+            <button class="scenario-btn" onclick="selectScenario('security')" id="btn-security">
+                Security Issues
+            </button>
+        </div>
+
+        <!-- Comparison Grid -->
+        <div class="comparison-grid">
+            <!-- File System Panel -->
+            <div class="approach-panel file-system">
+                <div class="panel-header">
+                    <h2>File System Approach</h2>
+                    <p class="panel-subtitle">Traditional file-based data storage</p>
+                </div>
+
+                <div class="files-container" id="file-system-content">
+                    <!-- Content will be dynamically updated -->
+                </div>
+            </div>
+
+            <!-- Database Panel -->
+            <div class="approach-panel database">
+                <div class="panel-header">
+                    <h2>Database Approach</h2>
+                    <p class="panel-subtitle">DBMS-managed data storage</p>
+                </div>
+
+                <div id="database-content">
+                    <!-- Content will be dynamically updated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="info-panel" id="info-panel">
+            <h3>Select a Scenario</h3>
+            <p>Choose one of the scenarios above to see how file systems create problems and how databases solve them.</p>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn btn-primary" id="animate-btn" onclick="animateScenario()">
+                Show Problem
+            </button>
+            <button class="btn btn-secondary" onclick="resetScenario()">
+                Reset
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentScenario = 'redundancy';
+        let isAnimating = false;
+
+        const scenarios = {
+            redundancy: {
+                title: 'Data Redundancy',
+                problemInfo: '<h3>Problem: Data Redundancy</h3><p>In file systems, the <strong>same customer information is stored in multiple files</strong>. This wastes storage space and makes updates error-prone. Notice how "Ahmed Ali" appears in both Sales.txt and Customers.txt with the same phone number.</p>',
+                solutionInfo: '<h3>Solution: Single Source of Truth</h3><p>In a database, <strong>customer information is stored only once</strong> in a Customers table. Sales reference customers by ID, eliminating redundancy. Any update to customer info is automatically reflected everywhere.</p>',
+                fileSystemContent: `
+                    <div class="file-box" id="sales-file">
+                        <div class="file-header">
+                            <span>📄</span> Sales.txt
+                        </div>
+                        <div class="file-content">
+                            <div class="file-row" id="row-sales-1">Sale001, Ahmed Ali, 0501234567, Laptop, $1200</div>
+                            <div class="file-row">Sale002, Sara Mohamed, 0559876543, Phone, $800</div>
+                            <div class="file-row" id="row-sales-3">Sale003, Ahmed Ali, 0501234567, Mouse, $50</div>
+                        </div>
+                    </div>
+                    <div class="file-box" id="customers-file">
+                        <div class="file-header">
+                            <span>📄</span> Customers.txt
+                        </div>
+                        <div class="file-content">
+                            <div class="file-row" id="row-cust-1">C001, Ahmed Ali, 0501234567, Riyadh</div>
+                            <div class="file-row">C002, Sara Mohamed, 0559876543, Jeddah</div>
+                            <div class="file-row">C003, Omar Hassan, 0551112233, Dammam</div>
+                        </div>
+                    </div>
+                `,
+                databaseContent: `
+                    <div class="db-visualization">
+                        <div class="db-header">Customers Table</div>
+                        <table class="db-table">
+                            <thead>
+                                <tr><th>ID</th><th>Name</th><th>Phone</th><th>City</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>C001</td><td>Ahmed Ali</td><td>0501234567</td><td>Riyadh</td></tr>
+                                <tr><td>C002</td><td>Sara Mohamed</td><td>0559876543</td><td>Jeddah</td></tr>
+                                <tr><td>C003</td><td>Omar Hassan</td><td>0551112233</td><td>Dammam</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="db-visualization" style="margin-top: 1rem;">
+                        <div class="db-header">Sales Table</div>
+                        <table class="db-table">
+                            <thead>
+                                <tr><th>ID</th><th>Customer_ID</th><th>Product</th><th>Price</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>S001</td><td>C001</td><td>Laptop</td><td>$1200</td></tr>
+                                <tr><td>S002</td><td>C002</td><td>Phone</td><td>$800</td></tr>
+                                <tr><td>S003</td><td>C001</td><td>Mouse</td><td>$50</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="query-box">
+                        <span class="keyword">SELECT</span> c.Name, s.Product<br>
+                        <span class="keyword">FROM</span> Sales s <span class="keyword">JOIN</span> Customers c<br>
+                        <span class="keyword">ON</span> s.Customer_ID = c.ID;
+                    </div>
+                `
+            },
+            inconsistency: {
+                title: 'Data Inconsistency',
+                problemInfo: '<h3>Problem: Data Inconsistency</h3><p>When you update data in one file but forget another, <strong>different versions of the same data exist</strong>. Ahmed\'s phone was updated in Customers.txt but not in Sales.txt - now the records don\'t match!</p>',
+                solutionInfo: '<h3>Solution: Automatic Consistency</h3><p>In a database, <strong>updating once affects everywhere</strong>. When Ahmed\'s phone is updated in the Customers table, all sales queries automatically get the correct phone number through the relationship.</p>',
+                fileSystemContent: `
+                    <div class="file-box" id="sales-file">
+                        <div class="file-header">
+                            <span>📄</span> Sales.txt
+                            <span class="status-badge status-problem" id="sales-status" style="margin-left: auto; display: none;">Outdated!</span>
+                        </div>
+                        <div class="file-content">
+                            <div class="file-row" id="row-inc-sales-1">Sale001, Ahmed Ali, <span id="phone-old-1">0501234567</span>, Laptop, $1200</div>
+                            <div class="file-row">Sale002, Sara Mohamed, 0559876543, Phone, $800</div>
+                        </div>
+                    </div>
+                    <div class="file-box" id="customers-file">
+                        <div class="file-header">
+                            <span>📄</span> Customers.txt
+                            <span class="status-badge status-solution" id="cust-status" style="margin-left: auto; display: none;">Updated</span>
+                        </div>
+                        <div class="file-content">
+                            <div class="file-row" id="row-inc-cust-1">C001, Ahmed Ali, <span id="phone-new">0501234567</span>, Riyadh</div>
+                            <div class="file-row">C002, Sara Mohamed, 0559876543, Jeddah</div>
+                        </div>
+                    </div>
+                `,
+                databaseContent: `
+                    <div class="db-visualization">
+                        <div class="db-header">Customers Table <span class="status-badge status-solution" style="font-size: 0.7em;">Single Source</span></div>
+                        <table class="db-table">
+                            <thead>
+                                <tr><th>ID</th><th>Name</th><th>Phone</th><th>City</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr id="db-cust-row"><td>C001</td><td>Ahmed Ali</td><td id="db-phone">0501234567</td><td>Riyadh</td></tr>
+                                <tr><td>C002</td><td>Sara Mohamed</td><td>0559876543</td><td>Jeddah</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="query-box" id="update-query" style="margin-top: 1rem;">
+                        <span class="keyword">UPDATE</span> Customers<br>
+                        <span class="keyword">SET</span> Phone = <span class="string">'0509999999'</span><br>
+                        <span class="keyword">WHERE</span> ID = <span class="string">'C001'</span>;
+                    </div>
+                    <p style="margin-top: 0.75rem; font-size: 0.9em; color: #666;" id="db-result">One update updates everywhere!</p>
+                `
+            },
+            access: {
+                title: 'Difficult Data Access',
+                problemInfo: '<h3>Problem: Difficult Data Access</h3><p>To find sales over $1000 in file systems, you need to <strong>manually open files and search through each line</strong>. There\'s no standard query language - you might need to write a custom program for each type of search.</p>',
+                solutionInfo: '<h3>Solution: Powerful Query Language</h3><p>Databases provide <strong>SQL - a standard query language</strong>. Finding sales over $1000 is just one simple query that executes in milliseconds, even with millions of records!</p>',
+                fileSystemContent: `
+                    <div class="file-box">
+                        <div class="file-header">
+                            <span>📄</span> Sales.txt
+                        </div>
+                        <div class="file-content">
+                            <div class="file-row" id="access-row-1">Sale001, Ahmed, Laptop, $1200</div>
+                            <div class="file-row" id="access-row-2">Sale002, Sara, Phone, $800</div>
+                            <div class="file-row" id="access-row-3">Sale003, Omar, TV, $1500</div>
+                            <div class="file-row" id="access-row-4">Sale004, Layla, Keyboard, $150</div>
+                            <div class="file-row" id="access-row-5">Sale005, Hassan, Monitor, $2000</div>
+                        </div>
+                    </div>
+                    <div style="background: #fff5f5; padding: 1rem; border-radius: 6px; margin-top: 1rem; font-size: 0.85em;" id="manual-search">
+                        <strong>Manual Search Process:</strong>
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li id="step-1">Open file</li>
+                            <li id="step-2">Read line by line</li>
+                            <li id="step-3">Parse each field</li>
+                            <li id="step-4">Compare price > $1000</li>
+                            <li id="step-5">Collect matching rows</li>
+                        </ol>
+                    </div>
+                `,
+                databaseContent: `
+                    <div class="db-visualization">
+                        <div class="db-header">Sales Table</div>
+                        <table class="db-table">
+                            <thead>
+                                <tr><th>ID</th><th>Customer</th><th>Product</th><th>Price</th></tr>
+                            </thead>
+                            <tbody id="db-sales-body">
+                                <tr><td>S001</td><td>Ahmed</td><td>Laptop</td><td>$1200</td></tr>
+                                <tr><td>S002</td><td>Sara</td><td>Phone</td><td>$800</td></tr>
+                                <tr><td>S003</td><td>Omar</td><td>TV</td><td>$1500</td></tr>
+                                <tr><td>S004</td><td>Layla</td><td>Keyboard</td><td>$150</td></tr>
+                                <tr><td>S005</td><td>Hassan</td><td>Monitor</td><td>$2000</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="query-box" style="margin-top: 1rem;">
+                        <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Sales<br>
+                        <span class="keyword">WHERE</span> Price > <span class="string">1000</span>;
+                    </div>
+                    <p style="margin-top: 0.75rem; font-size: 0.9em; color: #666;" id="query-result">Query returns instant results!</p>
+                `
+            },
+            security: {
+                title: 'Security Problems',
+                problemInfo: '<h3>Problem: Security Issues</h3><p>Text files have <strong>no built-in access control</strong>. Anyone who can access the file system can read, modify, or delete sensitive data like salaries or passwords. There\'s no audit trail of who accessed what.</p>',
+                solutionInfo: '<h3>Solution: Granular Access Control</h3><p>Databases provide <strong>user authentication, role-based permissions, and audit logs</strong>. HR can see salaries while Sales cannot. Every access is logged for security compliance.</p>',
+                fileSystemContent: `
+                    <div class="file-box" id="security-file">
+                        <div class="file-header">
+                            <span>📄</span> Employees.txt
+                            <span style="margin-left: auto; font-size: 0.75em; color: #fc8181;">No protection!</span>
+                        </div>
+                        <div class="file-content">
+                            <div class="file-row">E001, Ahmed Ali, Manager, $8000</div>
+                            <div class="file-row">E002, Sara Mohamed, Developer, $6000</div>
+                            <div class="file-row" id="sensitive-row">E003, Omar Hassan, CEO, $15000</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <div class="file-box" style="flex: 1;" id="user1-box">
+                            <div class="file-header" style="background: #48bb78;">
+                                <span>👤</span> HR Manager
+                            </div>
+                            <div class="file-content" style="text-align: center; padding: 1rem;">
+                                <span id="user1-access">Can read all data</span>
+                            </div>
+                        </div>
+                        <div class="file-box" style="flex: 1;" id="user2-box">
+                            <div class="file-header" style="background: #f56565;">
+                                <span>👤</span> Sales Staff
+                            </div>
+                            <div class="file-content" style="text-align: center; padding: 1rem;">
+                                <span id="user2-access">Can also read all data!</span>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                databaseContent: `
+                    <div class="db-visualization">
+                        <div class="db-header">Employees Table (Protected)</div>
+                        <table class="db-table">
+                            <thead>
+                                <tr><th>ID</th><th>Name</th><th>Role</th><th>Salary</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>E001</td><td>Ahmed Ali</td><td>Manager</td><td>$8000</td></tr>
+                                <tr><td>E002</td><td>Sara Mohamed</td><td>Developer</td><td>$6000</td></tr>
+                                <tr><td>E003</td><td>Omar Hassan</td><td>CEO</td><td>$15000</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <div style="flex: 1; background: #c6f6d5; padding: 0.75rem; border-radius: 6px; text-align: center;">
+                            <div style="font-weight: 600; color: #276749;">HR Manager</div>
+                            <div style="font-size: 0.85em; margin-top: 0.25rem;">Full Access</div>
+                        </div>
+                        <div style="flex: 1; background: #fed7d7; padding: 0.75rem; border-radius: 6px; text-align: center;">
+                            <div style="font-weight: 600; color: #c53030;">Sales Staff</div>
+                            <div style="font-size: 0.85em; margin-top: 0.25rem;">No Salary Access</div>
+                        </div>
+                    </div>
+                    <div class="query-box" style="margin-top: 1rem;">
+                        <span class="keyword">GRANT SELECT</span> (ID, Name, Role)<br>
+                        <span class="keyword">ON</span> Employees <span class="keyword">TO</span> SalesRole;<br>
+                        <span class="comment">-- Salary column hidden</span>
+                    </div>
+                `
+            }
+        };
+
+        function selectScenario(scenario) {
+            currentScenario = scenario;
+
+            // Update button states
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + scenario).classList.add('active');
+
+            // Load scenario content
+            const data = scenarios[scenario];
+            document.getElementById('file-system-content').innerHTML = data.fileSystemContent;
+            document.getElementById('database-content').innerHTML = data.databaseContent;
+
+            // Reset info panel
+            document.getElementById('info-panel').innerHTML = '<h3>Scenario: ' + data.title + '</h3><p>Click "Show Problem" to see the file system problem and how databases solve it.</p>';
+            document.getElementById('info-panel').className = 'info-panel';
+
+            // Reset button
+            document.getElementById('animate-btn').textContent = 'Show Problem';
+            document.getElementById('animate-btn').disabled = false;
+            isAnimating = false;
+        }
+
+        function animateScenario() {
+            if (isAnimating) return;
+            isAnimating = true;
+            document.getElementById('animate-btn').disabled = true;
+
+            switch (currentScenario) {
+                case 'redundancy':
+                    animateRedundancy();
+                    break;
+                case 'inconsistency':
+                    animateInconsistency();
+                    break;
+                case 'access':
+                    animateAccess();
+                    break;
+                case 'security':
+                    animateSecurity();
+                    break;
+            }
+        }
+
+        function animateRedundancy() {
+            // Highlight duplicated data
+            setTimeout(() => {
+                document.getElementById('row-sales-1').classList.add('highlight');
+                document.getElementById('row-sales-3').classList.add('highlight');
+                document.getElementById('row-cust-1').classList.add('highlight');
+                document.getElementById('sales-file').classList.add('highlight-problem');
+                document.getElementById('customers-file').classList.add('highlight-problem');
+
+                document.getElementById('info-panel').innerHTML = scenarios.redundancy.problemInfo;
+                document.getElementById('info-panel').className = 'info-panel problem';
+            }, 500);
+
+            setTimeout(() => {
+                document.getElementById('info-panel').innerHTML = scenarios.redundancy.solutionInfo;
+                document.getElementById('info-panel').className = 'info-panel solution';
+                document.getElementById('animate-btn').disabled = false;
+            }, 3000);
+        }
+
+        function animateInconsistency() {
+            // First, show the update in customers file
+            setTimeout(() => {
+                document.getElementById('phone-new').textContent = '0509999999';
+                document.getElementById('row-inc-cust-1').classList.add('updated');
+                document.getElementById('cust-status').style.display = 'inline-flex';
+            }, 500);
+
+            // Then highlight the outdated sales file
+            setTimeout(() => {
+                document.getElementById('phone-old-1').style.color = '#e53e3e';
+                document.getElementById('phone-old-1').style.fontWeight = 'bold';
+                document.getElementById('row-inc-sales-1').classList.add('highlight');
+                document.getElementById('sales-status').style.display = 'inline-flex';
+
+                document.getElementById('info-panel').innerHTML = scenarios.inconsistency.problemInfo;
+                document.getElementById('info-panel').className = 'info-panel problem';
+            }, 1500);
+
+            // Show database solution
+            setTimeout(() => {
+                document.getElementById('db-phone').textContent = '0509999999';
+                document.getElementById('db-cust-row').classList.add('file-row');
+                document.getElementById('db-cust-row').classList.add('highlight-good');
+                document.getElementById('db-result').innerHTML = '<strong style="color: #38a169;">1 row updated - reflected everywhere!</strong>';
+
+                document.getElementById('info-panel').innerHTML = scenarios.inconsistency.solutionInfo;
+                document.getElementById('info-panel').className = 'info-panel solution';
+                document.getElementById('animate-btn').disabled = false;
+            }, 3000);
+        }
+
+        function animateAccess() {
+            const steps = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5'];
+            const rows = ['access-row-1', 'access-row-2', 'access-row-3', 'access-row-4', 'access-row-5'];
+            const matchingRows = [0, 2, 4]; // indices of rows > $1000
+
+            // Animate manual search steps
+            steps.forEach((step, i) => {
+                setTimeout(() => {
+                    document.getElementById(step).style.color = '#e53e3e';
+                    document.getElementById(step).style.fontWeight = 'bold';
+                }, i * 400);
+            });
+
+            // Animate searching through rows
+            rows.forEach((row, i) => {
+                setTimeout(() => {
+                    const el = document.getElementById(row);
+                    el.style.background = '#fefcbf';
+                    setTimeout(() => {
+                        if (matchingRows.includes(i)) {
+                            el.classList.add('highlight-good');
+                        } else {
+                            el.style.background = '';
+                        }
+                    }, 300);
+                }, 2000 + i * 400);
+            });
+
+            setTimeout(() => {
+                document.getElementById('info-panel').innerHTML = scenarios.access.problemInfo;
+                document.getElementById('info-panel').className = 'info-panel problem';
+            }, 2000);
+
+            // Show database instant result
+            setTimeout(() => {
+                const tbody = document.getElementById('db-sales-body');
+                tbody.querySelectorAll('tr').forEach((tr, i) => {
+                    if (matchingRows.includes(i)) {
+                        tr.style.background = '#c6f6d5';
+                    } else {
+                        tr.style.opacity = '0.3';
+                    }
+                });
+                document.getElementById('query-result').innerHTML = '<strong style="color: #38a169;">3 rows found instantly!</strong>';
+
+                document.getElementById('info-panel').innerHTML = scenarios.access.solutionInfo;
+                document.getElementById('info-panel').className = 'info-panel solution';
+                document.getElementById('animate-btn').disabled = false;
+            }, 4500);
+        }
+
+        function animateSecurity() {
+            // Show that everyone can access
+            setTimeout(() => {
+                document.getElementById('security-file').classList.add('highlight-problem');
+                document.getElementById('sensitive-row').classList.add('highlight');
+                document.getElementById('user2-access').innerHTML = '<strong style="color: #e53e3e;">Can see CEO\'s salary!</strong>';
+                document.getElementById('user2-box').style.borderColor = '#e53e3e';
+
+                document.getElementById('info-panel').innerHTML = scenarios.security.problemInfo;
+                document.getElementById('info-panel').className = 'info-panel problem';
+            }, 500);
+
+            setTimeout(() => {
+                document.getElementById('info-panel').innerHTML = scenarios.security.solutionInfo;
+                document.getElementById('info-panel').className = 'info-panel solution';
+                document.getElementById('animate-btn').disabled = false;
+            }, 3000);
+        }
+
+        function resetScenario() {
+            selectScenario(currentScenario);
+        }
+
+        // Initialize with redundancy scenario
+        selectScenario('redundancy');
+    </script>
+</body>
+</html>

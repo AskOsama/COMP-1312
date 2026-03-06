@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 3: Dealing with Files, Folders, and Printers</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="lecture3_ar.html" class="lang-button" title="Switch to Arabic">العربية</a>
+    </div>
+
+    <header>
+        <h1>Dealing with Files, Folders, and Printers</h1>
+        <p class="subtitle">Lecture 3: Database Fundamentals</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#objectives">Learning Objectives</a></li>
+            <li><a href="#introduction">1. How Do We Find and Protect Our Database File?</a></li>
+            <li><a href="#file-concept">2. What is a File?</a></li>
+            <li><a href="#file-types">3. Examples and Types of Files</a></li>
+            <li><a href="#database-files">4. Database Files</a></li>
+            <li><a href="#folders">5. Folders</a></li>
+            <li><a href="#folder-organization">6. Folder Organization</a></li>
+            <li><a href="#saving-files">7. Saving Database Files</a></li>
+            <li><a href="#opening-closing">8. Opening and Closing Files</a></li>
+            <li><a href="#printers">9. Printers as Output Devices</a></li>
+            <li><a href="#printing-data">10. Printing Data</a></li>
+            <li><a href="#relationship">11. How Files, Folders, and Printers Work Together</a></li>
+            <li><a href="#summary">Summary</a></li>
+            <li><a href="#review">Review Questions</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Learning Objectives -->
+        <section id="objectives" class="learning-objectives">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this lecture, you will be able to:</p>
+            <ul>
+                <li>Understand the concept of files and their importance in database work</li>
+                <li>Identify different types of files used in computer systems</li>
+                <li>Explain the role of folders in organizing files</li>
+                <li>Understand the importance of proper file and folder management</li>
+                <li>Identify database files and how they should be stored</li>
+                <li>Explain the function of printers as output devices</li>
+                <li>Understand how files, folders, and printers support database operations</li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Introduction -->
+        <section id="introduction" class="content-section">
+            <h2>1. How Do We Find and Protect Our Database File?</h2>
+
+            <div class="key-message">
+                <p><strong>Key Question:</strong> Every database we create is stored as a file on a computer. But how do we ensure that our important database files are safe, organized, and easy to find?</p>
+            </div>
+
+            <p>If files are not organized correctly, important data can be lost, deleted, or misplaced. Understanding how files, folders, and printers work helps us manage database files safely and efficiently.</p>
+
+            <div class="example">
+                <h4>Think About It</h4>
+                <p>Before working with databases, it is important to understand how files and folders are organized on a computer. Databases are stored as files, and proper file management helps in:</p>
+                <ul>
+                    <li><strong>Finding data quickly:</strong> Well-organized files save time and effort</li>
+                    <li><strong>Protecting data:</strong> Proper storage prevents accidental loss or deletion</li>
+                    <li><strong>Sharing information:</strong> Organized files are easier to share and collaborate on</li>
+                    <li><strong>Maintaining data integrity:</strong> Correct file handling ensures data remains accurate</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 2: What is a File? -->
+        <section id="file-concept" class="content-section">
+            <h2>2. What is a File?</h2>
+
+            <div class="definition">
+                <h3>File Definition</h3>
+                <p>A <strong>file</strong> is a collection of related data stored on a storage device. Files are the basic units of data storage on any computer system.</p>
+            </div>
+
+            <h3>Characteristics of Files</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>File Name</h4>
+                    <p>Every file has a unique name that identifies it and helps users locate it on the storage device</p>
+                </div>
+                <div class="property-item">
+                    <h4>File Extension</h4>
+                    <p>A suffix (like .doc, .pdf, .mdb) that indicates the type and format of the file</p>
+                </div>
+                <div class="property-item">
+                    <h4>File Size</h4>
+                    <p>The amount of storage space a file occupies, measured in bytes, KB, MB, or GB</p>
+                </div>
+                <div class="property-item">
+                    <h4>File Location</h4>
+                    <p>The physical location (path) where the file is stored on the storage device</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Remember</h4>
+                <p>Every file on a computer has these characteristics. Understanding them helps you manage your database files more effectively and locate them when needed.</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Examples and Types of Files -->
+        <section id="file-types" class="content-section">
+            <h2>3. Examples and Types of Files</h2>
+
+            <p>Files can be classified into different types. Each type is used for a specific purpose in computer systems.</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">📄</div>
+                    <h4>Text Files</h4>
+                    <p>Documents containing text data (.txt, .doc, .docx)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🖼️</div>
+                    <h4>Image Files</h4>
+                    <p>Pictures and graphics (.jpg, .png, .gif)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🎵</div>
+                    <h4>Audio/Video Files</h4>
+                    <p>Sound and video recordings (.mp3, .mp4, .avi)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">💾</div>
+                    <h4>Program Files</h4>
+                    <p>Executable software applications (.exe, .app)</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Examples of Common Files</h4>
+                <ul>
+                    <li><strong>Document:</strong> Report.docx — a Word document file</li>
+                    <li><strong>Spreadsheet:</strong> Budget.xlsx — an Excel spreadsheet file</li>
+                    <li><strong>Presentation:</strong> Lecture.pptx — a PowerPoint presentation file</li>
+                    <li><strong>Database:</strong> University.mdb — a Microsoft Access database file</li>
+                    <li><strong>Image:</strong> Photo.jpg — a JPEG image file</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 4: Database Files -->
+        <section id="database-files" class="content-section">
+            <h2>4. Database Files</h2>
+
+            <div class="definition">
+                <h3>What is a Database File?</h3>
+                <p>A <strong>database file</strong> is a special type of file used to store structured data. Unlike regular files, database files organize data into tables, records, and fields for efficient storage and retrieval.</p>
+            </div>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">🗄️</div>
+                    <h4>Structured Storage</h4>
+                    <p>Data is organized in tables with rows and columns</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔍</div>
+                    <h4>Easy Retrieval</h4>
+                    <p>Data can be quickly searched, sorted, and filtered</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔒</div>
+                    <h4>Data Security</h4>
+                    <p>Access can be controlled and restricted to authorized users</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">⚙️</div>
+                    <h4>Managed by DBMS</h4>
+                    <p>Database files are managed by Database Management Systems</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Example: Microsoft Access Database</h4>
+                <p>An Access database file (.mdb or .accdb) can contain:</p>
+                <ul>
+                    <li><strong>Tables:</strong> To store data in structured format</li>
+                    <li><strong>Queries:</strong> To search and retrieve specific data</li>
+                    <li><strong>Forms:</strong> To enter and display data</li>
+                    <li><strong>Reports:</strong> To print and summarize data</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Important:</strong> Database files require special handling and should be managed through a DBMS (like Microsoft Access) rather than treated as regular files.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Folders -->
+        <section id="folders" class="content-section">
+            <h2>5. Folders</h2>
+
+            <div class="definition">
+                <h3>What is a Folder?</h3>
+                <p>A <strong>folder</strong> is a container used to organize files on a computer. Folders provide a hierarchical structure that makes it easy to group related files together.</p>
+            </div>
+
+            <h3>What Folders Help With</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Organize Files</h4>
+                    <p>Group related files together in a logical structure for easy access</p>
+                </div>
+                <div class="property-item">
+                    <h4>Find Files Quickly</h4>
+                    <p>A well-structured folder system allows users to locate files efficiently</p>
+                </div>
+                <div class="property-item">
+                    <h4>Manage Storage</h4>
+                    <p>Keep storage devices tidy and prevent clutter</p>
+                </div>
+                <div class="property-item">
+                    <h4>Protect Data</h4>
+                    <p>Folders can have permissions to restrict access to sensitive files</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Folder Contents</h4>
+                <p>Folders may contain:</p>
+                <ul>
+                    <li><strong>Files:</strong> Any type of file (documents, images, database files, etc.)</li>
+                    <li><strong>Subfolders:</strong> Folders within folders, creating a hierarchy for better organization</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 6: Folder Organization -->
+        <section id="folder-organization" class="content-section">
+            <h2>6. Folder Organization</h2>
+
+            <h3>Benefits of Good Folder Organization</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Saves Time</h4>
+                    <p>Users can find files quickly without searching through unorganized storage</p>
+                </div>
+                <div class="property-item">
+                    <h4>Prevents Data Loss</h4>
+                    <p>Organized files are less likely to be accidentally deleted or overwritten</p>
+                </div>
+                <div class="property-item">
+                    <h4>Improves Collaboration</h4>
+                    <p>Team members can easily find and share files when they are well-organized</p>
+                </div>
+                <div class="property-item">
+                    <h4>Simplifies Backup</h4>
+                    <p>Organized folder structures make it easier to back up important files</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Warning: Consequences of Poor Organization</h4>
+                <p>Poor folder organization may cause:</p>
+                <ul>
+                    <li>Data loss — important files may be accidentally deleted or misplaced</li>
+                    <li>Confusion — users cannot find the files they need</li>
+                    <li>Wasted time — searching for files becomes a lengthy process</li>
+                    <li>Duplicate files — the same file may be saved in multiple locations</li>
+                    <li>Security risks — sensitive files may be left in unsecured locations</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h4>Activity: University Database Scenario</h4>
+                <p>A university database is saved on a computer. Consider the following:</p>
+                <ol>
+                    <li>Identify <strong>one type of file</strong> used in the university system</li>
+                    <li>Identify <strong>one role of folders</strong> in managing this file</li>
+                    <li>Explain <strong>why both are important</strong> for the university's data management</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Section 7: Saving Database Files -->
+        <section id="saving-files" class="content-section">
+            <h2>7. Saving Database Files</h2>
+
+            <div class="definition">
+                <h3>Best Practices for Saving</h3>
+                <p>When saving database files, users should follow proper procedures to ensure data is preserved safely and can be retrieved when needed.</p>
+            </div>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Choose the Right Location</h4>
+                    <p>Save files in a well-organized folder where they can be easily found</p>
+                </div>
+                <div class="property-item">
+                    <h4>Use Meaningful Names</h4>
+                    <p>Give files descriptive names that indicate their content and purpose</p>
+                </div>
+                <div class="property-item">
+                    <h4>Save Regularly</h4>
+                    <p>Save work frequently to prevent loss due to system crashes or power failures</p>
+                </div>
+                <div class="property-item">
+                    <h4>Create Backups</h4>
+                    <p>Keep backup copies of important database files in separate locations</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Critical Point:</strong> Proper saving helps protect database work. A database file that is not saved correctly may result in lost data that cannot be recovered.</p>
+            </div>
+
+            <div class="example">
+                <h4>Activity: Analyze the Problem</h4>
+                <p>A database file was lost because it was not saved properly. Think about:</p>
+                <ul>
+                    <li>What mistake caused this problem?</li>
+                    <li>How could proper file and folder organization prevent it?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 8: Opening and Closing Files -->
+        <section id="opening-closing" class="content-section">
+            <h2>8. Opening and Closing Files</h2>
+
+            <p>Proper handling of files when opening and closing them is essential for maintaining data integrity.</p>
+
+            <h3>What Users Should Do</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Open Files Correctly</h4>
+                    <p>Use the appropriate application (e.g., Access for .mdb files) to open database files</p>
+                </div>
+                <div class="property-item">
+                    <h4>Save Before Closing</h4>
+                    <p>Always save your work before closing a file to prevent data loss</p>
+                </div>
+                <div class="property-item">
+                    <h4>Close Files Properly</h4>
+                    <p>Use the proper close command rather than forcing the application to shut down</p>
+                </div>
+                <div class="property-item">
+                    <h4>One User at a Time</h4>
+                    <p>Avoid opening the same database file in multiple applications simultaneously</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Warning: Incorrect File Handling</h4>
+                <p>Incorrect handling may lead to:</p>
+                <ul>
+                    <li>Data corruption — file contents may become damaged or unreadable</li>
+                    <li>Data loss — unsaved changes will be permanently lost</li>
+                    <li>File lock issues — other users may be unable to access the file</li>
+                    <li>System errors — improper closing can cause application crashes</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 9: Printers as Output Devices -->
+        <section id="printers" class="content-section">
+            <h2>9. Printers as Output Devices</h2>
+
+            <div class="definition">
+                <h3>What is a Printer?</h3>
+                <p>A <strong>printer</strong> is an output device used to produce hard copies (printed versions) of data stored in files or databases.</p>
+            </div>
+
+            <h3>Uses of Printers</h3>
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">📊</div>
+                    <h4>Print Reports</h4>
+                    <p>Generate physical copies of database reports and summaries</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📋</div>
+                    <h4>Print Records</h4>
+                    <p>Create hard copies of important data records for filing</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📤</div>
+                    <h4>Share Information</h4>
+                    <p>Distribute printed data to people who need physical copies</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📁</div>
+                    <h4>Keep Physical Records</h4>
+                    <p>Maintain printed archives for backup and legal requirements</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 10: Printing Data -->
+        <section id="printing-data" class="content-section">
+            <h2>10. Printing Data</h2>
+
+            <p>Printing allows users to create physical copies of digital data for various purposes.</p>
+
+            <h3>Benefits of Printing Data</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Share Information</h4>
+                    <p>Distribute data to people who may not have access to the computer system</p>
+                </div>
+                <div class="property-item">
+                    <h4>Keep Physical Records</h4>
+                    <p>Maintain paper-based records for documentation and archival purposes</p>
+                </div>
+                <div class="property-item">
+                    <h4>Review Data Easily</h4>
+                    <p>Printed reports can be reviewed, annotated, and discussed in meetings</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Printed Output Requirements</h4>
+                <p>Printed output must be:</p>
+                <ul>
+                    <li><strong>Clear:</strong> Text and graphics should be readable and well-defined</li>
+                    <li><strong>Well Formatted:</strong> Data should be organized in a professional layout</li>
+                    <li><strong>Accurate:</strong> Printed information must match the data stored in the database</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 11: Relationship -->
+        <section id="relationship" class="content-section">
+            <h2>11. How Files, Folders, and Printers Work Together</h2>
+
+            <p>All three components support effective data management in database systems. Understanding their relationship is key to efficient database operations.</p>
+
+            <div class="diagram-container">
+                <div class="diagram-title-section">
+                    <h3 class="diagram-title">Files, Folders, and Printers Relationship</h3>
+                </div>
+                <div class="db-architecture">
+                    <div class="db-layer layer-users">
+                        <strong>Files Store Data</strong><br>
+                        <small>Database files contain structured data (tables, records, fields)</small>
+                    </div>
+                    <span class="db-arrow">↕</span>
+                    <div class="db-layer layer-app">
+                        <strong>Folders Organize Files</strong><br>
+                        <small>Folders group related files for easy access and management</small>
+                    </div>
+                    <span class="db-arrow">↕</span>
+                    <div class="db-layer layer-dbms">
+                        <strong>Printers Output Data</strong><br>
+                        <small>Printers produce hard copies of data stored in files</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Working Together:</strong> Files store the data, folders keep files organized and accessible, and printers provide a way to output and share data in physical form. Together, they form a complete system for managing database information.</p>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary" class="content-section summary">
+            <h2>Summary and Key Takeaways</h2>
+
+            <h3>What We've Learned</h3>
+            <ol>
+                <li><strong>Files:</strong> A collection of related data stored on a storage device, identified by name, extension, size, and location.</li>
+
+                <li><strong>File Types:</strong> Files come in various types including text, image, audio/video, program, and database files.</li>
+
+                <li><strong>Database Files:</strong> Special files that store structured data and are managed by a DBMS like Microsoft Access.</li>
+
+                <li><strong>Folders:</strong> Containers used to organize files on a computer, supporting hierarchical organization.</li>
+
+                <li><strong>Folder Organization:</strong> Good organization saves time, prevents data loss, and improves collaboration.</li>
+
+                <li><strong>Saving Files:</strong> Proper saving practices protect database work and prevent data loss.</li>
+
+                <li><strong>Opening and Closing:</strong> Correct file handling maintains data integrity and prevents corruption.</li>
+
+                <li><strong>Printers:</strong> Output devices that produce hard copies of data for sharing and record-keeping.</li>
+
+                <li><strong>Printing Data:</strong> Output must be clear, well-formatted, and accurate.</li>
+
+                <li><strong>Working Together:</strong> Files, folders, and printers support each other for effective data management.</li>
+            </ol>
+
+            <div class="key-message">
+                <p><strong>Looking Ahead:</strong> In the next lecture, we'll explore how to create tables, design database structures, and handle data within a database system.</p>
+            </div>
+        </section>
+
+        <!-- Review Questions -->
+        <section id="review" class="content-section">
+            <h2>Review Questions</h2>
+
+            <h3>Fill in the Blanks</h3>
+            <div class="example">
+                <ol>
+                    <li>A ________ is a collection of related data stored on a storage device.</li>
+                    <li>A ________ is a container used to organize files.</li>
+                    <li>A ________ file is a special file used to store structured data.</li>
+                    <li>A ________ is a device used to produce hard copies of data.</li>
+                    <li>The physical location where files are stored is called a ________.</li>
+                    <li>The ________ is the name given to a file for identification.</li>
+                    <li>Files stored inside another folder are called ________.</li>
+                    <li>The process of keeping a copy of files for protection is called ________.</li>
+                    <li>Output produced on paper is called a ________.</li>
+                    <li>The action of removing a file from a storage device is called ________.</li>
+                </ol>
+            </div>
+
+            <h3>True or False</h3>
+            <div class="example">
+                <ol>
+                    <li>Files are used to store data. (____)</li>
+                    <li>A folder can contain files and subfolders. (____)</li>
+                    <li>Database files should be saved without organization. (____)</li>
+                    <li>Printers are input devices. (____)</li>
+                    <li>Good folder organization saves time. (____)</li>
+                    <li>Files must always have the same name. (____)</li>
+                    <li>Printing produces a hard copy. (____)</li>
+                    <li>Closing files properly helps protect data. (____)</li>
+                    <li>Folders cannot contain database files. (____)</li>
+                    <li>Poor file management may cause data loss. (____)</li>
+                </ol>
+            </div>
+
+            <h3>Multiple Choice</h3>
+            <div class="example">
+                <ol>
+                    <li>What is a file?
+                        <br>a) A device &nbsp; b) A collection of related data &nbsp; c) A folder &nbsp; d) A printer</li>
+                    <li>What is used to organize files?
+                        <br>a) Printer &nbsp; b) Folder &nbsp; c) Table &nbsp; d) Query</li>
+                    <li>Which of the following is a database file?
+                        <br>a) Image file &nbsp; b) Text file &nbsp; c) Structured data file &nbsp; d) Music file</li>
+                    <li>Which device produces hard copies?
+                        <br>a) Scanner &nbsp; b) Monitor &nbsp; c) Printer &nbsp; d) Keyboard</li>
+                    <li>Why is folder organization important?
+                        <br>a) To waste time &nbsp; b) To avoid data loss &nbsp; c) To delete files &nbsp; d) To print data</li>
+                    <li>What should be done after finishing work on a file?
+                        <br>a) Delete it &nbsp; b) Rename it &nbsp; c) Close it properly &nbsp; d) Print it</li>
+                    <li>Which of the following is an output device?
+                        <br>a) Mouse &nbsp; b) Keyboard &nbsp; c) Printer &nbsp; d) Scanner</li>
+                    <li>A database file is managed by:
+                        <br>a) Printer &nbsp; b) Folder &nbsp; c) DBMS &nbsp; d) Keyboard</li>
+                    <li>What helps protect files from loss?
+                        <br>a) Backup &nbsp; b) Delete &nbsp; c) Rename &nbsp; d) Print</li>
+                    <li>Files are stored inside:
+                        <br>a) Printers &nbsp; b) Monitors &nbsp; c) Folders &nbsp; d) Tables</li>
+                </ol>
+            </div>
+
+            <h3>Short Answer Questions</h3>
+            <div class="example">
+                <ol>
+                    <li>Mention two examples of files.</li>
+                    <li>Mention two functions of folders.</li>
+                    <li>Mention two types of files.</li>
+                    <li>Mention two reasons for organizing folders.</li>
+                    <li>Mention two uses of printers.</li>
+                    <li>Mention two problems caused by poor file management.</li>
+                    <li>Mention two actions that can be performed on files.</li>
+                    <li>Mention two characteristics of files.</li>
+                    <li>Mention two benefits of printing data.</li>
+                    <li>Mention two examples of output devices.</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>Credits</h2>
+            <p>Database Fundamentals Course Material</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html">&larr; Back to Course Home</a>
+        </p>
+    </footer>
+</body>
+</html>

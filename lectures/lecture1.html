@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 1: Introduction to Databases</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="lecture1_ar.html" class="lang-button" title="Switch to Arabic">العربية</a>
+    </div>
+
+    <header>
+        <h1>Introduction to Databases</h1>
+        <p class="subtitle">Lecture 1: Database Fundamentals</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#objectives">Learning Objectives</a></li>
+            <li><a href="#data-info">1. Data vs Information</a></li>
+            <li><a href="#why-db">2. Why Databases?</a></li>
+            <li><a href="#db-definition">3. Database Definition</a></li>
+            <li><a href="#data-types">4. Data Types</a></li>
+            <li><a href="#characteristics">5. Database Characteristics</a></li>
+            <li><a href="#structure">6. Database Structure</a></li>
+            <li><a href="#dbms">7. DBMS Functions</a></li>
+            <li><a href="#components">8. Database Components</a></li>
+            <li><a href="#applications">9. Database Applications</a></li>
+            <li><a href="#miniworld">10. Mini-World Concept</a></li>
+            <li><a href="#operations">11. Database Operations</a></li>
+            <li><a href="#summary">Summary</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Learning Objectives -->
+        <section id="objectives" class="learning-objectives">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this lecture, you will be able to:</p>
+            <ul>
+                <li>Distinguish between data and information</li>
+                <li>Explain why databases are essential for data management</li>
+                <li>Define what a database is and its key concepts</li>
+                <li>Identify different types of data</li>
+                <li>Describe the characteristics of a database</li>
+                <li>Understand database structure (tables, records, fields)</li>
+                <li>Explain the functions of a Database Management System (DBMS)</li>
+                <li>Identify the components of a database system</li>
+                <li>Recognize real-world database applications</li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Data vs Information -->
+        <section id="data-info" class="content-section">
+            <h2>1. Data vs Information</h2>
+
+            <div class="definition">
+                <h3>What is Data?</h3>
+                <p><strong>Data</strong> refers to raw, unprocessed facts and figures without any context. Data by itself has no meaning until it is processed and organized.</p>
+            </div>
+
+            <div class="definition">
+                <h3>What is Information?</h3>
+                <p><strong>Information</strong> is data that has been processed, organized, and given context, making it meaningful and useful for decision-making.</p>
+            </div>
+
+            <div class="example">
+                <h4>Example</h4>
+                <ul>
+                    <li><strong>Data:</strong> 25, Ahmed, 3.8, CS</li>
+                    <li><strong>Information:</strong> Ahmed is a 25-year-old Computer Science student with a GPA of 3.8</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Key Insight:</strong> Data becomes information when it is processed and given meaning. Information is the result of organizing data in a way that provides context and value.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Why Databases? -->
+        <section id="why-db" class="content-section">
+            <h2>2. Why Do We Need Databases?</h2>
+
+            <h3>Problems with Traditional File Systems</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Data Redundancy</h4>
+                    <p>Same data stored in multiple files, wasting storage and causing inconsistencies</p>
+                </div>
+                <div class="property-item">
+                    <h4>Data Inconsistency</h4>
+                    <p>Different copies of the same data may not match</p>
+                </div>
+                <div class="property-item">
+                    <h4>Difficulty in Accessing Data</h4>
+                    <p>No standard way to retrieve data efficiently</p>
+                </div>
+                <div class="property-item">
+                    <h4>Data Isolation</h4>
+                    <p>Data scattered in various files with different formats</p>
+                </div>
+                <div class="property-item">
+                    <h4>Security Problems</h4>
+                    <p>Hard to enforce access restrictions on data</p>
+                </div>
+                <div class="property-item">
+                    <h4>Integrity Problems</h4>
+                    <p>Difficult to maintain data accuracy and validity</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Solution:</strong> Database Management Systems (DBMS) solve these problems by providing centralized data management, reducing redundancy, ensuring consistency, and offering secure, efficient access to data.</p>
+            </div>
+
+            <a href="../demos/file_system_problems_demo.html" class="demo-link">
+                Launch File System Problems Demo
+            </a>
+        </section>
+
+        <!-- Section 3: Database Definition -->
+        <section id="db-definition" class="content-section">
+            <h2>3. Database Definition</h2>
+
+            <div class="definition">
+                <h3>What is a Database?</h3>
+                <p>A <strong>Database</strong> is a shared collection of logically related data, designed to meet the information needs of an organization. It represents some aspects of the real world (called a <em>miniworld</em>).</p>
+            </div>
+
+            <h3>Key Database Concepts</h3>
+            <div class="db-concept">
+                <h4>Logically Related</h4>
+                <p>Data in a database is organized in a meaningful way, with relationships between different pieces of data clearly defined.</p>
+            </div>
+
+            <div class="db-concept">
+                <h4>Shared Collection</h4>
+                <p>Multiple users and applications can access and use the database simultaneously.</p>
+            </div>
+
+            <div class="example">
+                <h4>Example: University Database</h4>
+                <p>A university database represents a miniworld containing:</p>
+                <ul>
+                    <li>Students (ID, Name, Major, GPA)</li>
+                    <li>Courses (Code, Name, Credits, Instructor)</li>
+                    <li>Enrollments (Student-Course relationships)</li>
+                    <li>Faculty (ID, Name, Department, Office)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 4: Data Types -->
+        <section id="data-types" class="content-section">
+            <h2>4. Data Types</h2>
+
+            <p>Databases store different types of data. Here are the main categories:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">123</div>
+                    <h4>Numeric Data</h4>
+                    <p>Numbers used for calculations</p>
+                    <span class="concept-detail">Integer, Decimal, Float</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">ABC</div>
+                    <h4>Text Data</h4>
+                    <p>Characters and strings</p>
+                    <span class="concept-detail">Char, Varchar, Text</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📅</div>
+                    <h4>Date/Time Data</h4>
+                    <p>Temporal values</p>
+                    <span class="concept-detail">Date, Time, DateTime</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✓/✗</div>
+                    <h4>Logical Data</h4>
+                    <p>True/False values</p>
+                    <span class="concept-detail">Boolean, Bit</span>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Choosing Data Types</h4>
+                <p>Selecting the appropriate data type for each field is crucial for data integrity and storage efficiency. For example, use INTEGER for age, VARCHAR for names, and DATE for birthdates.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Database Characteristics -->
+        <section id="characteristics" class="content-section">
+            <h2>5. Database Characteristics</h2>
+
+            <p>A well-designed database system exhibits the following key characteristics:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Self-Describing</h4>
+                    <p>Contains metadata (data about data) describing its structure, types, and constraints</p>
+                </div>
+                <div class="property-item">
+                    <h4>Data Independence</h4>
+                    <p>Programs are insulated from changes in data storage and organization</p>
+                </div>
+                <div class="property-item">
+                    <h4>Data Abstraction</h4>
+                    <p>Hides storage details and presents users with a conceptual view of data</p>
+                </div>
+                <div class="property-item">
+                    <h4>Multiple Views</h4>
+                    <p>Different users can see different customized views of the same data</p>
+                </div>
+                <div class="property-item">
+                    <h4>Sharing of Data</h4>
+                    <p>Multiple users and applications can access data concurrently</p>
+                </div>
+                <div class="property-item">
+                    <h4>Controlled Redundancy</h4>
+                    <p>Eliminates unnecessary duplication while allowing strategic redundancy for performance</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Database Structure -->
+        <section id="structure" class="content-section">
+            <h2>6. Database Structure</h2>
+
+            <p>A relational database is organized into tables with specific components:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">📊</div>
+                    <h4>Table (Relation)</h4>
+                    <p>A collection of related data organized in rows and columns</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📋</div>
+                    <h4>Record (Row/Tuple)</h4>
+                    <p>A single entry in a table representing one entity instance</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📝</div>
+                    <h4>Field (Column/Attribute)</h4>
+                    <p>A specific piece of data, representing a property of the entity</p>
+                </div>
+            </div>
+
+            <h3>Visual Example: Student Table</h3>
+            <div class="visual-table">
+                <div class="visual-table-header">STUDENTS Table</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student_ID</th>
+                            <th>Name</th>
+                            <th>Major</th>
+                            <th>GPA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1001</td>
+                            <td>Ahmed Ali</td>
+                            <td>Computer Science</td>
+                            <td>3.8</td>
+                        </tr>
+                        <tr>
+                            <td>1002</td>
+                            <td>Sara Mohamed</td>
+                            <td>Information Systems</td>
+                            <td>3.5</td>
+                        </tr>
+                        <tr>
+                            <td>1003</td>
+                            <td>Omar Hassan</td>
+                            <td>Computer Science</td>
+                            <td>3.9</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tip-box">
+                <p><strong>Terminology:</strong> Each <em>row</em> is a record (one student), each <em>column</em> is a field (a property like Name or GPA), and the entire structure is a <em>table</em>.</p>
+            </div>
+
+            <a href="../demos/database_structure_demo.html" class="demo-link">
+                Launch Database Structure Demo
+            </a>
+        </section>
+
+        <!-- Section 7: DBMS Functions -->
+        <section id="dbms" class="content-section">
+            <h2>7. DBMS Functions</h2>
+
+            <div class="definition">
+                <h3>What is a DBMS?</h3>
+                <p>A <strong>Database Management System (DBMS)</strong> is software that enables users to define, create, maintain, and control access to databases. It acts as an interface between users and the physical database.</p>
+            </div>
+
+            <h3>Main Functions of a DBMS</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Define</h4>
+                    <p>Specify the types, structures, and constraints of data to be stored</p>
+                </div>
+                <div class="property-item">
+                    <h4>Construct</h4>
+                    <p>Store the data on a storage medium controlled by the DBMS</p>
+                </div>
+                <div class="property-item">
+                    <h4>Manipulate</h4>
+                    <p>Query and update the database, generate reports</p>
+                </div>
+                <div class="property-item">
+                    <h4>Share</h4>
+                    <p>Allow multiple users and programs to access the database concurrently</p>
+                </div>
+            </div>
+
+            <h3>Additional DBMS Capabilities</h3>
+            <ul>
+                <li><strong>Security:</strong> Control who can access what data</li>
+                <li><strong>Backup & Recovery:</strong> Protect data against failures</li>
+                <li><strong>Integrity:</strong> Ensure data accuracy and validity</li>
+                <li><strong>Concurrency Control:</strong> Manage simultaneous access</li>
+            </ul>
+        </section>
+
+        <!-- Section 8: Database Components -->
+        <section id="components" class="content-section">
+            <h2>8. Database System Components</h2>
+
+            <p>A complete database system consists of four main components:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">💾</div>
+                    <h4>Data</h4>
+                    <p>The actual data stored in the database, plus metadata describing its structure</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">⚙️</div>
+                    <h4>DBMS Software</h4>
+                    <p>The software that manages the database (e.g., MySQL, Oracle, SQL Server)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">👥</div>
+                    <h4>Users</h4>
+                    <p>Database administrators, developers, and end users who interact with the database</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🖥️</div>
+                    <h4>Hardware</h4>
+                    <p>Physical devices: servers, storage devices, network infrastructure</p>
+                </div>
+            </div>
+
+            <div class="diagram-container">
+                <div class="diagram-title-section">
+                    <h3 class="diagram-title">Database System Architecture</h3>
+                </div>
+                <div class="db-architecture">
+                    <div class="db-layer layer-users">
+                        <strong>Users</strong><br>
+                        <small>End Users, Developers, DBAs</small>
+                    </div>
+                    <span class="db-arrow">↕</span>
+                    <div class="db-layer layer-app">
+                        <strong>Application Programs</strong><br>
+                        <small>Web apps, Desktop apps, Reports</small>
+                    </div>
+                    <span class="db-arrow">↕</span>
+                    <div class="db-layer layer-dbms">
+                        <strong>DBMS Software</strong><br>
+                        <small>Query processor, Storage manager</small>
+                    </div>
+                    <span class="db-arrow">↕</span>
+                    <div class="db-layer layer-data">
+                        <strong>Stored Data</strong><br>
+                        <small>Database + Metadata</small>
+                    </div>
+                </div>
+            </div>
+
+            <a href="../demos/database_components_demo.html" class="demo-link">
+                Launch Database Components Demo
+            </a>
+        </section>
+
+        <!-- Section 9: Database Applications -->
+        <section id="applications" class="content-section">
+            <h2>9. Database Applications</h2>
+
+            <p>Databases are used in virtually every industry. Here are common real-world applications:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">🏦</div>
+                    <h4>Banking</h4>
+                    <p>Account management, transactions, loans, ATM operations</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✈️</div>
+                    <h4>Airlines</h4>
+                    <p>Reservations, schedules, flight information, passenger data</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🎓</div>
+                    <h4>Universities</h4>
+                    <p>Student records, course registration, grades, faculty information</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🏥</div>
+                    <h4>Healthcare</h4>
+                    <p>Patient records, appointments, prescriptions, medical history</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🛒</div>
+                    <h4>E-Commerce</h4>
+                    <p>Product catalogs, orders, customers, inventory management</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📱</div>
+                    <h4>Social Media</h4>
+                    <p>User profiles, posts, connections, messages, notifications</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 10: Mini-World Concept -->
+        <section id="miniworld" class="content-section">
+            <h2>10. Mini-World Concept</h2>
+
+            <div class="definition">
+                <h3>What is a Mini-World?</h3>
+                <p>A <strong>Mini-World</strong> (or Universe of Discourse - UoD) is the specific part of the real world that a database represents. It defines the scope and boundaries of what the database will capture and manage.</p>
+            </div>
+
+            <div class="example">
+                <h4>Example: University Mini-World</h4>
+                <p>A university database doesn't capture everything about the university. Its mini-world might include:</p>
+                <ul>
+                    <li><strong>Included:</strong> Students, Courses, Enrollments, Grades, Faculty, Departments</li>
+                    <li><strong>Excluded:</strong> Campus buildings' electrical systems, cafeteria menu, parking lot details</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Important:</strong> Defining the mini-world is a critical step in database design. It determines what data will be stored and what relationships will be tracked. Changes in the real world that affect the mini-world must be reflected in the database.</p>
+            </div>
+        </section>
+
+        <!-- Section 11: Database Operations -->
+        <section id="operations" class="content-section">
+            <h2>11. Database Operations (CRUD)</h2>
+
+            <p>The four fundamental operations on any database are collectively known as CRUD:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">➕</div>
+                    <h4>Create (Insert)</h4>
+                    <p>Add new records to the database</p>
+                    <span class="concept-detail">INSERT INTO</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔍</div>
+                    <h4>Read (Retrieve)</h4>
+                    <p>Query and fetch data from the database</p>
+                    <span class="concept-detail">SELECT FROM</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✏️</div>
+                    <h4>Update</h4>
+                    <p>Modify existing records in the database</p>
+                    <span class="concept-detail">UPDATE SET</span>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🗑️</div>
+                    <h4>Delete</h4>
+                    <p>Remove records from the database</p>
+                    <span class="concept-detail">DELETE FROM</span>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>SQL Examples</h4>
+                <div class="code-block">
+<span class="comment">-- Create (Insert a new student)</span>
+<span class="keyword">INSERT INTO</span> Students (ID, Name, Major, GPA)
+<span class="keyword">VALUES</span> (<span class="number">1004</span>, <span class="string">'Layla Ahmed'</span>, <span class="string">'Computer Science'</span>, <span class="number">3.7</span>);
+
+<span class="comment">-- Read (Retrieve all CS students)</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Students
+<span class="keyword">WHERE</span> Major = <span class="string">'Computer Science'</span>;
+
+<span class="comment">-- Update (Change a student's GPA)</span>
+<span class="keyword">UPDATE</span> Students
+<span class="keyword">SET</span> GPA = <span class="number">3.9</span>
+<span class="keyword">WHERE</span> ID = <span class="number">1004</span>;
+
+<span class="comment">-- Delete (Remove a student)</span>
+<span class="keyword">DELETE FROM</span> Students
+<span class="keyword">WHERE</span> ID = <span class="number">1004</span>;
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>CRUD is Universal:</strong> Whether you're using SQL, NoSQL, or any other database technology, these four operations form the foundation of all data manipulation.</p>
+            </div>
+
+            <a href="../demos/crud_operations_demo.html" class="demo-link">
+                Launch CRUD Operations Demo
+            </a>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary" class="content-section summary">
+            <h2>Summary and Key Takeaways</h2>
+
+            <h3>What We've Learned</h3>
+            <ol>
+                <li><strong>Data vs Information:</strong> Data is raw facts; information is processed data with meaning and context.</li>
+
+                <li><strong>Databases solve problems:</strong> They address issues like data redundancy, inconsistency, and security that plague file systems.</li>
+
+                <li><strong>Database definition:</strong> A shared collection of logically related data representing a miniworld.</li>
+
+                <li><strong>Data types:</strong> Numeric, Text, Date/Time, and Logical data types store different kinds of information.</li>
+
+                <li><strong>Database characteristics:</strong> Self-describing, data independence, abstraction, multiple views, sharing, and controlled redundancy.</li>
+
+                <li><strong>Database structure:</strong> Tables contain records (rows) and fields (columns) organized in a logical manner.</li>
+
+                <li><strong>DBMS functions:</strong> Define, Construct, Manipulate, and Share data with security and integrity.</li>
+
+                <li><strong>System components:</strong> Data, DBMS software, Users, and Hardware work together.</li>
+
+                <li><strong>Applications:</strong> Databases power banking, airlines, universities, healthcare, e-commerce, and more.</li>
+
+                <li><strong>Mini-World:</strong> The specific portion of reality that a database represents.</li>
+
+                <li><strong>CRUD operations:</strong> Create, Read, Update, Delete - the fundamental database operations.</li>
+            </ol>
+
+            <div class="key-message">
+                <p><strong>Looking Ahead:</strong> In the next lecture, we'll explore different database models and understand how data relationships are organized in various systems.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>Credits</h2>
+            <p>Database Fundamentals Course Material</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html">&larr; Back to Course Home</a>
+        </p>
+    </footer>
+</body>
+</html>

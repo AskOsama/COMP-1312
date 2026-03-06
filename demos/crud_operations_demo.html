@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Operations Demo | Database Fundamentals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #4299e1;
+            --success-color: #48bb78;
+            --warning-color: #ecc94b;
+            --danger-color: #f56565;
+            --light-gray: #f7fafc;
+            --code-bg: #1a202c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        h1 {
+            font-size: 2em;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content Grid */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Query Panel */
+        .query-panel {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .query-panel h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2em;
+        }
+
+        .operation-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .op-btn {
+            padding: 0.75rem 1rem;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .op-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .op-btn.active {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .op-btn-select {
+            background: #ebf8ff;
+            color: #2b6cb0;
+            border-color: #90cdf4;
+        }
+
+        .op-btn-select.active {
+            background: #2b6cb0;
+            color: white;
+        }
+
+        .op-btn-insert {
+            background: #f0fff4;
+            color: #276749;
+            border-color: #9ae6b4;
+        }
+
+        .op-btn-insert.active {
+            background: #48bb78;
+            color: white;
+        }
+
+        .op-btn-update {
+            background: #fffff0;
+            color: #975a16;
+            border-color: #faf089;
+        }
+
+        .op-btn-update.active {
+            background: #ecc94b;
+            color: #744210;
+        }
+
+        .op-btn-delete {
+            background: #fff5f5;
+            color: #c53030;
+            border-color: #feb2b2;
+        }
+
+        .op-btn-delete.active {
+            background: #f56565;
+            color: white;
+        }
+
+        /* SQL Code Block */
+        .sql-block {
+            background: var(--code-bg);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            min-height: 120px;
+        }
+
+        .sql-code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9em;
+            color: #e2e8f0;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .sql-code .keyword { color: #c678dd; font-weight: 600; }
+        .sql-code .string { color: #98c379; }
+        .sql-code .number { color: #d19a66; }
+        .sql-code .comment { color: #5c6370; font-style: italic; }
+        .sql-code .table-name { color: #e5c07b; }
+        .sql-code .column { color: #61afef; }
+
+        /* Execute Button */
+        .execute-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .execute-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(43, 108, 176, 0.4);
+        }
+
+        .execute-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Table Panel */
+        .table-panel {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            font-size: 1.1em;
+        }
+
+        .status-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        .db-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .db-table th {
+            background: #2d3748;
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .db-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .db-table tbody tr {
+            transition: all 0.5s ease;
+        }
+
+        .db-table tbody tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .db-table tbody tr:hover {
+            background: #edf2f7;
+        }
+
+        /* Row Animation Classes */
+        .row-highlight-select {
+            animation: selectPulse 1.5s ease;
+        }
+
+        @keyframes selectPulse {
+            0%, 100% { background: transparent; }
+            25%, 75% { background: #bee3f8; box-shadow: 0 0 20px rgba(66, 153, 225, 0.4); }
+        }
+
+        .row-highlight-insert {
+            animation: insertSlide 0.8s ease;
+        }
+
+        @keyframes insertSlide {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+                background: #c6f6d5;
+            }
+            50% {
+                background: #9ae6b4;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+                background: transparent;
+            }
+        }
+
+        .row-highlight-update {
+            animation: updateFlash 1s ease;
+        }
+
+        @keyframes updateFlash {
+            0%, 100% { background: transparent; }
+            25% { background: #faf089; }
+            50% { background: #f6e05e; box-shadow: 0 0 20px rgba(236, 201, 75, 0.5); }
+            75% { background: #faf089; }
+        }
+
+        .row-highlight-delete {
+            animation: deleteFade 0.8s ease forwards;
+        }
+
+        @keyframes deleteFade {
+            0% {
+                background: #feb2b2;
+                opacity: 1;
+                transform: translateX(0);
+            }
+            50% {
+                background: #fc8181;
+                opacity: 0.7;
+            }
+            100% {
+                background: #f56565;
+                opacity: 0;
+                transform: translateX(100%);
+                height: 0;
+                padding: 0;
+            }
+        }
+
+        .cell-updating {
+            animation: cellMorph 0.6s ease;
+        }
+
+        @keyframes cellMorph {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); color: #d69e2e; font-weight: bold; }
+            100% { transform: scale(1); }
+        }
+
+        /* Info Panel */
+        .info-panel {
+            background: #ebf8ff;
+            border: 2px solid #90cdf4;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-panel h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-panel p {
+            line-height: 1.6;
+            color: #2d3748;
+        }
+
+        .info-panel.success {
+            background: #f0fff4;
+            border-color: #9ae6b4;
+        }
+
+        .info-panel.warning {
+            background: #fffff0;
+            border-color: #faf089;
+        }
+
+        .info-panel.danger {
+            background: #fff5f5;
+            border-color: #feb2b2;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: #333;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .operation-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .operation-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .db-table th, .db-table td {
+                padding: 0.5rem;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../lectures/lecture1.html#operations" class="back-link">&larr; Back to Lecture 1</a>
+
+        <header>
+            <h1>CRUD Operations Demo</h1>
+            <p class="subtitle">Interactive visualization of Create, Read, Update, Delete operations</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Query Panel -->
+            <div class="query-panel">
+                <h3>SQL Query Builder</h3>
+
+                <div class="operation-buttons">
+                    <button class="op-btn op-btn-select" onclick="selectOperation('select')" id="btn-select">
+                        <span>SELECT</span>
+                    </button>
+                    <button class="op-btn op-btn-insert" onclick="selectOperation('insert')" id="btn-insert">
+                        <span>INSERT</span>
+                    </button>
+                    <button class="op-btn op-btn-update" onclick="selectOperation('update')" id="btn-update">
+                        <span>UPDATE</span>
+                    </button>
+                    <button class="op-btn op-btn-delete" onclick="selectOperation('delete')" id="btn-delete">
+                        <span>DELETE</span>
+                    </button>
+                </div>
+
+                <div class="sql-block">
+                    <div class="sql-code" id="sql-display">
+<span class="comment">-- Select an operation above to see the SQL query</span>
+                    </div>
+                </div>
+
+                <button class="execute-btn" id="execute-btn" onclick="executeQuery()" disabled>
+                    <span>Execute Query</span>
+                </button>
+            </div>
+
+            <!-- Table Panel -->
+            <div class="table-panel">
+                <div class="table-header">
+                    <h3>Students Table</h3>
+                    <span class="status-badge" id="status-badge">Ready</span>
+                </div>
+                <table class="db-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Major</th>
+                            <th>GPA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr id="row-1001">
+                            <td>1001</td>
+                            <td>Ahmed Ali</td>
+                            <td>Computer Science</td>
+                            <td>3.8</td>
+                        </tr>
+                        <tr id="row-1002">
+                            <td>1002</td>
+                            <td>Sara Mohamed</td>
+                            <td>Information Systems</td>
+                            <td>3.5</td>
+                        </tr>
+                        <tr id="row-1003">
+                            <td>1003</td>
+                            <td>Omar Hassan</td>
+                            <td>Computer Science</td>
+                            <td id="gpa-1003">3.9</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="info-panel" id="info-panel">
+            <h3>How It Works</h3>
+            <p>Select an operation type (SELECT, INSERT, UPDATE, or DELETE), then click "Execute Query" to see the SQL command animate its effect on the Students table. Watch how each CRUD operation affects the data!</p>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="resetDemo()">
+                <span>Reset Table</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentOperation = null;
+        let isExecuting = false;
+        let hasInserted = false;
+        let hasDeleted = false;
+        let hasUpdated = false;
+
+        const queries = {
+            select: {
+                sql: `<span class="comment">-- Retrieve all Computer Science students</span>
+<span class="keyword">SELECT</span> <span class="column">*</span> <span class="keyword">FROM</span> <span class="table-name">Students</span>
+<span class="keyword">WHERE</span> <span class="column">Major</span> = <span class="string">'Computer Science'</span>;`,
+                info: '<h3>SELECT Query</h3><p>The SELECT statement retrieves data from the database. This query finds all students majoring in Computer Science. Matching rows will be highlighted in <strong>blue</strong>.</p>',
+                infoClass: ''
+            },
+            insert: {
+                sql: `<span class="comment">-- Add a new student to the table</span>
+<span class="keyword">INSERT INTO</span> <span class="table-name">Students</span> (<span class="column">ID</span>, <span class="column">Name</span>, <span class="column">Major</span>, <span class="column">GPA</span>)
+<span class="keyword">VALUES</span> (<span class="number">1004</span>, <span class="string">'Layla Ahmed'</span>, <span class="string">'Computer Science'</span>, <span class="number">3.7</span>);`,
+                info: '<h3>INSERT Query</h3><p>The INSERT statement adds new records to a table. This query adds a new student named Layla Ahmed. The new row will slide in from the top with a <strong>green</strong> highlight.</p>',
+                infoClass: 'success'
+            },
+            update: {
+                sql: `<span class="comment">-- Update a student's GPA</span>
+<span class="keyword">UPDATE</span> <span class="table-name">Students</span>
+<span class="keyword">SET</span> <span class="column">GPA</span> = <span class="number">4.0</span>
+<span class="keyword">WHERE</span> <span class="column">ID</span> = <span class="number">1003</span>;`,
+                info: '<h3>UPDATE Query</h3><p>The UPDATE statement modifies existing records. This query changes Omar Hassan\'s GPA from 3.9 to 4.0. The affected row will flash <strong>yellow</strong> and the value will morph to the new value.</p>',
+                infoClass: 'warning'
+            },
+            delete: {
+                sql: `<span class="comment">-- Remove a student from the table</span>
+<span class="keyword">DELETE FROM</span> <span class="table-name">Students</span>
+<span class="keyword">WHERE</span> <span class="column">ID</span> = <span class="number">1002</span>;`,
+                info: '<h3>DELETE Query</h3><p>The DELETE statement removes records from a table. This query deletes Sara Mohamed\'s record. The row will turn <strong>red</strong> and fade out.</p>',
+                infoClass: 'danger'
+            }
+        };
+
+        function selectOperation(type) {
+            currentOperation = type;
+
+            // Update button states
+            document.querySelectorAll('.op-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + type).classList.add('active');
+
+            // Update SQL display
+            document.getElementById('sql-display').innerHTML = queries[type].sql;
+
+            // Update info panel
+            const infoPanel = document.getElementById('info-panel');
+            infoPanel.innerHTML = queries[type].info;
+            infoPanel.className = 'info-panel ' + queries[type].infoClass;
+
+            // Enable execute button
+            document.getElementById('execute-btn').disabled = false;
+        }
+
+        function executeQuery() {
+            if (!currentOperation || isExecuting) return;
+
+            isExecuting = true;
+            document.getElementById('execute-btn').disabled = true;
+            document.getElementById('status-badge').textContent = 'Executing...';
+
+            switch(currentOperation) {
+                case 'select':
+                    animateSelect();
+                    break;
+                case 'insert':
+                    animateInsert();
+                    break;
+                case 'update':
+                    animateUpdate();
+                    break;
+                case 'delete':
+                    animateDelete();
+                    break;
+            }
+        }
+
+        function animateSelect() {
+            const rows = document.querySelectorAll('#table-body tr');
+            let matchCount = 0;
+
+            rows.forEach(row => {
+                const major = row.cells[2].textContent;
+                if (major === 'Computer Science') {
+                    row.classList.add('row-highlight-select');
+                    matchCount++;
+                }
+            });
+
+            setTimeout(() => {
+                rows.forEach(row => row.classList.remove('row-highlight-select'));
+                document.getElementById('status-badge').textContent = matchCount + ' rows found';
+
+                const infoPanel = document.getElementById('info-panel');
+                infoPanel.innerHTML = `<h3>Query Result</h3><p><strong>${matchCount} rows</strong> matched the condition <code>Major = 'Computer Science'</code>. The SELECT operation retrieves data without modifying the table.</p>`;
+
+                finishExecution();
+            }, 1500);
+        }
+
+        function animateInsert() {
+            if (hasInserted) {
+                document.getElementById('status-badge').textContent = 'Already inserted';
+                const infoPanel = document.getElementById('info-panel');
+                infoPanel.innerHTML = '<h3>Duplicate Entry</h3><p>Student 1004 already exists in the table. In a real database, this would cause a primary key violation error. Click "Reset Table" to try again.</p>';
+                infoPanel.className = 'info-panel danger';
+                finishExecution();
+                return;
+            }
+
+            const tbody = document.getElementById('table-body');
+            const newRow = document.createElement('tr');
+            newRow.id = 'row-1004';
+            newRow.innerHTML = `
+                <td>1004</td>
+                <td>Layla Ahmed</td>
+                <td>Computer Science</td>
+                <td>3.7</td>
+            `;
+            newRow.classList.add('row-highlight-insert');
+            tbody.appendChild(newRow);
+            hasInserted = true;
+
+            setTimeout(() => {
+                newRow.classList.remove('row-highlight-insert');
+                document.getElementById('status-badge').textContent = '1 row inserted';
+
+                const infoPanel = document.getElementById('info-panel');
+                infoPanel.innerHTML = '<h3>Insert Successful</h3><p><strong>1 row</strong> was inserted into the Students table. Layla Ahmed (ID: 1004) is now a student in the database.</p>';
+                infoPanel.className = 'info-panel success';
+
+                finishExecution();
+            }, 800);
+        }
+
+        function animateUpdate() {
+            if (hasUpdated) {
+                document.getElementById('status-badge').textContent = 'Already updated';
+                const infoPanel = document.getElementById('info-panel');
+                infoPanel.innerHTML = '<h3>No Change</h3><p>Omar Hassan\'s GPA is already 4.0. The UPDATE had no effect. Click "Reset Table" to try again.</p>';
+                infoPanel.className = 'info-panel warning';
+                finishExecution();
+                return;
+            }
+
+            const row = document.getElementById('row-1003');
+            const gpaCell = document.getElementById('gpa-1003');
+
+            if (row && gpaCell) {
+                row.classList.add('row-highlight-update');
+
+                setTimeout(() => {
+                    gpaCell.classList.add('cell-updating');
+                    gpaCell.textContent = '4.0';
+                    hasUpdated = true;
+                }, 400);
+
+                setTimeout(() => {
+                    row.classList.remove('row-highlight-update');
+                    gpaCell.classList.remove('cell-updating');
+                    document.getElementById('status-badge').textContent = '1 row updated';
+
+                    const infoPanel = document.getElementById('info-panel');
+                    infoPanel.innerHTML = '<h3>Update Successful</h3><p><strong>1 row</strong> was updated. Omar Hassan\'s GPA changed from 3.9 to 4.0. The WHERE clause ensures only the specified record is modified.</p>';
+                    infoPanel.className = 'info-panel success';
+
+                    finishExecution();
+                }, 1000);
+            } else {
+                finishExecution();
+            }
+        }
+
+        function animateDelete() {
+            const row = document.getElementById('row-1002');
+
+            if (!row || hasDeleted) {
+                document.getElementById('status-badge').textContent = '0 rows deleted';
+                const infoPanel = document.getElementById('info-panel');
+                infoPanel.innerHTML = '<h3>No Rows Affected</h3><p>Student 1002 (Sara Mohamed) does not exist in the table. The DELETE operation found no matching rows. Click "Reset Table" to restore the original data.</p>';
+                infoPanel.className = 'info-panel warning';
+                finishExecution();
+                return;
+            }
+
+            row.classList.add('row-highlight-delete');
+            hasDeleted = true;
+
+            setTimeout(() => {
+                row.remove();
+                document.getElementById('status-badge').textContent = '1 row deleted';
+
+                const infoPanel = document.getElementById('info-panel');
+                infoPanel.innerHTML = '<h3>Delete Successful</h3><p><strong>1 row</strong> was deleted from the Students table. Sara Mohamed (ID: 1002) has been permanently removed from the database.</p>';
+                infoPanel.className = 'info-panel danger';
+
+                finishExecution();
+            }, 800);
+        }
+
+        function finishExecution() {
+            isExecuting = false;
+            document.getElementById('execute-btn').disabled = false;
+        }
+
+        function resetDemo() {
+            // Reset state
+            hasInserted = false;
+            hasDeleted = false;
+            hasUpdated = false;
+            currentOperation = null;
+            isExecuting = false;
+
+            // Reset buttons
+            document.querySelectorAll('.op-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('execute-btn').disabled = true;
+
+            // Reset SQL display
+            document.getElementById('sql-display').innerHTML = '<span class="comment">-- Select an operation above to see the SQL query</span>';
+
+            // Reset status
+            document.getElementById('status-badge').textContent = 'Ready';
+
+            // Reset info panel
+            const infoPanel = document.getElementById('info-panel');
+            infoPanel.className = 'info-panel';
+            infoPanel.innerHTML = '<h3>How It Works</h3><p>Select an operation type (SELECT, INSERT, UPDATE, or DELETE), then click "Execute Query" to see the SQL command animate its effect on the Students table. Watch how each CRUD operation affects the data!</p>';
+
+            // Reset table
+            document.getElementById('table-body').innerHTML = `
+                <tr id="row-1001">
+                    <td>1001</td>
+                    <td>Ahmed Ali</td>
+                    <td>Computer Science</td>
+                    <td>3.8</td>
+                </tr>
+                <tr id="row-1002">
+                    <td>1002</td>
+                    <td>Sara Mohamed</td>
+                    <td>Information Systems</td>
+                    <td>3.5</td>
+                </tr>
+                <tr id="row-1003">
+                    <td>1003</td>
+                    <td>Omar Hassan</td>
+                    <td>Computer Science</td>
+                    <td id="gpa-1003">3.9</td>
+                </tr>
+            `;
+        }
+    </script>
+</body>
+</html>

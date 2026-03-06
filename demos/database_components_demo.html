@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Components Demo | Database Fundamentals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #4299e1;
+            --users-color: #805ad5;
+            --app-color: #2b6cb0;
+            --dbms-color: #4299e1;
+            --data-color: #1a365d;
+            --light-gray: #f7fafc;
+            --code-bg: #1a202c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        h1 {
+            font-size: 2em;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Architecture Diagram */
+        .architecture-container {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .architecture {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .layer {
+            width: 100%;
+            max-width: 400px;
+            padding: 1.25rem;
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            transition: all 0.5s ease;
+            opacity: 0.7;
+            transform: scale(0.98);
+            position: relative;
+        }
+
+        .layer.active {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .layer.pulse {
+            animation: layerPulse 0.8s ease;
+        }
+
+        @keyframes layerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .layer-users {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .layer-app {
+            background: linear-gradient(135deg, #2b6cb0, #1a365d);
+        }
+
+        .layer-dbms {
+            background: linear-gradient(135deg, #4299e1, #2b6cb0);
+        }
+
+        .layer-data {
+            background: linear-gradient(135deg, #1a365d, #0d1b2a);
+        }
+
+        .layer-icon {
+            font-size: 1.5em;
+            margin-bottom: 0.25rem;
+        }
+
+        .layer-title {
+            font-size: 1.1em;
+            margin-bottom: 0.25rem;
+        }
+
+        .layer-subtitle {
+            font-size: 0.8em;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+
+        /* Arrows between layers */
+        .arrow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 40px;
+            position: relative;
+        }
+
+        .arrow {
+            font-size: 1.5em;
+            color: #a0aec0;
+            transition: all 0.3s ease;
+        }
+
+        .arrow.active-down {
+            color: var(--secondary-color);
+            animation: arrowDown 0.5s ease infinite;
+        }
+
+        .arrow.active-up {
+            color: #38a169;
+            animation: arrowUp 0.5s ease infinite;
+        }
+
+        @keyframes arrowDown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        @keyframes arrowUp {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Data packet animation */
+        .data-packet {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            z-index: 100;
+        }
+
+        .packet-query {
+            background: var(--secondary-color);
+        }
+
+        .packet-response {
+            background: #38a169;
+        }
+
+        /* Scenario Buttons */
+        .scenario-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .scenario-btn {
+            padding: 0.75rem 1.25rem;
+            border: 2px solid var(--secondary-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--secondary-color);
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scenario-btn:hover {
+            background: var(--light-gray);
+        }
+
+        .scenario-btn.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .scenario-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Component Details Panel */
+        .details-panel {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .details-panel h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1em;
+        }
+
+        .component-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .component-card.active {
+            transform: translateX(5px);
+        }
+
+        .component-card.users-active {
+            border-left-color: #805ad5;
+            background: #faf5ff;
+        }
+
+        .component-card.app-active {
+            border-left-color: #2b6cb0;
+            background: #ebf8ff;
+        }
+
+        .component-card.dbms-active {
+            border-left-color: #4299e1;
+            background: #e6fffa;
+        }
+
+        .component-card.data-active {
+            border-left-color: #1a365d;
+            background: #edf2f7;
+        }
+
+        .component-title {
+            font-weight: 700;
+            font-size: 0.95em;
+            margin-bottom: 0.25rem;
+        }
+
+        .component-examples {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            background: #ebf8ff;
+            border: 2px solid #90cdf4;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-panel h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-panel p {
+            line-height: 1.6;
+            color: #2d3748;
+        }
+
+        .info-panel.query-info {
+            background: #ebf8ff;
+            border-color: #90cdf4;
+        }
+
+        .info-panel.response-info {
+            background: #f0fff4;
+            border-color: #9ae6b4;
+        }
+
+        /* Query Display */
+        .query-display {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85em;
+            color: #e2e8f0;
+        }
+
+        .query-display .keyword { color: #c678dd; }
+        .query-display .string { color: #98c379; }
+        .query-display .comment { color: #5c6370; }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(43, 108, 176, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: #333;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        /* Progress indicator */
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--secondary-color);
+            transform: scale(1.2);
+        }
+
+        .progress-dot.complete {
+            background: #38a169;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .layer {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../lectures/lecture1.html#components" class="back-link">&larr; Back to Lecture 1</a>
+
+        <header>
+            <h1>Database System Components</h1>
+            <p class="subtitle">Watch how the four components work together</p>
+        </header>
+
+        <!-- Scenario Buttons -->
+        <div class="scenario-buttons">
+            <button class="scenario-btn active" onclick="selectScenario('read')" id="btn-read">
+                Read Query
+            </button>
+            <button class="scenario-btn" onclick="selectScenario('write')" id="btn-write">
+                Write Query
+            </button>
+            <button class="scenario-btn" onclick="selectScenario('full')" id="btn-full">
+                Full Cycle
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Architecture Diagram -->
+            <div class="architecture-container">
+                <div class="architecture" id="architecture">
+                    <div class="layer layer-users" id="layer-users">
+                        <div class="layer-icon">👥</div>
+                        <div class="layer-title">Users</div>
+                        <div class="layer-subtitle">End Users, Developers, DBAs</div>
+                    </div>
+
+                    <div class="arrow-container" id="arrow-1-container">
+                        <span class="arrow" id="arrow-1">↕</span>
+                    </div>
+
+                    <div class="layer layer-app" id="layer-app">
+                        <div class="layer-icon">💻</div>
+                        <div class="layer-title">Application Programs</div>
+                        <div class="layer-subtitle">Web Apps, Desktop Apps, Reports</div>
+                    </div>
+
+                    <div class="arrow-container" id="arrow-2-container">
+                        <span class="arrow" id="arrow-2">↕</span>
+                    </div>
+
+                    <div class="layer layer-dbms" id="layer-dbms">
+                        <div class="layer-icon">⚙️</div>
+                        <div class="layer-title">DBMS Software</div>
+                        <div class="layer-subtitle">Query Processor, Storage Manager</div>
+                    </div>
+
+                    <div class="arrow-container" id="arrow-3-container">
+                        <span class="arrow" id="arrow-3">↕</span>
+                    </div>
+
+                    <div class="layer layer-data" id="layer-data">
+                        <div class="layer-icon">💾</div>
+                        <div class="layer-title">Stored Data</div>
+                        <div class="layer-subtitle">Database + Metadata</div>
+                    </div>
+                </div>
+
+                <!-- Progress Steps -->
+                <div class="progress-steps" id="progress-steps">
+                    <div class="progress-dot" id="dot-1"></div>
+                    <div class="progress-dot" id="dot-2"></div>
+                    <div class="progress-dot" id="dot-3"></div>
+                    <div class="progress-dot" id="dot-4"></div>
+                    <div class="progress-dot" id="dot-5"></div>
+                </div>
+            </div>
+
+            <!-- Component Details Panel -->
+            <div class="details-panel">
+                <h3>System Components</h3>
+
+                <div class="component-card" id="card-users">
+                    <div class="component-title">👥 Users</div>
+                    <div class="component-examples">Database administrators, application developers, end users</div>
+                </div>
+
+                <div class="component-card" id="card-app">
+                    <div class="component-title">💻 Applications</div>
+                    <div class="component-examples">Web applications, mobile apps, reporting tools</div>
+                </div>
+
+                <div class="component-card" id="card-dbms">
+                    <div class="component-title">⚙️ DBMS Software</div>
+                    <div class="component-examples">MySQL, Oracle, SQL Server, PostgreSQL</div>
+                </div>
+
+                <div class="component-card" id="card-data">
+                    <div class="component-title">💾 Stored Data</div>
+                    <div class="component-examples">Tables, indexes, metadata, constraints</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="info-panel" id="info-panel">
+            <h3>How Database Systems Work</h3>
+            <p>A database system consists of four main components that work together. Click "Start Journey" to see how a query travels through the system!</p>
+            <div class="query-display" id="query-display" style="display: none;">
+                <span class="comment">-- Query will appear here</span>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn btn-primary" id="start-btn" onclick="startJourney()">
+                Start Journey
+            </button>
+            <button class="btn btn-secondary" onclick="resetDemo()">
+                Reset
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentScenario = 'read';
+        let isRunning = false;
+        let currentStep = 0;
+
+        const scenarios = {
+            read: {
+                title: 'Read Query Journey',
+                query: '<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Students\n<span class="keyword">WHERE</span> Major = <span class="string">\'Computer Science\'</span>;',
+                steps: [
+                    {
+                        layer: 'users',
+                        arrow: null,
+                        direction: null,
+                        info: '<h3>Step 1: User Request</h3><p>A <strong>user</strong> (student, administrator, or developer) wants to retrieve information about Computer Science students.</p>',
+                        showQuery: true
+                    },
+                    {
+                        layer: 'app',
+                        arrow: 1,
+                        direction: 'down',
+                        info: '<h3>Step 2: Application Layer</h3><p>The user\'s request goes through an <strong>application program</strong> (like a web portal or desktop app) that formats the request as a SQL query.</p>',
+                        showQuery: true
+                    },
+                    {
+                        layer: 'dbms',
+                        arrow: 2,
+                        direction: 'down',
+                        info: '<h3>Step 3: DBMS Processing</h3><p>The <strong>DBMS software</strong> receives the query, parses it, optimizes the execution plan, and prepares to retrieve the data.</p>',
+                        showQuery: true
+                    },
+                    {
+                        layer: 'data',
+                        arrow: 3,
+                        direction: 'down',
+                        info: '<h3>Step 4: Data Access</h3><p>The DBMS accesses the <strong>stored data</strong>, reads the Students table, and finds all records matching the criteria.</p>',
+                        showQuery: false
+                    },
+                    {
+                        layer: 'users',
+                        arrow: null,
+                        direction: 'up',
+                        info: '<h3>Step 5: Results Returned</h3><p>The matching records travel back up through all layers. The user sees the results: a list of Computer Science students!</p>',
+                        showQuery: false,
+                        isResponse: true
+                    }
+                ]
+            },
+            write: {
+                title: 'Write Query Journey',
+                query: '<span class="keyword">INSERT INTO</span> Students\n<span class="keyword">VALUES</span> (<span class="string">1004</span>, <span class="string">\'Layla Ahmed\'</span>,\n       <span class="string">\'Computer Science\'</span>, <span class="string">3.7</span>);',
+                steps: [
+                    {
+                        layer: 'users',
+                        arrow: null,
+                        direction: null,
+                        info: '<h3>Step 1: User Input</h3><p>A <strong>user</strong> (perhaps an administrator) wants to add a new student named Layla Ahmed to the database.</p>',
+                        showQuery: true
+                    },
+                    {
+                        layer: 'app',
+                        arrow: 1,
+                        direction: 'down',
+                        info: '<h3>Step 2: Application Processing</h3><p>The <strong>application</strong> collects the form data and constructs an INSERT SQL statement to add the new student.</p>',
+                        showQuery: true
+                    },
+                    {
+                        layer: 'dbms',
+                        arrow: 2,
+                        direction: 'down',
+                        info: '<h3>Step 3: DBMS Validation</h3><p>The <strong>DBMS</strong> validates the data (checks constraints, data types, uniqueness of ID) before allowing the insert.</p>',
+                        showQuery: true
+                    },
+                    {
+                        layer: 'data',
+                        arrow: 3,
+                        direction: 'down',
+                        info: '<h3>Step 4: Data Written</h3><p>The new record is written to the <strong>stored data</strong>. The DBMS also updates indexes and logs the transaction.</p>',
+                        showQuery: false
+                    },
+                    {
+                        layer: 'users',
+                        arrow: null,
+                        direction: 'up',
+                        info: '<h3>Step 5: Confirmation</h3><p>A success message travels back to the user: "1 row inserted successfully!" The new student is now in the database.</p>',
+                        showQuery: false,
+                        isResponse: true
+                    }
+                ]
+            },
+            full: {
+                title: 'Full Request-Response Cycle',
+                query: '<span class="keyword">UPDATE</span> Students\n<span class="keyword">SET</span> GPA = <span class="string">4.0</span>\n<span class="keyword">WHERE</span> ID = <span class="string">1003</span>;',
+                steps: [
+                    {
+                        layer: 'users',
+                        arrow: null,
+                        direction: null,
+                        info: '<h3>Step 1: User Action</h3><p>A <strong>professor</strong> needs to update Omar Hassan\'s GPA to 4.0 after final grades are submitted.</p>',
+                        showQuery: true
+                    },
+                    {
+                        layer: 'app',
+                        arrow: 1,
+                        direction: 'down',
+                        info: '<h3>Step 2: Application Layer</h3><p>The grade management <strong>application</strong> converts the action into an UPDATE SQL statement.</p>',
+                        showQuery: true
+                    },
+                    {
+                        layer: 'dbms',
+                        arrow: 2,
+                        direction: 'down',
+                        info: '<h3>Step 3: DBMS Processing</h3><p>The <strong>DBMS</strong> starts a transaction, locks the row, and prepares to make the update while ensuring data integrity.</p>',
+                        showQuery: true
+                    },
+                    {
+                        layer: 'data',
+                        arrow: 3,
+                        direction: 'down',
+                        info: '<h3>Step 4: Data Modified</h3><p>The <strong>stored data</strong> is updated. The old GPA (3.9) is replaced with the new value (4.0). The change is logged.</p>',
+                        showQuery: false
+                    },
+                    {
+                        layer: 'users',
+                        arrow: null,
+                        direction: 'up',
+                        info: '<h3>Step 5: Confirmation Returned</h3><p>The transaction is committed, and confirmation flows back: "1 row updated." Omar\'s GPA is now 4.0!</p>',
+                        showQuery: false,
+                        isResponse: true
+                    }
+                ]
+            }
+        };
+
+        function selectScenario(scenario) {
+            if (isRunning) return;
+
+            currentScenario = scenario;
+
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + scenario).classList.add('active');
+
+            resetDemo();
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.layer').forEach(layer => {
+                layer.classList.remove('active', 'pulse');
+            });
+
+            document.querySelectorAll('.arrow').forEach(arrow => {
+                arrow.classList.remove('active-down', 'active-up');
+            });
+
+            document.querySelectorAll('.component-card').forEach(card => {
+                card.classList.remove('active', 'users-active', 'app-active', 'dbms-active', 'data-active');
+            });
+
+            document.querySelectorAll('.progress-dot').forEach(dot => {
+                dot.classList.remove('active', 'complete');
+            });
+        }
+
+        function highlightLayer(layerId) {
+            const layer = document.getElementById('layer-' + layerId);
+            layer.classList.add('active', 'pulse');
+
+            const card = document.getElementById('card-' + layerId);
+            card.classList.add('active', layerId + '-active');
+        }
+
+        function activateArrow(arrowNum, direction) {
+            if (!arrowNum) return;
+
+            const arrow = document.getElementById('arrow-' + arrowNum);
+            if (direction === 'down') {
+                arrow.classList.add('active-down');
+                arrow.textContent = '↓';
+            } else if (direction === 'up') {
+                arrow.classList.add('active-up');
+                arrow.textContent = '↑';
+            }
+        }
+
+        function updateProgress(step) {
+            for (let i = 1; i <= 5; i++) {
+                const dot = document.getElementById('dot-' + i);
+                if (i < step) {
+                    dot.classList.remove('active');
+                    dot.classList.add('complete');
+                } else if (i === step) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active', 'complete');
+                }
+            }
+        }
+
+        async function startJourney() {
+            if (isRunning) return;
+
+            isRunning = true;
+            document.getElementById('start-btn').disabled = true;
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.disabled = true);
+
+            const scenario = scenarios[currentScenario];
+            const steps = scenario.steps;
+
+            for (let i = 0; i < steps.length; i++) {
+                currentStep = i + 1;
+                const step = steps[i];
+
+                clearHighlights();
+
+                // For response (going back up), highlight all layers sequentially
+                if (step.isResponse) {
+                    // Animate going back up
+                    const layers = ['data', 'dbms', 'app', 'users'];
+                    const arrows = [3, 2, 1];
+
+                    for (let j = 0; j < layers.length; j++) {
+                        clearHighlights();
+                        highlightLayer(layers[j]);
+
+                        if (j < arrows.length) {
+                            activateArrow(arrows[j], 'up');
+                        }
+
+                        updateProgress(currentStep);
+
+                        document.getElementById('info-panel').className = 'info-panel response-info';
+                        document.getElementById('info-panel').innerHTML = step.info;
+                        document.getElementById('query-display').style.display = 'none';
+
+                        await new Promise(r => setTimeout(r, 600));
+                    }
+                } else {
+                    highlightLayer(step.layer);
+
+                    if (step.arrow) {
+                        activateArrow(step.arrow, step.direction);
+                    }
+
+                    updateProgress(currentStep);
+
+                    document.getElementById('info-panel').className = 'info-panel query-info';
+                    document.getElementById('info-panel').innerHTML = step.info;
+
+                    if (step.showQuery) {
+                        document.getElementById('query-display').style.display = 'block';
+                        document.getElementById('query-display').innerHTML = scenario.query;
+                        document.getElementById('info-panel').appendChild(document.getElementById('query-display'));
+                    } else {
+                        document.getElementById('query-display').style.display = 'none';
+                    }
+                }
+
+                if (!step.isResponse) {
+                    await new Promise(r => setTimeout(r, 2000));
+                }
+            }
+
+            // Final state
+            document.getElementById('info-panel').innerHTML = `
+                <h3>Journey Complete!</h3>
+                <p>You've seen how a ${currentScenario === 'read' ? 'read' : currentScenario === 'write' ? 'write' : 'update'} query travels through all four components of a database system.</p>
+                <p style="margin-top: 0.5rem;"><strong>Key insight:</strong> The DBMS acts as an intermediary, managing all interactions between users/applications and the stored data. This provides security, integrity, and efficient access.</p>
+            `;
+            document.getElementById('info-panel').className = 'info-panel';
+
+            isRunning = false;
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('start-btn').textContent = 'Run Again';
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.disabled = false);
+        }
+
+        function resetDemo() {
+            isRunning = false;
+            currentStep = 0;
+
+            clearHighlights();
+
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('start-btn').textContent = 'Start Journey';
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.disabled = false);
+
+            document.querySelectorAll('.arrow').forEach(arrow => {
+                arrow.textContent = '↕';
+            });
+
+            document.getElementById('info-panel').className = 'info-panel';
+            document.getElementById('info-panel').innerHTML = `
+                <h3>How Database Systems Work</h3>
+                <p>A database system consists of four main components that work together. Click "Start Journey" to see how a query travels through the system!</p>
+            `;
+            document.getElementById('query-display').style.display = 'none';
+        }
+
+        // Initialize
+        resetDemo();
+    </script>
+</body>
+</html>
