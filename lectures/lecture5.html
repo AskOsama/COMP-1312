@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 5: Relationships Between Tables</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="lecture5_ar.html" class="lang-button" title="Switch to Arabic">العربية</a>
+    </div>
+
+    <header>
+        <h1>Relationships Between Tables</h1>
+        <p class="subtitle">Lecture 5: Database Fundamentals</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#objectives">Learning Objectives</a></li>
+            <li><a href="#introduction">1. Introduction: Why Can't One Table Do Everything?</a></li>
+            <li><a href="#overview">2. Overview of Lecture Contents</a></li>
+            <li><a href="#intro-relationships">3. Introduction to Relationships</a></li>
+            <li><a href="#related-tables">4. Concept of Related Tables</a></li>
+            <li><a href="#keys-relationships">5. Keys and Relationships</a></li>
+            <li><a href="#primary-key">6. Primary Key in Relationships</a></li>
+            <li><a href="#foreign-key">7. Foreign Key in Relationships</a></li>
+            <li><a href="#types">8. Types of Relationships</a></li>
+            <li><a href="#one-to-many">9. One-to-Many Relationship (1:M)</a></li>
+            <li><a href="#many-to-many">10. Many-to-Many Relationship (M:M)</a></li>
+            <li><a href="#activity1">11. Activity 1: Identify the Relationship</a></li>
+            <li><a href="#importance">12. Importance of Relationships</a></li>
+            <li><a href="#analyzing">13. Analyzing Relationships</a></li>
+            <li><a href="#activity2">14. Activity 2: Why Referential Integrity?</a></li>
+            <li><a href="#summary">Summary</a></li>
+            <li><a href="#review">Review Questions</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Learning Objectives -->
+        <section id="objectives" class="learning-objectives">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this lecture, you will be able to:</p>
+            <ul>
+                <li>Understand the concept of relationships between tables</li>
+                <li>Identify why relationships are needed in databases</li>
+                <li>Distinguish between different types of relationships (1:1, 1:M, M:M)</li>
+                <li>Understand the role of keys (primary and foreign) in relationships</li>
+                <li>Analyze simple database scenarios and identify relationships</li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Introduction -->
+        <section id="introduction" class="content-section">
+            <h2>1. Introduction: Why Can't One Table Do Everything?</h2>
+
+            <div class="key-message">
+                <p><strong>Key Question:</strong> What happens when you try to store all your data in a single table? Imagine storing students, courses, and instructors all in one table.</p>
+            </div>
+
+            <p>This design would cause repeated data, confusion, and errors. Relationships between tables help us organize data correctly and maintain accuracy in database systems.</p>
+
+            <div class="example">
+                <h4>Think About It</h4>
+                <p>If a university stores student names, course names, and instructor names all in one table:</p>
+                <ul>
+                    <li><strong>Data repetition:</strong> The instructor's name is repeated for every student in their course</li>
+                    <li><strong>Update problems:</strong> Changing an instructor's name requires updating many rows</li>
+                    <li><strong>Confusion:</strong> It becomes unclear which data belongs to which entity</li>
+                    <li><strong>Errors:</strong> Inconsistencies arise when data is duplicated across rows</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 2: Overview -->
+        <section id="overview" class="content-section">
+            <h2>2. Overview of Lecture Contents</h2>
+
+            <p>This lecture covers the essential concepts of relationships between tables in a database. Here are the key topics we will explore:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">🔗</div>
+                    <h4>Concept of Relationships</h4>
+                    <p>Understanding how and why tables are connected in a database</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">❓</div>
+                    <h4>Why Relationships Matter</h4>
+                    <p>The importance of relationships for data organization and integrity</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📊</div>
+                    <h4>Types of Relationships</h4>
+                    <p>One-to-One (1:1), One-to-Many (1:M), and Many-to-Many (M:M)</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔑</div>
+                    <h4>Keys in Relationships</h4>
+                    <p>Primary keys and foreign keys that create links between tables</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🛡️</div>
+                    <h4>Referential Integrity</h4>
+                    <p>Ensuring data consistency across related tables</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Introduction to Relationships -->
+        <section id="intro-relationships" class="content-section">
+            <h2>3. Introduction to Relationships</h2>
+
+            <div class="definition">
+                <h3>What is a Relationship?</h3>
+                <p>In databases, data is often divided into multiple tables to avoid redundancy and improve organization. A <strong>relationship</strong> is a logical connection between two tables that allows data to be stored efficiently and retrieved correctly.</p>
+            </div>
+
+            <h3>Why Relationships Are Needed</h3>
+            <p>Relationships help to:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Avoid Data Repetition</h4>
+                    <p>Prevent repeating the same data in multiple tables, saving storage and reducing errors</p>
+                </div>
+                <div class="property-item">
+                    <h4>Maintain Data Consistency</h4>
+                    <p>Ensure that changes in one place are reflected correctly across the database</p>
+                </div>
+                <div class="property-item">
+                    <h4>Connect Related Information</h4>
+                    <p>Link data from different tables so it can be combined when needed</p>
+                </div>
+                <div class="property-item">
+                    <h4>Support Accurate Data Retrieval</h4>
+                    <p>Enable correct and efficient querying of data across multiple tables</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Warning</h4>
+                <p>Without relationships, databases become disorganized and unreliable. Data may be duplicated, inconsistent, or impossible to query correctly.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Concept of Related Tables -->
+        <section id="related-tables" class="content-section">
+            <h2>4. Concept of Related Tables</h2>
+
+            <div class="definition">
+                <h3>When Are Two Tables Related?</h3>
+                <p>Two tables are <strong>related</strong> when they share a common field, or when one table depends on another for information.</p>
+            </div>
+
+            <div class="example">
+                <h4>Example: Students and Courses</h4>
+                <p>Consider a university database with two tables:</p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Students Table</th>
+                            </tr>
+                            <tr>
+                                <th>StudentID</th>
+                                <th>Name</th>
+                                <th>Major</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>Ahmed Ali</td>
+                                <td>Computer Science</td>
+                            </tr>
+                            <tr>
+                                <td>1002</td>
+                                <td>Sara Mohammed</td>
+                                <td>Information Systems</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Courses Table</th>
+                            </tr>
+                            <tr>
+                                <th>CourseID</th>
+                                <th>CourseName</th>
+                                <th>Credits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CS101</td>
+                                <td>Database Fundamentals</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>CS102</td>
+                                <td>Programming 1</td>
+                                <td>4</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>A <strong>student can register for courses</strong>, which creates a relationship between the two tables.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Keys and Relationships -->
+        <section id="keys-relationships" class="content-section">
+            <h2>5. Keys and Relationships</h2>
+
+            <div class="key-message">
+                <p><strong>Key Concept:</strong> Relationships between tables are created using <strong>keys</strong>. One table contains a <strong>Primary Key</strong>, and another table contains a <strong>Foreign Key</strong> that references it. Keys allow tables to be linked correctly.</p>
+            </div>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">🔑</div>
+                    <h4>Primary Key (PK)</h4>
+                    <p>A field that uniquely identifies each record in its own table</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔗</div>
+                    <h4>Foreign Key (FK)</h4>
+                    <p>A field in one table that refers to the primary key in another table</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Primary Key in Relationships -->
+        <section id="primary-key" class="content-section">
+            <h2>6. Primary Key in Relationships</h2>
+
+            <p>The <strong>Primary Key</strong> plays a central role in establishing relationships between tables:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Uniquely Identifies Each Record</h4>
+                    <p>Every record in the table has a distinct primary key value that sets it apart from all other records</p>
+                </div>
+                <div class="property-item">
+                    <h4>Ensures Each Record Can Be Distinguished</h4>
+                    <p>No two records can share the same primary key value, preventing ambiguity</p>
+                </div>
+                <div class="property-item">
+                    <h4>Is Referenced by Other Tables</h4>
+                    <p>Other tables use this key as a foreign key to create links and establish relationships</p>
+                </div>
+                <div class="property-item">
+                    <h4>Essential for Building Relationships</h4>
+                    <p>Without primary keys, it would be impossible to reliably connect related tables</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Example</h4>
+                <p>In the <strong>Departments</strong> table, <strong>DepartmentID</strong> is the primary key. Each department has a unique ID that other tables can reference.</p>
+            </div>
+        </section>
+
+        <!-- Section 7: Foreign Key in Relationships -->
+        <section id="foreign-key" class="content-section">
+            <h2>7. Foreign Key in Relationships</h2>
+
+            <div class="definition">
+                <h3>Foreign Key Definition</h3>
+                <p>A <strong>Foreign Key</strong> is a field in one table that refers to the primary key in another table. It creates a link between the two tables, allowing them to share information.</p>
+            </div>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Creates a Link Between Tables</h4>
+                    <p>The foreign key establishes a connection from one table (child) to another (parent)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Is a Field in One Table</h4>
+                    <p>The foreign key exists as a regular field in the child table</p>
+                </div>
+                <div class="property-item">
+                    <h4>Refers to the Primary Key in Another Table</h4>
+                    <p>Its values must match existing primary key values in the referenced (parent) table</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Example: Students and Departments</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Departments Table (Parent)</th>
+                            </tr>
+                            <tr>
+                                <th>DepartmentID (PK)</th>
+                                <th>DepartmentName</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>D01</td>
+                                <td>Computer Science</td>
+                            </tr>
+                            <tr>
+                                <td>D02</td>
+                                <td>Information Systems</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="4">Students Table (Child)</th>
+                            </tr>
+                            <tr>
+                                <th>StudentID (PK)</th>
+                                <th>Name</th>
+                                <th>DepartmentID (FK)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>Ahmed Ali</td>
+                                <td>D01</td>
+                            </tr>
+                            <tr>
+                                <td>1002</td>
+                                <td>Sara Mohammed</td>
+                                <td>D02</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>The <strong>DepartmentID</strong> in the Students table is a foreign key that references the <strong>DepartmentID</strong> primary key in the Departments table.</p>
+            </div>
+
+            <div class="tip-box">
+                <h4>Remember</h4>
+                <p>Foreign keys allow tables to share information. They ensure that every reference in the child table points to a valid record in the parent table.</p>
+            </div>
+        </section>
+
+        <!-- Section 8: Types of Relationships -->
+        <section id="types" class="content-section">
+            <h2>8. Types of Relationships</h2>
+
+            <p>There are three main types of relationships in databases. Each type is used based on the real-world situation being modeled:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">1:1</div>
+                    <h4>One-to-One (1:1)</h4>
+                    <p>Each record in one table is linked to only one record in another table</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">1:M</div>
+                    <h4>One-to-Many (1:M)</h4>
+                    <p>One record in a table can be linked to many records in another table</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">M:M</div>
+                    <h4>Many-to-Many (M:M)</h4>
+                    <p>Many records in one table can relate to many records in another table</p>
+                </div>
+            </div>
+
+            <h3>One-to-One Relationship (1:1)</h3>
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Definition</h4>
+                    <p>Each record in one table is linked to <strong>only one record</strong> in another table</p>
+                </div>
+                <div class="property-item">
+                    <h4>Usage</h4>
+                    <p>Used rarely in databases. Often applied for <strong>security</strong> or <strong>optional data separation</strong></p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Example: Person and Passport</h4>
+                <p>Each person has exactly one passport, and each passport belongs to exactly one person. This is a <strong>One-to-One (1:1)</strong> relationship.</p>
+            </div>
+        </section>
+
+        <!-- Section 9: One-to-Many -->
+        <section id="one-to-many" class="content-section">
+            <h2>9. One-to-Many Relationship (1:M)</h2>
+
+            <div class="key-message">
+                <p><strong>Most Common:</strong> The One-to-Many relationship is the most common type of relationship in database design.</p>
+            </div>
+
+            <div class="definition">
+                <h3>One-to-Many Definition</h3>
+                <p>In a <strong>One-to-Many (1:M)</strong> relationship, one record in the parent table can be associated with many records in the child table, but each record in the child table is associated with only one record in the parent table.</p>
+            </div>
+
+            <div class="example">
+                <h4>Example: Departments and Students</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Relationship</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>One department</strong></td>
+                                <td>has <strong>many students</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Each student</strong></td>
+                                <td>belongs to <strong>one department</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>The foreign key (DepartmentID) is placed in the <strong>Students table</strong> (the "many" side).</p>
+            </div>
+        </section>
+
+        <!-- Section 10: Many-to-Many -->
+        <section id="many-to-many" class="content-section">
+            <h2>10. Many-to-Many Relationship (M:M)</h2>
+
+            <div class="definition">
+                <h3>Many-to-Many Definition</h3>
+                <p>In a <strong>Many-to-Many (M:M)</strong> relationship, many records in one table can relate to many records in another table.</p>
+            </div>
+
+            <div class="example">
+                <h4>Example: Students and Courses</h4>
+                <ul>
+                    <li>One student can register for <strong>many courses</strong></li>
+                    <li>One course can have <strong>many students</strong></li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>Important: Special Handling Required</h4>
+                <p>Many-to-Many relationships <strong>cannot be implemented directly</strong> in a relational database. They require a <strong>junction table</strong> (also called a bridge table or linking table) that breaks the M:M relationship into two 1:M relationships.</p>
+            </div>
+
+            <div class="example">
+                <h4>Junction Table Example: Enrollments</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Enrollments Table (Junction)</th>
+                            </tr>
+                            <tr>
+                                <th>StudentID (FK)</th>
+                                <th>CourseID (FK)</th>
+                                <th>EnrollmentDate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>CS101</td>
+                                <td>2026-01-15</td>
+                            </tr>
+                            <tr>
+                                <td>1001</td>
+                                <td>CS102</td>
+                                <td>2026-01-15</td>
+                            </tr>
+                            <tr>
+                                <td>1002</td>
+                                <td>CS101</td>
+                                <td>2026-01-16</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>The Enrollments table contains foreign keys from both the Students and Courses tables, creating two One-to-Many relationships.</p>
+            </div>
+        </section>
+
+        <!-- Section 11: Activity 1 -->
+        <section id="activity1" class="content-section">
+            <h2>11. Activity 1: Identify the Relationship</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>A university database contains <strong>Students</strong> and <strong>Departments</strong> tables. Each student belongs to one department.</p>
+                <ul>
+                    <li><strong>Question 1:</strong> What type of relationship is this?</li>
+                    <li><strong>Question 2:</strong> Which table should contain the foreign key?</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Discussion:</strong> Think about it for 2-3 minutes and discuss with your group. Consider how many students a department can have, and how many departments a student can belong to.</p>
+            </div>
+        </section>
+
+        <!-- Section 12: Importance of Relationships -->
+        <section id="importance" class="content-section">
+            <h2>12. Importance of Relationships</h2>
+
+            <p>Relationships are essential for building well-structured databases. They provide the following benefits:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Improve Database Structure</h4>
+                    <p>Relationships organize data into logical, connected tables that reflect real-world entities</p>
+                </div>
+                <div class="property-item">
+                    <h4>Support Correct Data Retrieval</h4>
+                    <p>Enable accurate querying of data across multiple related tables</p>
+                </div>
+                <div class="property-item">
+                    <h4>Enforce Data Integrity</h4>
+                    <p>Ensure that all references between tables are valid and consistent</p>
+                </div>
+                <div class="property-item">
+                    <h4>Reflect Real-World Rules</h4>
+                    <p>Model the actual business rules and connections between entities</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Best Practice</h4>
+                <p>Every table should have a primary key. This is the foundation for creating relationships between tables.</p>
+            </div>
+        </section>
+
+        <!-- Section 13: Analyzing Relationships -->
+        <section id="analyzing" class="content-section">
+            <h2>13. Analyzing Relationships</h2>
+
+            <p>When analyzing a database scenario, follow these steps to identify and design relationships correctly:</p>
+
+            <h3>Step 1: Identify Entities</h3>
+            <div class="example">
+                <p>Determine the main objects in the scenario. Each object represents a possible table.</p>
+                <p><strong>Example:</strong> Students, Courses, Departments</p>
+            </div>
+
+            <h3>Step 2: Determine How Entities Are Connected</h3>
+            <div class="example">
+                <p>Ask: <em>How does one entity relate to another?</em> Identify real-world connections.</p>
+                <ul>
+                    <li>Students <strong>belong to</strong> departments</li>
+                    <li>Students <strong>register for</strong> courses</li>
+                </ul>
+            </div>
+
+            <h3>Step 3: Decide the Type of Relationship</h3>
+            <div class="example">
+                <p>Based on the scenario, determine whether the relationship is One-to-One (1:1), One-to-Many (1:M), or Many-to-Many (M:M).</p>
+                <p><strong>Example:</strong> One department has many students = <strong>1:M</strong></p>
+            </div>
+
+            <h3>Step 4: Identify Primary and Foreign Keys</h3>
+            <div class="example">
+                <p>Identify the primary key in each table and decide which table should contain the foreign key.</p>
+                <ul>
+                    <li><strong>DepartmentID</strong> = Primary Key in Departments table</li>
+                    <li><strong>DepartmentID</strong> = Foreign Key in Students table</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Why This Skill Is Important:</strong> This analysis skill helps to design correct table relationships, avoid data redundancy, maintain data consistency, and reflect real-world rules accurately. It is the foundation of database design and will be applied in later lectures.</p>
+            </div>
+        </section>
+
+        <!-- Section 14: Activity 2 -->
+        <section id="activity2" class="content-section">
+            <h2>14. Activity 2: Why Referential Integrity?</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>What problem might occur if <strong>referential integrity</strong> is not enforced between Students and Departments tables?</p>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Discussion:</strong> Think about this for 5 minutes. Consider what happens if a student record references a department that does not exist. Work individually or discuss with your group.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>Possible Problems Without Referential Integrity</h4>
+                <ul>
+                    <li><strong>Orphan records:</strong> A student may reference a department that has been deleted</li>
+                    <li><strong>Invalid data:</strong> A foreign key value may not match any primary key in the parent table</li>
+                    <li><strong>Data inconsistency:</strong> Reports and queries may return incorrect results</li>
+                    <li><strong>Loss of trust:</strong> The database becomes unreliable for decision-making</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary" class="content-section summary">
+            <h2>Summary and Key Takeaways</h2>
+
+            <h3>What We've Learned</h3>
+            <ol>
+                <li><strong>Relationships:</strong> A logical connection between two tables that allows data to be organized efficiently and retrieved correctly.</li>
+
+                <li><strong>Why Relationships Matter:</strong> They avoid data repetition, maintain consistency, connect related information, and support accurate retrieval.</li>
+
+                <li><strong>Related Tables:</strong> Two tables are related when they share a common field or one depends on the other for information.</li>
+
+                <li><strong>Primary Key in Relationships:</strong> Uniquely identifies each record and is referenced by other tables to build connections.</li>
+
+                <li><strong>Foreign Key in Relationships:</strong> A field in one table that refers to the primary key in another table, creating a link between them.</li>
+
+                <li><strong>One-to-One (1:1):</strong> Each record in one table links to only one record in another. Used rarely, often for security or data separation.</li>
+
+                <li><strong>One-to-Many (1:M):</strong> The most common type. One record in the parent table relates to many records in the child table.</li>
+
+                <li><strong>Many-to-Many (M:M):</strong> Many records relate to many records. Requires a junction table for implementation.</li>
+
+                <li><strong>Analyzing Relationships:</strong> Follow four steps: identify entities, determine connections, decide the type, and identify keys.</li>
+
+                <li><strong>Referential Integrity:</strong> Ensures that all foreign key values reference valid primary key values, maintaining data consistency.</li>
+            </ol>
+
+            <div class="key-message">
+                <p><strong>Looking Ahead:</strong> In the next lecture, we'll explore the Entity-Relationship (ER) Diagram and learn how to visually represent database relationships.</p>
+            </div>
+        </section>
+
+        <!-- Review Questions -->
+        <section id="review" class="content-section">
+            <h2>Review Questions</h2>
+
+            <h3>Fill in the Blanks</h3>
+            <div class="example">
+                <ol>
+                    <li>A logical connection between two tables is called a ________.</li>
+                    <li>A field that uniquely identifies a record in a table is called a ________.</li>
+                    <li>A field that refers to a primary key in another table is called a ________.</li>
+                    <li>A relationship where one record relates to many records is called ________.</li>
+                    <li>A relationship where many records relate to many records is called ________.</li>
+                    <li>Tables that share a common field are called ________.</li>
+                    <li>A relationship where one record relates to one record only is called ________.</li>
+                    <li>The process of connecting tables in a database is called ________.</li>
+                    <li>A field used to link two tables together is called a ________.</li>
+                    <li>A rule that describes how tables are connected is called a ________.</li>
+                </ol>
+            </div>
+
+            <h3>True or False</h3>
+            <div class="example">
+                <ol>
+                    <li>Relationships help reduce data redundancy. (____)</li>
+                    <li>A foreign key must always be unique. (____)</li>
+                    <li>Primary keys are used to identify records uniquely. (____)</li>
+                    <li>One-to-many is the most common type of relationship. (____)</li>
+                    <li>Many-to-many relationships can be implemented directly. (____)</li>
+                    <li>Relationships reflect real-world connections. (____)</li>
+                    <li>Tables without relationships cannot share data. (____)</li>
+                    <li>Foreign keys exist in the parent table only. (____)</li>
+                    <li>Relationships improve data organization. (____)</li>
+                    <li>Keys are not important in relationships. (____)</li>
+                </ol>
+            </div>
+
+            <h3>Multiple Choice</h3>
+            <div class="example">
+                <ol>
+                    <li>What is used to connect two tables?
+                        <br>a) Record &nbsp; b) Field &nbsp; c) Key &nbsp; d) Report</li>
+                    <li>Which key is referenced by other tables?
+                        <br>a) Foreign key &nbsp; b) Primary key &nbsp; c) Candidate key &nbsp; d) Composite key</li>
+                    <li>Which relationship is most common?
+                        <br>a) One-to-one &nbsp; b) One-to-many &nbsp; c) Many-to-many &nbsp; d) None</li>
+                    <li>In a Students-Departments example, the relationship is:
+                        <br>a) 1:1 &nbsp; b) 1:M &nbsp; c) M:M &nbsp; d) None</li>
+                    <li>Where is the foreign key placed?
+                        <br>a) Parent table &nbsp; b) Child table &nbsp; c) Both tables &nbsp; d) No table</li>
+                    <li>Which relationship needs special handling?
+                        <br>a) 1:1 &nbsp; b) 1:M &nbsp; c) M:M &nbsp; d) None</li>
+                    <li>What does a foreign key do?
+                        <br>a) Deletes data &nbsp; b) Links tables &nbsp; c) Prints data &nbsp; d) Sorts records</li>
+                    <li>Which of the following best describes a relationship?
+                        <br>a) Table structure &nbsp; b) Data type &nbsp; c) Logical connection &nbsp; d) File storage</li>
+                    <li>Which key ensures record uniqueness?
+                        <br>a) Foreign key &nbsp; b) Primary key &nbsp; c) Index &nbsp; d) Field name</li>
+                    <li>Relationships mainly help to:
+                        <br>a) Decorate tables &nbsp; b) Improve structure &nbsp; c) Slow performance &nbsp; d) Increase duplication</li>
+                </ol>
+            </div>
+
+            <h3>Short Answer Questions</h3>
+            <div class="example">
+                <ol>
+                    <li>Mention two reasons why relationships are important.</li>
+                    <li>Mention two roles of primary keys in relationships.</li>
+                    <li>Mention two roles of foreign keys.</li>
+                    <li>Mention two examples of one-to-many relationships.</li>
+                    <li>Mention two problems caused by missing relationships.</li>
+                    <li>Mention two steps to analyze a relationship scenario.</li>
+                    <li>Mention two characteristics of good relationships.</li>
+                    <li>Mention two tables that could have a many-to-many relationship.</li>
+                    <li>Mention two benefits of using keys.</li>
+                    <li>Mention two skills needed to design relationships correctly.</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>Credits</h2>
+            <p>Database Fundamentals Course Material</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html">&larr; Back to Course Home</a>
+        </p>
+    </footer>
+</body>
+</html>
