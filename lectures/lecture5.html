@@ -30,7 +30,7 @@
             <li><a href="#foreign-key">7. Foreign Key in Relationships</a></li>
             <li><a href="#types">8. Types of Relationships</a></li>
             <li><a href="#one-to-many">9. One-to-Many Relationship (1:M)</a></li>
-            <li><a href="#many-to-many">10. Many-to-Many Relationship (M:M)</a></li>
+            <li><a href="#many-to-many">10. Many-to-Many Relationship (M:N)</a></li>
             <li><a href="#activity1">11. Activity 1: Identify the Relationship</a></li>
             <li><a href="#importance">12. Importance of Relationships</a></li>
             <li><a href="#analyzing">13. Analyzing Relationships</a></li>
@@ -48,7 +48,7 @@
             <ul>
                 <li>Understand the concept of relationships between tables</li>
                 <li>Identify why relationships are needed in databases</li>
-                <li>Distinguish between different types of relationships (1:1, 1:M, M:M)</li>
+                <li>Distinguish between different types of relationships (1:1, 1:M, M:N)</li>
                 <li>Understand the role of keys (primary and foreign) in relationships</li>
                 <li>Analyze simple database scenarios and identify relationships</li>
             </ul>
@@ -96,7 +96,7 @@
                 <div class="concept-card">
                     <div class="concept-icon">📊</div>
                     <h4>Types of Relationships</h4>
-                    <p>One-to-One (1:1), One-to-Many (1:M), and Many-to-Many (M:M)</p>
+                    <p>One-to-One (1:1), One-to-Many (1:M), and Many-to-Many (M:N)</p>
                 </div>
                 <div class="concept-card">
                     <div class="concept-icon">🔑</div>
@@ -371,8 +371,8 @@
                     <p>One record in a table can be linked to many records in another table</p>
                 </div>
                 <div class="concept-card">
-                    <div class="concept-icon">M:M</div>
-                    <h4>Many-to-Many (M:M)</h4>
+                    <div class="concept-icon">M:N</div>
+                    <h4>Many-to-Many (M:N)</h4>
                     <p>Many records in one table can relate to many records in another table</p>
                 </div>
             </div>
@@ -436,11 +436,11 @@
 
         <!-- Section 10: Many-to-Many -->
         <section id="many-to-many" class="content-section">
-            <h2>10. Many-to-Many Relationship (M:M)</h2>
+            <h2>10. Many-to-Many Relationship (M:N)</h2>
 
             <div class="definition">
                 <h3>Many-to-Many Definition</h3>
-                <p>In a <strong>Many-to-Many (M:M)</strong> relationship, many records in one table can relate to many records in another table.</p>
+                <p>In a <strong>Many-to-Many (M:N)</strong> relationship, many records in one table can relate to many records in another table.</p>
             </div>
 
             <div class="example">
@@ -453,7 +453,7 @@
 
             <div class="warning-box">
                 <h4>Important: Special Handling Required</h4>
-                <p>Many-to-Many relationships <strong>cannot be implemented directly</strong> in a relational database. They require a <strong>junction table</strong> (also called a bridge table or linking table) that breaks the M:M relationship into two 1:M relationships.</p>
+                <p>Many-to-Many relationships <strong>cannot be implemented directly</strong> in a relational database. They require a <strong>junction table</strong> (also called a bridge table or linking table) that breaks the M:N relationship into two 1:M relationships.</p>
             </div>
 
             <div class="example">
@@ -565,7 +565,7 @@
 
             <h3>Step 3: Decide the Type of Relationship</h3>
             <div class="example">
-                <p>Based on the scenario, determine whether the relationship is One-to-One (1:1), One-to-Many (1:M), or Many-to-Many (M:M).</p>
+                <p>Based on the scenario, determine whether the relationship is One-to-One (1:1), One-to-Many (1:M), or Many-to-Many (M:N).</p>
                 <p><strong>Example:</strong> One department has many students = <strong>1:M</strong></p>
             </div>
 
@@ -627,7 +627,7 @@
 
                 <li><strong>One-to-Many (1:M):</strong> The most common type. One record in the parent table relates to many records in the child table.</li>
 
-                <li><strong>Many-to-Many (M:M):</strong> Many records relate to many records. Requires a junction table for implementation.</li>
+                <li><strong>Many-to-Many (M:N):</strong> Many records relate to many records. Requires a junction table for implementation.</li>
 
                 <li><strong>Analyzing Relationships:</strong> Follow four steps: identify entities, determine connections, decide the type, and identify keys.</li>
 
@@ -685,11 +685,11 @@
                     <li>Which relationship is most common?
                         <br>a) One-to-one &nbsp; b) One-to-many &nbsp; c) Many-to-many &nbsp; d) None</li>
                     <li>In a Students-Departments example, the relationship is:
-                        <br>a) 1:1 &nbsp; b) 1:M &nbsp; c) M:M &nbsp; d) None</li>
+                        <br>a) 1:1 &nbsp; b) 1:M &nbsp; c) M:N &nbsp; d) None</li>
                     <li>Where is the foreign key placed?
                         <br>a) Parent table &nbsp; b) Child table &nbsp; c) Both tables &nbsp; d) No table</li>
                     <li>Which relationship needs special handling?
-                        <br>a) 1:1 &nbsp; b) 1:M &nbsp; c) M:M &nbsp; d) None</li>
+                        <br>a) 1:1 &nbsp; b) 1:M &nbsp; c) M:N &nbsp; d) None</li>
                     <li>What does a foreign key do?
                         <br>a) Deletes data &nbsp; b) Links tables &nbsp; c) Prints data &nbsp; d) Sorts records</li>
                     <li>Which of the following best describes a relationship?
