@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مادة إضافية: مواضيع مراجعة الاختبار النصفي</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="additional_material.html" class="lang-button" title="Switch to English">English</a>
+    </div>
+
+    <header>
+        <h1>مادة إضافية</h1>
+        <p class="subtitle">أساسيات قواعد البيانات: COMP 1312</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>المحتويات</h2>
+        <ul>
+            <li><a href="#forms">1. النماذج (Forms)</a></li>
+            <li><a href="#reports">2. التقارير (Reports)</a></li>
+            <li><a href="#macros">3. وحدات الماكرو (Macros)</a></li>
+            <li><a href="#controls">4. عناصر التحكم المرتبطة وغير المرتبطة</a></li>
+            <li><a href="#filtering">5. التصفية باستخدام AND و OR</a></li>
+            <li><a href="#redundancy">6. التكرار (Redundancy)</a></li>
+            <li><a href="#normalization">7. التسوية (Normalization)</a></li>
+            <li><a href="#definitions">8. ملخص التعريفات الأساسية</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Section 1: Forms -->
+        <section id="forms" class="content-section">
+            <h2>1. النماذج (Forms)</h2>
+
+            <div class="definition">
+                <h3>ما هو النموذج؟</h3>
+                <p>يوفر <strong>النموذج</strong> <strong>واجهة سهلة الاستخدام</strong> لإدخال البيانات وعرضها وتعديلها المخزنة في الجداول.</p>
+            </div>
+
+            <ul>
+                <li>النماذج تسهّل على المستخدمين التعامل مع البيانات (بدلاً من تعديل الجداول مباشرة).</li>
+                <li>النماذج <strong>لا تخزن البيانات بنفسها</strong> &mdash; إنها تعرض وتعدل البيانات الموجودة في الجداول.</li>
+            </ul>
+
+            <div class="tip-box">
+                <h4>فكر بهذه الطريقة</h4>
+                <p>النموذج يشبه <strong>نافذة تطل على الجدول</strong>. تنظر من خلال النافذة (النموذج) لترى وتغير المحتويات (البيانات في الجدول)، لكن البيانات نفسها مخزنة خلف النافذة (في الجدول).</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Reports -->
+        <section id="reports" class="content-section">
+            <h2>2. التقارير (Reports)</h2>
+
+            <div class="definition">
+                <h3>ما هو التقرير؟</h3>
+                <p><strong>التقرير</strong> يعرض البيانات في <strong>تنسيق منظم قابل للطباعة</strong>. التقارير مصممة للعرض والإخراج &mdash; وليس لإدخال البيانات.</p>
+            </div>
+
+            <div class="example">
+                <h4>أمثلة على استخدامات التقارير</h4>
+                <ul>
+                    <li>ملخصات المبيعات الشهرية مع العناوين والإجماليات</li>
+                    <li>قوائم درجات الطلاب مرتبة حسب الفصل</li>
+                    <li>تقارير المخزون مجمعة حسب الفئة</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>النماذج مقابل التقارير &mdash; لا تخلط بينهما!</h4>
+                <p><strong>النماذج</strong> مخصصة <strong>لإدخال البيانات وتعديلها</strong> (تفاعلية).<br>
+                <strong>التقارير</strong> مخصصة <strong>لعرض البيانات وطباعتها</strong> (إخراج للقراءة فقط).</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Macros -->
+        <section id="macros" class="content-section">
+            <h2>3. وحدات الماكرو (Macros)</h2>
+
+            <div class="definition">
+                <h3>ما هو الماكرو؟</h3>
+                <p><strong>الماكرو</strong> يؤتمت المهام البسيطة والمتكررة <strong>بدون برمجة</strong>. ينفذ الماكرو إجراءات محددة مسبقاً مثل:</p>
+            </div>
+
+            <ul>
+                <li>فتح نموذج معين عند بدء تشغيل قاعدة البيانات</li>
+                <li>الانتقال إلى سجل معين</li>
+                <li>طباعة تقرير بنقرة واحدة</li>
+            </ul>
+
+            <div class="key-message">
+                <p><strong>النقطة الأساسية:</strong> وحدات الماكرو <strong>لا</strong> تتطلب مهارات برمجة. تؤتمت الإجراءات عن طريق الاختيار من أوامر محددة مسبقاً. كما أنها <strong>لا</strong> تنشئ جداول أو حقول &mdash; إنها ببساطة تنفذ مهام مثل فتح النماذج أو طباعة التقارير.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Bound vs. Unbound Controls -->
+        <section id="controls" class="content-section">
+            <h2>4. عناصر التحكم المرتبطة وغير المرتبطة</h2>
+
+            <p>عند بناء النماذج، هناك نوعان من عناصر التحكم:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>عناصر التحكم المرتبطة (Bound)</h4>
+                    <p>عنصر التحكم المرتبط <strong>متصل بحقل</strong> في جدول أو استعلام. عند تعديل عنصر تحكم مرتبط، يتم حفظ التغيير مباشرة في الجدول الأساسي.</p>
+                </div>
+                <div class="property-item">
+                    <h4>عناصر التحكم غير المرتبطة (Unbound)</h4>
+                    <p>عنصر التحكم غير المرتبط <strong>غير متصل</strong> بأي مصدر بيانات. يُستخدم للزينة أو العناوين أو التسميات.</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>أمثلة</h4>
+                <ul>
+                    <li><strong>مرتبط (Bound):</strong> مربع نص (TextBox) في نموذج يعرض رقم هاتف العميل من جدول العملاء. إذا كتبت رقماً جديداً، يتم تحديث الجدول.</li>
+                    <li><strong>غير مرتبط (Unbound):</strong> تسمية (Label) تعرض "نموذج تسجيل العملاء" كعنوان. إنها بصرية فقط وليس لها أي ارتباط بأي جدول.</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>النقطة الأساسية:</strong><br>
+                <strong>مرتبط (Bound)</strong> = متصل بالبيانات (تعديله يغير الجدول).<br>
+                <strong>غير مرتبط (Unbound)</strong> = غير متصل بالبيانات (بصري/معلوماتي فقط).<br><br>
+                مربع النص الذي يعرض بيانات من جدول هو <strong>مرتبط</strong>. التسمية التي تعرض عنواناً ثابتاً هي <strong>غير مرتبطة</strong>.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Filtering with AND and OR -->
+        <section id="filtering" class="content-section">
+            <h2>5. التصفية باستخدام AND و OR</h2>
+
+            <p>عند الاستعلام عن البيانات، يجمع <strong>AND</strong> و <strong>OR</strong> شروطاً متعددة:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>عامل AND</h4>
+                    <p><strong>جميع</strong> الشروط يجب أن تكون صحيحة حتى يتم تضمين الصف.</p>
+                </div>
+                <div class="property-item">
+                    <h4>عامل OR</h4>
+                    <p><strong>شرط واحد على الأقل</strong> يجب أن يكون صحيحاً حتى يتم تضمين الصف.</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>مثال عملي</h4>
+                <p>تأمل هذه البيانات:</p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>الدرجة</th>
+                                <th>السنة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ريم</td>
+                                <td>82</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>فيصل</td>
+                                <td>48</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>دانة</td>
+                                <td>65</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>ماجد</td>
+                                <td>35</td>
+                                <td>1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>الاستعلام:</strong> تصفية حيث <code>الدرجة &lt; 60 AND السنة = 1</code></p>
+
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>الدرجة &lt; 60؟</th>
+                                <th>السنة = 1؟</th>
+                                <th>مُضمّن؟</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ريم</td>
+                                <td>لا (82)</td>
+                                <td>نعم</td>
+                                <td><strong>لا</strong></td>
+                            </tr>
+                            <tr>
+                                <td>فيصل</td>
+                                <td>نعم (48)</td>
+                                <td>نعم</td>
+                                <td><strong>نعم</strong></td>
+                            </tr>
+                            <tr>
+                                <td>دانة</td>
+                                <td>لا (65)</td>
+                                <td>لا</td>
+                                <td><strong>لا</strong></td>
+                            </tr>
+                            <tr>
+                                <td>ماجد</td>
+                                <td>نعم (35)</td>
+                                <td>نعم</td>
+                                <td><strong>نعم</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>النتيجة:</strong> فيصل وماجد (كلاهما لديه درجة &lt; 60 <strong>و</strong> سنة = 1).</p>
+            </div>
+
+            <div class="key-message">
+                <p><strong>النقطة الأساسية:</strong> مع <strong>AND</strong>، يجب أن يستوفي الصف <strong>كل</strong> الشروط. إذا فشل شرط واحد حتى، يُستبعد الصف. مع <strong>OR</strong>، استيفاء <strong>أي شرط واحد</strong> يكفي لتضمين الصف.</p>
+            </div>
+        </section>
+
+        <!-- Section 6: Redundancy -->
+        <section id="redundancy" class="content-section">
+            <h2>6. ما هو التكرار (Redundancy)؟</h2>
+
+            <div class="definition">
+                <h3>التكرار</h3>
+                <p><strong>التكرار</strong> يعني أن نفس البيانات <strong>تتكرر بشكل غير ضروري</strong> عبر سجلات متعددة.</p>
+            </div>
+
+            <div class="example">
+                <h4>مثال</h4>
+                <p>تخيل جدول منتجات حيث عمود اسم المورد يحتوي على "TechCorp" لـ 50 منتجاً مختلفاً. النص "TechCorp" مخزن 50 مرة &mdash; هذا هو التكرار.</p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم المنتج</th>
+                                <th>اسم المنتج</th>
+                                <th>اسم المورد</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>لابتوب</td>
+                                <td>TechCorp</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>شاشة</td>
+                                <td>TechCorp</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>لوحة مفاتيح</td>
+                                <td>TechCorp</td>
+                            </tr>
+                            <tr>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>TechCorp (مكررة 50 مرة!)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>المشاكل الناتجة عن التكرار</h4>
+                <ul>
+                    <li><strong>إهدار التخزين:</strong> نفس النص مخزن عدة مرات</li>
+                    <li><strong>مشاكل التحديث:</strong> إذا غيّرت TechCorp اسمها، يجب تحديث جميع الـ 50 صفاً</li>
+                    <li><strong>خطر عدم الاتساق:</strong> إذا تم تحديث بعض الصفوف دون غيرها، تتناقض البيانات مع نفسها</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 7: Normalization -->
+        <section id="normalization" class="content-section">
+            <h2>7. الحل &mdash; التسوية (Normalization)</h2>
+
+            <div class="definition">
+                <h3>ما هي التسوية؟</h3>
+                <p><strong>التسوية</strong> هي عملية تنظيم البيانات <strong>لتقليل التكرار</strong>. الحل هو:</p>
+                <ol>
+                    <li><strong>إنشاء جدول منفصل</strong> للبيانات المتكررة</li>
+                    <li><strong>ربط الجداول</strong> باستخدام مفتاح خارجي</li>
+                </ol>
+            </div>
+
+            <div class="example">
+                <h4>التصميم بعد التسوية</h4>
+                <p>بدلاً من تكرار "TechCorp" 50 مرة:</p>
+
+                <p><strong>جدول الموردين:</strong></p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم المورد</th>
+                                <th>اسم المورد</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10</td>
+                                <td>TechCorp</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>جدول المنتجات (بمفتاح خارجي):</strong></p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم المنتج</th>
+                                <th>اسم المنتج</th>
+                                <th>رقم المورد</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>لابتوب</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>شاشة</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>لوحة مفاتيح</td>
+                                <td>10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>الآن "TechCorp" مخزنة <strong>مرة واحدة</strong> في جدول الموردين. إذا تغير الاسم، تحدثه في <strong>مكان واحد</strong>.</p>
+            </div>
+
+            <div class="key-message">
+                <p><strong>النقطة الأساسية:</strong> إذا وجدت نفس القيمة النصية متكررة عدة مرات في عمود، فمن المحتمل أنها تنتمي إلى جدول خاص بها مع مرجع مفتاح خارجي. هذه هي الفكرة الجوهرية للتسوية &mdash; <strong>خزّن كل حقيقة مرة واحدة، ثم اربط بالمفاتيح</strong>.</p>
+            </div>
+        </section>
+
+        <!-- Section 8: Key Definitions -->
+        <section id="definitions" class="content-section summary">
+            <h2>8. ملخص التعريفات الأساسية</h2>
+
+            <div class="visual-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المصطلح</th>
+                            <th>التعريف</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>النموذج (Form)</strong></td>
+                            <td>واجهة سهلة الاستخدام لإدخال البيانات وعرضها وتعديلها في الجداول</td>
+                        </tr>
+                        <tr>
+                            <td><strong>التقرير (Report)</strong></td>
+                            <td>تنسيق منظم قابل للطباعة لعرض البيانات (إخراج للقراءة فقط)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>الماكرو (Macro)</strong></td>
+                            <td>أداة تؤتمت المهام البسيطة المتكررة بدون برمجة</td>
+                        </tr>
+                        <tr>
+                            <td><strong>عنصر تحكم مرتبط (Bound)</strong></td>
+                            <td>عنصر تحكم في نموذج متصل بمصدر بيانات (تعديله يغير الجدول)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>عنصر تحكم غير مرتبط (Unbound)</strong></td>
+                            <td>عنصر تحكم في نموذج غير متصل بأي مصدر بيانات (بصري فقط)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>عامل AND</strong></td>
+                            <td>عامل منطقي حيث يجب أن تكون جميع الشروط صحيحة</td>
+                        </tr>
+                        <tr>
+                            <td><strong>عامل OR</strong></td>
+                            <td>عامل منطقي حيث يجب أن يكون شرط واحد على الأقل صحيحاً</td>
+                        </tr>
+                        <tr>
+                            <td><strong>التكرار (Redundancy)</strong></td>
+                            <td>نفس البيانات متكررة بشكل غير ضروري عبر سجلات متعددة</td>
+                        </tr>
+                        <tr>
+                            <td><strong>التسوية (Normalization)</strong></td>
+                            <td>تنظيم البيانات لتقليل التكرار عن طريق التقسيم إلى جداول مرتبطة</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>المصادر</h2>
+            <p>مادة مقرر أساسيات قواعد البيانات &mdash; جلسة مراجعة الاختبار النصفي</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index_ar.html">العودة إلى الصفحة الرئيسية &rarr;</a>
+        </p>
+    </footer>
+</body>
+</html>

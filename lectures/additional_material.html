@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Additional Material: Midterm Review Topics</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="additional_material_ar.html" class="lang-button" title="Switch to Arabic">العربية</a>
+    </div>
+
+    <header>
+        <h1>Additional Material</h1>
+        <p class="subtitle">Database Fundamentals: COMP 1312</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#forms">1. Forms</a></li>
+            <li><a href="#reports">2. Reports</a></li>
+            <li><a href="#macros">3. Macros</a></li>
+            <li><a href="#controls">4. Bound vs. Unbound Controls</a></li>
+            <li><a href="#filtering">5. Filtering with AND and OR</a></li>
+            <li><a href="#redundancy">6. Redundancy</a></li>
+            <li><a href="#normalization">7. Normalization</a></li>
+            <li><a href="#definitions">8. Key Definitions Summary</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Section 1: Forms -->
+        <section id="forms" class="content-section">
+            <h2>1. Forms</h2>
+
+            <div class="definition">
+                <h3>What is a Form?</h3>
+                <p>A <strong>form</strong> provides a <strong>user-friendly interface</strong> to enter, view, and edit data stored in tables.</p>
+            </div>
+
+            <ul>
+                <li>Forms make it easier for users to interact with data (instead of editing tables directly).</li>
+                <li>Forms do <strong>not store data themselves</strong> &mdash; they display and modify data that lives in tables.</li>
+            </ul>
+
+            <div class="tip-box">
+                <h4>Think of It This Way</h4>
+                <p>A form is like a <strong>window into a table</strong>. You look through the window (form) to see and change the contents (data in the table), but the data itself is stored behind the window (in the table).</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Reports -->
+        <section id="reports" class="content-section">
+            <h2>2. Reports</h2>
+
+            <div class="definition">
+                <h3>What is a Report?</h3>
+                <p>A <strong>report</strong> presents data in a <strong>formatted, printable layout</strong>. Reports are designed for output and display &mdash; not for data entry.</p>
+            </div>
+
+            <div class="example">
+                <h4>Examples of What Reports Are Used For</h4>
+                <ul>
+                    <li>Monthly sales summaries with headers and totals</li>
+                    <li>Student grade lists organized by class</li>
+                    <li>Inventory reports grouped by category</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>Forms vs. Reports &mdash; Do Not Confuse!</h4>
+                <p><strong>Forms</strong> are for <strong>data entry and editing</strong> (interactive).<br>
+                <strong>Reports</strong> are for <strong>displaying and printing data</strong> (read-only output).</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Macros -->
+        <section id="macros" class="content-section">
+            <h2>3. Macros</h2>
+
+            <div class="definition">
+                <h3>What is a Macro?</h3>
+                <p>A <strong>macro</strong> automates simple, repeated tasks <strong>without programming</strong>. Macros execute predefined actions like:</p>
+            </div>
+
+            <ul>
+                <li>Opening a specific form when the database starts</li>
+                <li>Navigating to a particular record</li>
+                <li>Printing a report with one click</li>
+            </ul>
+
+            <div class="key-message">
+                <p><strong>Key Point:</strong> Macros do <strong>not</strong> require programming skills. They automate actions by selecting from predefined commands. They also do <strong>not</strong> create tables or fields &mdash; they simply perform tasks like opening forms or printing reports.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Bound vs. Unbound Controls -->
+        <section id="controls" class="content-section">
+            <h2>4. Bound vs. Unbound Controls</h2>
+
+            <p>When building forms, there are two types of controls:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Bound Controls</h4>
+                    <p>A bound control is <strong>connected to a field</strong> in a table or query. When you edit a bound control, the change is saved directly to the underlying table.</p>
+                </div>
+                <div class="property-item">
+                    <h4>Unbound Controls</h4>
+                    <p>An unbound control is <strong>not connected</strong> to any data source. It is used for decoration, titles, or labels.</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Examples</h4>
+                <ul>
+                    <li><strong>Bound:</strong> A TextBox on a form that displays a customer's phone number from the Customer table. If you type a new number, the table is updated.</li>
+                    <li><strong>Unbound:</strong> A Label that displays "Customer Registration Form" as a heading. It is purely visual and has no link to any table.</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Key Point:</strong><br>
+                <strong>Bound</strong> = connected to data (editing it changes the table).<br>
+                <strong>Unbound</strong> = not connected to data (purely visual/informational).<br><br>
+                A TextBox showing data from a table is <strong>bound</strong>. A Label showing a static title is <strong>unbound</strong>.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Filtering with AND and OR -->
+        <section id="filtering" class="content-section">
+            <h2>5. Filtering with AND and OR</h2>
+
+            <p>When querying data, <strong>AND</strong> and <strong>OR</strong> combine multiple conditions:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>AND Operator</h4>
+                    <p><strong>All</strong> conditions must be true for a row to be included.</p>
+                </div>
+                <div class="property-item">
+                    <h4>OR Operator</h4>
+                    <p><strong>At least one</strong> condition must be true for a row to be included.</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Worked Example</h4>
+                <p>Consider this data:</p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score</th>
+                                <th>Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Reem</td>
+                                <td>82</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>Faisal</td>
+                                <td>48</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>Dana</td>
+                                <td>65</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>Majed</td>
+                                <td>35</td>
+                                <td>1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>Query:</strong> Filter where <code>Score &lt; 60 AND Year = 1</code></p>
+
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score &lt; 60?</th>
+                                <th>Year = 1?</th>
+                                <th>Included?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Reem</td>
+                                <td>No (82)</td>
+                                <td>Yes</td>
+                                <td><strong>No</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Faisal</td>
+                                <td>Yes (48)</td>
+                                <td>Yes</td>
+                                <td><strong>Yes</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Dana</td>
+                                <td>No (65)</td>
+                                <td>No</td>
+                                <td><strong>No</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Majed</td>
+                                <td>Yes (35)</td>
+                                <td>Yes</td>
+                                <td><strong>Yes</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>Result:</strong> Faisal and Majed (both have Score &lt; 60 <strong>and</strong> Year = 1).</p>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Key Point:</strong> With <strong>AND</strong>, a row must satisfy <strong>every</strong> condition. If even one condition fails, the row is excluded. With <strong>OR</strong>, satisfying <strong>any one</strong> condition is enough to include the row.</p>
+            </div>
+        </section>
+
+        <!-- Section 6: Redundancy -->
+        <section id="redundancy" class="content-section">
+            <h2>6. What is Redundancy?</h2>
+
+            <div class="definition">
+                <h3>Redundancy</h3>
+                <p><strong>Redundancy</strong> means the same data is <strong>repeated unnecessarily</strong> across multiple records.</p>
+            </div>
+
+            <div class="example">
+                <h4>Example</h4>
+                <p>Imagine a Product table where the SupplierName column contains "TechCorp" for 50 different products. The text "TechCorp" is stored 50 times &mdash; this is redundancy.</p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ProductID</th>
+                                <th>ProductName</th>
+                                <th>SupplierName</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Laptop</td>
+                                <td>TechCorp</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Monitor</td>
+                                <td>TechCorp</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Keyboard</td>
+                                <td>TechCorp</td>
+                            </tr>
+                            <tr>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>TechCorp (repeated 50 times!)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Problems Caused by Redundancy</h4>
+                <ul>
+                    <li><strong>Wasted storage:</strong> The same text is stored many times</li>
+                    <li><strong>Update anomalies:</strong> If TechCorp changes its name, you must update all 50 rows</li>
+                    <li><strong>Inconsistency risk:</strong> If some rows are updated but others are not, the data contradicts itself</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 7: Normalization -->
+        <section id="normalization" class="content-section">
+            <h2>7. The Solution &mdash; Normalization</h2>
+
+            <div class="definition">
+                <h3>What is Normalization?</h3>
+                <p><strong>Normalization</strong> is the process of organizing data to <strong>reduce redundancy</strong>. The solution is to:</p>
+                <ol>
+                    <li><strong>Create a separate table</strong> for the repeating data</li>
+                    <li><strong>Link the tables</strong> using a Foreign Key</li>
+                </ol>
+            </div>
+
+            <div class="example">
+                <h4>Normalized Design</h4>
+                <p>Instead of repeating "TechCorp" 50 times:</p>
+
+                <p><strong>Supplier table:</strong></p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>SupplierID</th>
+                                <th>SupplierName</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10</td>
+                                <td>TechCorp</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>Product table (with Foreign Key):</strong></p>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ProductID</th>
+                                <th>ProductName</th>
+                                <th>SupplierID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Laptop</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Monitor</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Keyboard</td>
+                                <td>10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>Now "TechCorp" is stored <strong>once</strong> in the Supplier table. If the name changes, you update it in <strong>one place</strong>.</p>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Key Point:</strong> If you find the same text value repeated many times in a column, it probably belongs in its own table with a Foreign Key reference. This is the core idea of normalization &mdash; <strong>store each fact once, then link with keys</strong>.</p>
+            </div>
+        </section>
+
+        <!-- Section 8: Key Definitions -->
+        <section id="definitions" class="content-section summary">
+            <h2>8. Key Definitions Summary</h2>
+
+            <div class="visual-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Form</strong></td>
+                            <td>A user-friendly interface for entering, viewing, and editing data in tables</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Report</strong></td>
+                            <td>A formatted, printable layout for presenting data (read-only output)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Macro</strong></td>
+                            <td>A tool that automates simple repeated tasks without programming</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bound Control</strong></td>
+                            <td>A form control connected to a data source (editing it changes the table)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Unbound Control</strong></td>
+                            <td>A form control not connected to any data source (purely visual)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AND Operator</strong></td>
+                            <td>Logical operator where all conditions must be true</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OR Operator</strong></td>
+                            <td>Logical operator where at least one condition must be true</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Redundancy</strong></td>
+                            <td>The same data repeated unnecessarily across multiple records</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Normalization</strong></td>
+                            <td>Organizing data to reduce redundancy by splitting into related tables</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>Credits</h2>
+            <p>Database Fundamentals Course Material &mdash; Midterm Review Session</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html">&larr; Back to Course Home</a>
+        </p>
+    </footer>
+</body>
+</html>
