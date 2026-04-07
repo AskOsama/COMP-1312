@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 6: ER Modeling (Entity-Relationship Model)</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="lecture6_ar.html" class="lang-button" title="Switch to Arabic">العربية</a>
+    </div>
+
+    <header>
+        <h1>ER Modeling (Entity-Relationship Model)</h1>
+        <p class="subtitle">Lecture 6: Database Fundamentals</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#objectives">Learning Objectives</a></li>
+            <li><a href="#introduction">1. Introduction: How Do We Plan a Database Before Building It?</a></li>
+            <li><a href="#overview">2. Overview of Lecture Contents</a></li>
+            <li><a href="#er-intro">3. Introduction to ER Modeling</a></li>
+            <li><a href="#entities">4. Entities and Attributes</a></li>
+            <li><a href="#relationships">5. Relationships</a></li>
+            <li><a href="#symbols">6. ER Diagram Symbols</a></li>
+            <li><a href="#building">7. Building an ER Model</a></li>
+            <li><a href="#er-vs-tables">8. ER Modeling vs. Tables</a></li>
+            <li><a href="#mistakes">9. Common ER Modeling Mistakes</a></li>
+            <li><a href="#role">10. Role of ER Modeling in Database Design</a></li>
+            <li><a href="#activity1">11. Activity 1: Student Registration System</a></li>
+            <li><a href="#activity2">12. Activity 2: Department and Employees</a></li>
+            <li><a href="#activity3">13. Activity 3: School System</a></li>
+            <li><a href="#activity4">14. Activity 4: Hospital System</a></li>
+            <li><a href="#activity5">15. Activity 5: University System</a></li>
+            <li><a href="#summary">Summary</a></li>
+            <li><a href="#review">Review Questions</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Learning Objectives -->
+        <section id="objectives" class="learning-objectives">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this lecture, you will be able to:</p>
+            <ul>
+                <li>Understand the concept of ER modeling</li>
+                <li>Identify entities, attributes, and relationships</li>
+                <li>Determine types of relationships</li>
+                <li>Build a simple ER diagram as a design step</li>
+                <li>Analyze real-world scenarios using ER concepts</li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Introduction -->
+        <section id="introduction" class="content-section">
+            <h2>1. Introduction: How Do We Plan a Database Before Building It?</h2>
+
+            <div class="key-message">
+                <p><strong>Key Question:</strong> Before creating tables in a database, we need a clear plan. How do we visualize and organize data before we start building?</p>
+            </div>
+
+            <p>The <strong>Entity-Relationship (ER) Model</strong> helps us visualize the structure of a database before implementation. It is a conceptual design tool that allows designers to understand data and relationships clearly.</p>
+
+            <div class="tip-box">
+                <h4>Key Insight</h4>
+                <p>Using ER diagrams reduces design errors and makes database development easier. Think of an ER diagram as a blueprint for your database &mdash; just like an architect draws plans before building a house.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Overview -->
+        <section id="overview" class="content-section">
+            <h2>2. Overview of Lecture Contents</h2>
+
+            <p>This lecture covers the essential concepts of Entity-Relationship modeling. Here are the key topics we will explore:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">📐</div>
+                    <h4>ER Modeling Concept</h4>
+                    <p>Understanding the conceptual design tool for databases</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📦</div>
+                    <h4>Entities & Attributes</h4>
+                    <p>Identifying real-world objects and their properties</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔗</div>
+                    <h4>Relationships</h4>
+                    <p>Types of relationships between entities</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔷</div>
+                    <h4>ER Diagram Symbols</h4>
+                    <p>Standard notation used in ER diagrams</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🏗️</div>
+                    <h4>Building ER Models</h4>
+                    <p>Steps for constructing an ER model from scratch</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">⚠️</div>
+                    <h4>Common Mistakes</h4>
+                    <p>Avoiding typical errors in ER modeling</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🎯</div>
+                    <h4>Real-World Analysis</h4>
+                    <p>Analyzing real-world scenarios using ER concepts</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Introduction to ER Modeling -->
+        <section id="er-intro" class="content-section">
+            <h2>3. Introduction to ER Modeling</h2>
+
+            <div class="definition">
+                <h3>What is ER Modeling?</h3>
+                <p>The <strong>Entity-Relationship (ER) Model</strong> is a <strong>conceptual design tool</strong> used to represent the structure of a database before implementation. ER modeling helps designers understand data and relationships clearly.</p>
+            </div>
+
+            <p>It is a <strong>thinking and analysis tool</strong>, not an implementation tool. It helps us plan the database structure before writing any SQL or creating any tables.</p>
+
+            <h3>Why ER Modeling Is Important</h3>
+            <p>ER modeling is used to:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Identify Data Requirements</h4>
+                    <p>Determine what data needs to be stored in the database</p>
+                </div>
+                <div class="property-item">
+                    <h4>Visualize Structure</h4>
+                    <p>Create a visual representation of the database before building it</p>
+                </div>
+                <div class="property-item">
+                    <h4>Reduce Errors</h4>
+                    <p>Catch design problems early, before implementation begins</p>
+                </div>
+                <div class="property-item">
+                    <h4>Communicate Design</h4>
+                    <p>Share and discuss the database design with team members and stakeholders</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Remember:</strong> The ER model is a thinking and analysis tool, not an implementation tool. It comes before creating any tables.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Entities and Attributes -->
+        <section id="entities" class="content-section">
+            <h2>4. Entities and Attributes</h2>
+
+            <div class="definition">
+                <h3>What is an Entity?</h3>
+                <p>An <strong>entity</strong> represents a real-world object or concept that stores data. Each entity will later become a <strong>table</strong> in the database.</p>
+            </div>
+
+            <div class="example">
+                <h4>Examples of Entities</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Entity</th>
+                                <th>Description</th>
+                                <th>Becomes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Student</td>
+                                <td>A person enrolled in courses</td>
+                                <td>Students Table</td>
+                            </tr>
+                            <tr>
+                                <td>Course</td>
+                                <td>A subject offered by the institution</td>
+                                <td>Courses Table</td>
+                            </tr>
+                            <tr>
+                                <td>Department</td>
+                                <td>An organizational unit</td>
+                                <td>Departments Table</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>What is an Attribute?</h3>
+                <p>An <strong>attribute</strong> describes an entity. Attributes later become <strong>fields</strong> (columns) in tables.</p>
+            </div>
+
+            <div class="example">
+                <h4>Examples of Attributes</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Entity</th>
+                                <th>Attributes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Student</td>
+                                <td>StudentID, StudentName, Email, Major</td>
+                            </tr>
+                            <tr>
+                                <td>Course</td>
+                                <td>CourseID, CourseName, Credits</td>
+                            </tr>
+                            <tr>
+                                <td>Department</td>
+                                <td>DeptID, DeptName, Location</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Remember</h4>
+                <p>Every entity needs at least one attribute that uniquely identifies it (the primary key). For example, <strong>StudentID</strong> uniquely identifies each student.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Relationships -->
+        <section id="relationships" class="content-section">
+            <h2>5. Relationships</h2>
+
+            <div class="definition">
+                <h3>What is a Relationship?</h3>
+                <p>A <strong>relationship</strong> describes how entities are connected. Relationships reflect real-world rules about how data interacts.</p>
+            </div>
+
+            <div class="example">
+                <h4>Examples of Relationships</h4>
+                <ul>
+                    <li><strong>Student enrolls in Course</strong> &mdash; connects the Student and Course entities</li>
+                    <li><strong>Department has Students</strong> &mdash; connects the Department and Student entities</li>
+                </ul>
+            </div>
+
+            <h3>Types of Relationships</h3>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>One-to-One (1:1)</h4>
+                    <p>One record in Table A relates to exactly one record in Table B. Example: Each student has one student ID card.</p>
+                </div>
+                <div class="property-item">
+                    <h4>One-to-Many (1:M)</h4>
+                    <p>One record in Table A relates to many records in Table B. Example: One department has many students.</p>
+                </div>
+                <div class="property-item">
+                    <h4>Many-to-Many (M:M)</h4>
+                    <p>Many records in Table A relate to many records in Table B. Example: Students enroll in many courses, and each course has many students.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Remember</h4>
+                <p>Relationships reflect real-world rules. Understanding the business rules helps you determine the correct type of relationship between entities.</p>
+            </div>
+        </section>
+
+        <!-- Section 6: ER Diagram Symbols -->
+        <section id="symbols" class="content-section">
+            <h2>6. ER Diagram Symbols</h2>
+
+            <p>An ER diagram uses standard symbols to represent the different components of a database design. These symbols provide a clear visual structure.</p>
+
+            <div class="visual-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Figure</th>
+                            <th>Symbol</th>
+                            <th>Represents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Rectangle</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9645;</td>
+                            <td>Entity in ER model</td>
+                        </tr>
+                        <tr>
+                            <td>Ellipse</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9711;</td>
+                            <td>Attribute in ER model</td>
+                        </tr>
+                        <tr>
+                            <td>Diamond</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9671;</td>
+                            <td>Relationship among entities</td>
+                        </tr>
+                        <tr>
+                            <td>Line</td>
+                            <td style="text-align: center; font-size: 1.5em;">&mdash;</td>
+                            <td>Connects attribute to entity</td>
+                        </tr>
+                        <tr>
+                            <td>Double Ellipse</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9711;&#9711;</td>
+                            <td>Multi-valued attribute</td>
+                        </tr>
+                        <tr>
+                            <td>Double Rectangle</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9645;&#9645;</td>
+                            <td>Weak entity</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tip-box">
+                <h4>Remember</h4>
+                <p>These standard symbols are universally recognized. Using them consistently makes your ER diagrams understandable to anyone familiar with database design.</p>
+            </div>
+        </section>
+
+        <!-- Section 7: Building an ER Model -->
+        <section id="building" class="content-section">
+            <h2>7. Building an ER Model</h2>
+
+            <p>When building an ER model, you should follow these steps:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Step 1: Identify Entities</h4>
+                    <p>Determine the main objects or concepts that need to store data (e.g., Student, Course, Department)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 2: Define Attributes</h4>
+                    <p>List the properties of each entity (e.g., StudentID, Name, Email for the Student entity)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 3: Identify Relationships</h4>
+                    <p>Determine how entities are connected (e.g., Student enrolls in Course)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 4: Determine Relationship Types</h4>
+                    <p>Classify each relationship as 1:1, 1:M, or M:M based on business rules</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 5: Draw the ER Diagram</h4>
+                    <p>Use standard symbols to create a visual representation of the model</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 6: Review and Refine</h4>
+                    <p>Check the model for accuracy, completeness, and correct relationship types</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Important:</strong> This step-by-step analysis is essential. Skipping steps leads to incomplete or incorrect database designs.</p>
+            </div>
+        </section>
+
+        <!-- Section 8: ER Modeling vs. Tables -->
+        <section id="er-vs-tables" class="content-section">
+            <h2>8. ER Modeling vs. Tables</h2>
+
+            <div class="key-message">
+                <p><strong>Key Point:</strong> ER modeling always comes before table creation. It is a planning step, not an implementation step.</p>
+            </div>
+
+            <div class="visual-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>ER Model</th>
+                            <th>Database Tables</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Purpose</td>
+                            <td>Conceptual design &amp; planning</td>
+                            <td>Actual data storage</td>
+                        </tr>
+                        <tr>
+                            <td>Stage</td>
+                            <td>Before implementation</td>
+                            <td>During implementation</td>
+                        </tr>
+                        <tr>
+                            <td>Format</td>
+                            <td>Visual diagram with symbols</td>
+                            <td>Rows and columns with data</td>
+                        </tr>
+                        <tr>
+                            <td>Focus</td>
+                            <td>Structure and relationships</td>
+                            <td>Storing and retrieving data</td>
+                        </tr>
+                        <tr>
+                            <td>Tool Type</td>
+                            <td>Thinking and analysis</td>
+                            <td>Implementation and operation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tip-box">
+                <h4>Think of It This Way</h4>
+                <p>An ER model is like an architectural blueprint &mdash; it shows the plan. Database tables are like the actual building &mdash; they hold the real data. You always draw the blueprint first!</p>
+            </div>
+        </section>
+
+        <!-- Section 9: Common Mistakes -->
+        <section id="mistakes" class="content-section">
+            <h2>9. Common ER Modeling Mistakes</h2>
+
+            <p>Common mistakes include:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Missing Entities</h4>
+                    <p>Forgetting to include important real-world objects as entities in the model</p>
+                </div>
+                <div class="property-item">
+                    <h4>Wrong Relationship Types</h4>
+                    <p>Misidentifying a Many-to-Many relationship as One-to-Many, or vice versa</p>
+                </div>
+                <div class="property-item">
+                    <h4>Missing Attributes</h4>
+                    <p>Not including all necessary properties for an entity</p>
+                </div>
+                <div class="property-item">
+                    <h4>No Primary Key</h4>
+                    <p>Failing to identify a unique identifier for each entity</p>
+                </div>
+                <div class="property-item">
+                    <h4>Redundant Entities</h4>
+                    <p>Creating separate entities for concepts that should be attributes</p>
+                </div>
+                <div class="property-item">
+                    <h4>Skipping the ER Step</h4>
+                    <p>Jumping directly to creating tables without planning the model first</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Warning</h4>
+                <p>Avoiding these mistakes improves design quality. Always take time to carefully analyze the scenario before drawing the ER diagram.</p>
+            </div>
+        </section>
+
+        <!-- Section 10: Role of ER Modeling -->
+        <section id="role" class="content-section">
+            <h2>10. Role of ER Modeling in Database Design</h2>
+
+            <p>ER modeling plays a crucial role in the database design process:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Bridge Between Analysis and Implementation</h4>
+                    <p>ER modeling acts as a bridge between understanding the problem and building the solution</p>
+                </div>
+                <div class="property-item">
+                    <h4>Clear Communication</h4>
+                    <p>Provides a visual language that both technical and non-technical stakeholders can understand</p>
+                </div>
+                <div class="property-item">
+                    <h4>Foundation for Tables</h4>
+                    <p>Entities become tables, attributes become fields, and relationships become foreign keys</p>
+                </div>
+                <div class="property-item">
+                    <h4>Error Prevention</h4>
+                    <p>Identifies potential issues before they become costly implementation problems</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Key Takeaway:</strong> ER modeling acts as a bridge between analysis and implementation. It ensures your database is well-planned before you start building it.</p>
+            </div>
+        </section>
+
+        <!-- Activity 1 -->
+        <section id="activity1" class="content-section">
+            <h2>11. Activity 1: Student Registration System</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>A college wants to build a database system to manage students and courses.</p>
+                <ul>
+                    <li>Each student has a <strong>student ID</strong>, <strong>name</strong>, and <strong>email</strong></li>
+                    <li>Each course has a <strong>course ID</strong> and <strong>course name</strong></li>
+                    <li>A student can register in <strong>many courses</strong></li>
+                    <li>Each course can have <strong>many students</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Task:</strong> Draw an ER diagram showing: Entities, Attributes, Relationships, and Relationship type.</p>
+            </div>
+        </section>
+
+        <!-- Activity 2 -->
+        <section id="activity2" class="content-section">
+            <h2>12. Activity 2: Department and Employees</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>A company wants to store information about departments and employees.</p>
+                <ul>
+                    <li>Each department has a <strong>department ID</strong> and <strong>department name</strong></li>
+                    <li>Each employee has an <strong>employee ID</strong>, <strong>name</strong>, and <strong>salary</strong></li>
+                    <li>Each employee works in <strong>one department</strong></li>
+                    <li>Each department has <strong>many employees</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Task:</strong> Create an ER diagram representing this scenario.</p>
+            </div>
+        </section>
+
+        <!-- Activity 3 -->
+        <section id="activity3" class="content-section">
+            <h2>13. Activity 3: School System</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>A school needs a database system to manage teachers, students, and classes.</p>
+                <ul>
+                    <li>Each teacher has an <strong>ID</strong> and <strong>name</strong></li>
+                    <li>Each class has a <strong>class ID</strong> and <strong>class name</strong></li>
+                    <li>Each student has a <strong>student ID</strong> and <strong>name</strong></li>
+                    <li>A teacher teaches <strong>many classes</strong></li>
+                    <li>Students attend <strong>many classes</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Task:</strong> Analyze the scenario and draw the ER diagram.</p>
+            </div>
+        </section>
+
+        <!-- Activity 4 -->
+        <section id="activity4" class="content-section">
+            <h2>14. Activity 4: Hospital System</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>A hospital wants to manage doctors and patients.</p>
+                <ul>
+                    <li>Each doctor has a <strong>doctor ID</strong>, <strong>name</strong>, and <strong>specialization</strong></li>
+                    <li>Each patient has a <strong>patient ID</strong>, <strong>name</strong>, and <strong>age</strong></li>
+                    <li>A doctor treats <strong>many patients</strong></li>
+                    <li>A patient can be treated by <strong>many doctors</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Task:</strong> Create an ER diagram representing the system.</p>
+            </div>
+        </section>
+
+        <!-- Activity 5 -->
+        <section id="activity5" class="content-section">
+            <h2>15. Activity 5: University System</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>A university wants to store information about students, courses, and departments.</p>
+                <ul>
+                    <li>Each department has a <strong>department ID</strong> and <strong>name</strong></li>
+                    <li>Each course belongs to <strong>one department</strong></li>
+                    <li>Each student enrolls in <strong>many courses</strong></li>
+                    <li>Courses have <strong>course codes</strong> and <strong>titles</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Task:</strong> Analyze the scenario and draw a complete ER diagram.</p>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary" class="content-section summary">
+            <h2>Summary and Key Takeaways</h2>
+
+            <h3>What We've Learned</h3>
+            <ol>
+                <li><strong>ER Modeling Concept:</strong> The ER model is a conceptual design tool used to represent the structure of a database before implementation.</li>
+                <li><strong>Entities and Attributes:</strong> Entities represent real-world objects (become tables), and attributes describe entities (become fields).</li>
+                <li><strong>Relationships and Types:</strong> Relationships describe how entities are connected, classified as 1:1, 1:M, or M:M.</li>
+                <li><strong>ER Diagrams:</strong> Standard symbols (rectangles, ellipses, diamonds, lines) are used to visually represent the model.</li>
+                <li><strong>Skill-Based ER Analysis:</strong> Analyzing real-world scenarios helps practice identifying entities, attributes, and relationships.</li>
+            </ol>
+
+            <div class="key-message">
+                <p><strong>Looking Ahead:</strong> In the next lecture, we will explore database normalization techniques to eliminate redundancy and improve data integrity.</p>
+            </div>
+        </section>
+
+        <!-- Review Questions -->
+        <section id="review" class="content-section">
+            <h2>Review Questions</h2>
+
+            <h3>Fill in the Blanks</h3>
+            <div class="example">
+                <ol>
+                    <li>The ER model is a ________ design tool used before building a database.</li>
+                    <li>An ________ represents a real-world object or concept in an ER diagram.</li>
+                    <li>Attributes later become ________ in database tables.</li>
+                    <li>A ________ symbol is used to represent a relationship in an ER diagram.</li>
+                    <li>Each entity will later become a ________ in the database.</li>
+                    <li>A ________ describes how entities are connected.</li>
+                    <li>ER modeling always comes ________ table creation.</li>
+                    <li>A rectangle in an ER diagram represents an ________.</li>
+                    <li>An ellipse in an ER diagram represents an ________.</li>
+                    <li>The first step in building an ER model is to identify the ________.</li>
+                </ol>
+            </div>
+
+            <h3>True or False</h3>
+            <div class="example">
+                <ol>
+                    <li>ER modeling is an implementation tool. (____)</li>
+                    <li>Entities become tables in the database. (____)</li>
+                    <li>Attributes describe the properties of an entity. (____)</li>
+                    <li>A diamond shape represents an entity in an ER diagram. (____)</li>
+                    <li>ER modeling should be done after creating tables. (____)</li>
+                    <li>Relationships reflect real-world rules. (____)</li>
+                    <li>A Many-to-Many relationship means one record relates to one record. (____)</li>
+                    <li>A double ellipse represents a multi-valued attribute. (____)</li>
+                    <li>ER diagrams help reduce design errors. (____)</li>
+                    <li>You can skip ER modeling and go directly to creating tables. (____)</li>
+                </ol>
+            </div>
+
+            <h3>Multiple Choice</h3>
+            <div class="example">
+                <ol>
+                    <li>What does an ER model represent?
+                        <br>a) Physical tables &nbsp; b) Conceptual structure &nbsp; c) SQL queries &nbsp; d) Backup files</li>
+                    <li>Which shape represents an entity in an ER diagram?
+                        <br>a) Diamond &nbsp; b) Ellipse &nbsp; c) Rectangle &nbsp; d) Circle</li>
+                    <li>What does a diamond shape represent?
+                        <br>a) Entity &nbsp; b) Attribute &nbsp; c) Relationship &nbsp; d) Table</li>
+                    <li>An ellipse in an ER diagram represents:
+                        <br>a) Entity &nbsp; b) Relationship &nbsp; c) Attribute &nbsp; d) Key</li>
+                    <li>What type of relationship exists when a student enrolls in many courses and each course has many students?
+                        <br>a) 1:1 &nbsp; b) 1:M &nbsp; c) M:M &nbsp; d) None</li>
+                    <li>ER modeling comes:
+                        <br>a) After table creation &nbsp; b) Before table creation &nbsp; c) During data entry &nbsp; d) After backup</li>
+                    <li>Which is NOT an ER diagram symbol?
+                        <br>a) Rectangle &nbsp; b) Diamond &nbsp; c) Triangle &nbsp; d) Ellipse</li>
+                    <li>Attributes in an ER model become:
+                        <br>a) Tables &nbsp; b) Records &nbsp; c) Fields &nbsp; d) Databases</li>
+                    <li>A weak entity is represented by:
+                        <br>a) Single rectangle &nbsp; b) Double rectangle &nbsp; c) Diamond &nbsp; d) Ellipse</li>
+                    <li>The main purpose of ER modeling is to:
+                        <br>a) Store data &nbsp; b) Plan the database structure &nbsp; c) Delete records &nbsp; d) Print reports</li>
+                </ol>
+            </div>
+
+            <h3>Short Answer Questions</h3>
+            <div class="example">
+                <ol>
+                    <li>What is the purpose of ER modeling in database design?</li>
+                    <li>Explain the difference between an entity and an attribute with examples.</li>
+                    <li>List three types of relationships and give an example of each.</li>
+                    <li>Name four standard symbols used in ER diagrams and what they represent.</li>
+                    <li>What are the steps for building an ER model?</li>
+                    <li>Mention three common mistakes in ER modeling.</li>
+                    <li>Explain how ER modeling differs from table creation.</li>
+                    <li>Why is ER modeling considered a bridge between analysis and implementation?</li>
+                    <li>Given a library system with books and members, identify the entities, attributes, and relationships.</li>
+                    <li>Why should ER modeling always be done before creating database tables?</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>Credits</h2>
+            <p>Database Fundamentals Course Material</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html">&larr; Back to Course Home</a>
+        </p>
+    </footer>
+</body>
+</html>

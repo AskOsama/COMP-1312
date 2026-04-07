@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحاضرة 6: نموذج الكيان-العلاقة (ER Modeling)</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="lecture6.html" class="lang-button" title="Switch to English">English</a>
+    </div>
+
+    <header>
+        <h1>نموذج الكيان-العلاقة (ER Modeling)</h1>
+        <p class="subtitle">المحاضرة 6: أساسيات قواعد البيانات</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>المحتويات</h2>
+        <ul>
+            <li><a href="#objectives">أهداف التعلم</a></li>
+            <li><a href="#introduction">1. مقدمة: كيف نخطط لقاعدة البيانات قبل بنائها؟</a></li>
+            <li><a href="#overview">2. نظرة عامة على محتويات المحاضرة</a></li>
+            <li><a href="#er-intro">3. مقدمة في نمذجة الكيان-العلاقة</a></li>
+            <li><a href="#entities">4. الكيانات والصفات</a></li>
+            <li><a href="#relationships">5. العلاقات</a></li>
+            <li><a href="#symbols">6. رموز مخطط الكيان-العلاقة</a></li>
+            <li><a href="#building">7. بناء نموذج الكيان-العلاقة</a></li>
+            <li><a href="#er-vs-tables">8. نمذجة الكيان-العلاقة مقابل الجداول</a></li>
+            <li><a href="#mistakes">9. الأخطاء الشائعة في نمذجة الكيان-العلاقة</a></li>
+            <li><a href="#role">10. دور نمذجة الكيان-العلاقة في تصميم قواعد البيانات</a></li>
+            <li><a href="#activity1">11. النشاط 1: نظام تسجيل الطلاب</a></li>
+            <li><a href="#activity2">12. النشاط 2: الأقسام والموظفين</a></li>
+            <li><a href="#activity3">13. النشاط 3: نظام المدرسة</a></li>
+            <li><a href="#activity4">14. النشاط 4: نظام المستشفى</a></li>
+            <li><a href="#activity5">15. النشاط 5: نظام الجامعة</a></li>
+            <li><a href="#summary">الملخص</a></li>
+            <li><a href="#review">أسئلة المراجعة</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Learning Objectives -->
+        <section id="objectives" class="learning-objectives">
+            <h2>أهداف التعلم</h2>
+            <p>بنهاية هذه المحاضرة، ستكون قادراً على:</p>
+            <ul>
+                <li>فهم مفهوم نمذجة الكيان-العلاقة</li>
+                <li>تحديد الكيانات والصفات والعلاقات</li>
+                <li>تحديد أنواع العلاقات</li>
+                <li>بناء مخطط كيان-علاقة بسيط كخطوة تصميمية</li>
+                <li>تحليل سيناريوهات واقعية باستخدام مفاهيم الكيان-العلاقة</li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Introduction -->
+        <section id="introduction" class="content-section">
+            <h2>1. مقدمة: كيف نخطط لقاعدة البيانات قبل بنائها؟</h2>
+
+            <div class="key-message">
+                <p><strong>السؤال الأساسي:</strong> قبل إنشاء الجداول في قاعدة البيانات، نحتاج إلى خطة واضحة. كيف نتصور وننظم البيانات قبل البدء في البناء؟</p>
+            </div>
+
+            <p>يساعدنا <strong>نموذج الكيان-العلاقة (ER Model)</strong> على تصور بنية قاعدة البيانات قبل التنفيذ. وهو أداة تصميم مفاهيمية تتيح للمصممين فهم البيانات والعلاقات بوضوح.</p>
+
+            <div class="tip-box">
+                <h4>رؤية أساسية</h4>
+                <p>استخدام مخططات الكيان-العلاقة يقلل من أخطاء التصميم ويجعل تطوير قاعدة البيانات أسهل. فكر في مخطط ER كمخطط معماري لقاعدة بياناتك &mdash; تماماً مثلما يرسم المهندس المعماري الخطط قبل بناء المنزل.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Overview -->
+        <section id="overview" class="content-section">
+            <h2>2. نظرة عامة على محتويات المحاضرة</h2>
+
+            <p>تغطي هذه المحاضرة المفاهيم الأساسية لنمذجة الكيان-العلاقة. إليك المواضيع الرئيسية التي سنستكشفها:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">📐</div>
+                    <h4>مفهوم نمذجة ER</h4>
+                    <p>فهم أداة التصميم المفاهيمي لقواعد البيانات</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📦</div>
+                    <h4>الكيانات والصفات</h4>
+                    <p>تحديد الكائنات الواقعية وخصائصها</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔗</div>
+                    <h4>العلاقات</h4>
+                    <p>أنواع العلاقات بين الكيانات</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔷</div>
+                    <h4>رموز مخطط ER</h4>
+                    <p>الترميز القياسي المستخدم في مخططات ER</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🏗️</div>
+                    <h4>بناء نماذج ER</h4>
+                    <p>خطوات إنشاء نموذج ER من الصفر</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">⚠️</div>
+                    <h4>الأخطاء الشائعة</h4>
+                    <p>تجنب الأخطاء النموذجية في نمذجة ER</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🎯</div>
+                    <h4>تحليل واقعي</h4>
+                    <p>تحليل سيناريوهات واقعية باستخدام مفاهيم ER</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Introduction to ER Modeling -->
+        <section id="er-intro" class="content-section">
+            <h2>3. مقدمة في نمذجة الكيان-العلاقة</h2>
+
+            <div class="definition">
+                <h3>ما هي نمذجة الكيان-العلاقة؟</h3>
+                <p><strong>نموذج الكيان-العلاقة (ER Model)</strong> هو <strong>أداة تصميم مفاهيمية</strong> تُستخدم لتمثيل بنية قاعدة البيانات قبل التنفيذ. تساعد نمذجة ER المصممين على فهم البيانات والعلاقات بوضوح.</p>
+            </div>
+
+            <p>إنها <strong>أداة تفكير وتحليل</strong>، وليست أداة تنفيذ. تساعدنا في التخطيط لبنية قاعدة البيانات قبل كتابة أي SQL أو إنشاء أي جداول.</p>
+
+            <h3>لماذا نمذجة ER مهمة</h3>
+            <p>تُستخدم نمذجة ER من أجل:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>تحديد متطلبات البيانات</h4>
+                    <p>تحديد البيانات التي يجب تخزينها في قاعدة البيانات</p>
+                </div>
+                <div class="property-item">
+                    <h4>تصور البنية</h4>
+                    <p>إنشاء تمثيل بصري لقاعدة البيانات قبل بنائها</p>
+                </div>
+                <div class="property-item">
+                    <h4>تقليل الأخطاء</h4>
+                    <p>اكتشاف مشاكل التصميم مبكراً، قبل بدء التنفيذ</p>
+                </div>
+                <div class="property-item">
+                    <h4>توصيل التصميم</h4>
+                    <p>مشاركة ومناقشة تصميم قاعدة البيانات مع أعضاء الفريق وأصحاب المصلحة</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>تذكر:</strong> نموذج ER هو أداة تفكير وتحليل، وليس أداة تنفيذ. يأتي قبل إنشاء أي جداول.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Entities and Attributes -->
+        <section id="entities" class="content-section">
+            <h2>4. الكيانات والصفات</h2>
+
+            <div class="definition">
+                <h3>ما هو الكيان؟</h3>
+                <p>يمثل <strong>الكيان</strong> كائناً أو مفهوماً في العالم الحقيقي يخزن بيانات. كل كيان سيصبح لاحقاً <strong>جدولاً</strong> في قاعدة البيانات.</p>
+            </div>
+
+            <div class="example">
+                <h4>أمثلة على الكيانات</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الكيان</th>
+                                <th>الوصف</th>
+                                <th>يصبح</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>طالب</td>
+                                <td>شخص مسجل في مقررات</td>
+                                <td>جدول الطلاب</td>
+                            </tr>
+                            <tr>
+                                <td>مقرر</td>
+                                <td>مادة تقدمها المؤسسة</td>
+                                <td>جدول المقررات</td>
+                            </tr>
+                            <tr>
+                                <td>قسم</td>
+                                <td>وحدة تنظيمية</td>
+                                <td>جدول الأقسام</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="definition">
+                <h3>ما هي الصفة؟</h3>
+                <p><strong>الصفة</strong> تصف الكيان. الصفات تصبح لاحقاً <strong>حقولاً</strong> (أعمدة) في الجداول.</p>
+            </div>
+
+            <div class="example">
+                <h4>أمثلة على الصفات</h4>
+                <div class="visual-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الكيان</th>
+                                <th>الصفات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>طالب</td>
+                                <td>رقم الطالب، اسم الطالب، البريد الإلكتروني، التخصص</td>
+                            </tr>
+                            <tr>
+                                <td>مقرر</td>
+                                <td>رقم المقرر، اسم المقرر، الساعات المعتمدة</td>
+                            </tr>
+                            <tr>
+                                <td>قسم</td>
+                                <td>رقم القسم، اسم القسم، الموقع</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>تذكر</h4>
+                <p>كل كيان يحتاج إلى صفة واحدة على الأقل تحدده بشكل فريد (المفتاح الأساسي). على سبيل المثال، <strong>رقم الطالب</strong> يحدد كل طالب بشكل فريد.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Relationships -->
+        <section id="relationships" class="content-section">
+            <h2>5. العلاقات</h2>
+
+            <div class="definition">
+                <h3>ما هي العلاقة؟</h3>
+                <p>تصف <strong>العلاقة</strong> كيف ترتبط الكيانات ببعضها البعض. العلاقات تعكس قواعد العالم الحقيقي حول كيفية تفاعل البيانات.</p>
+            </div>
+
+            <div class="example">
+                <h4>أمثلة على العلاقات</h4>
+                <ul>
+                    <li><strong>الطالب يسجل في المقرر</strong> &mdash; يربط كيان الطالب وكيان المقرر</li>
+                    <li><strong>القسم يضم طلاباً</strong> &mdash; يربط كيان القسم وكيان الطالب</li>
+                </ul>
+            </div>
+
+            <h3>أنواع العلاقات</h3>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>واحد لواحد (1:1)</h4>
+                    <p>سجل واحد في الجدول أ يرتبط بسجل واحد بالضبط في الجدول ب. مثال: كل طالب لديه بطاقة هوية واحدة.</p>
+                </div>
+                <div class="property-item">
+                    <h4>واحد لمتعدد (1:M)</h4>
+                    <p>سجل واحد في الجدول أ يرتبط بعدة سجلات في الجدول ب. مثال: قسم واحد يضم عدة طلاب.</p>
+                </div>
+                <div class="property-item">
+                    <h4>متعدد لمتعدد (M:M)</h4>
+                    <p>عدة سجلات في الجدول أ ترتبط بعدة سجلات في الجدول ب. مثال: الطلاب يسجلون في عدة مقررات، وكل مقرر يضم عدة طلاب.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>تذكر</h4>
+                <p>العلاقات تعكس قواعد العالم الحقيقي. فهم قواعد العمل يساعدك في تحديد النوع الصحيح للعلاقة بين الكيانات.</p>
+            </div>
+        </section>
+
+        <!-- Section 6: ER Diagram Symbols -->
+        <section id="symbols" class="content-section">
+            <h2>6. رموز مخطط الكيان-العلاقة</h2>
+
+            <p>يستخدم مخطط الكيان-العلاقة رموزاً قياسية لتمثيل المكونات المختلفة لتصميم قاعدة البيانات. توفر هذه الرموز بنية بصرية واضحة.</p>
+
+            <div class="visual-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الشكل</th>
+                            <th>الرمز</th>
+                            <th>يمثل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>مستطيل</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9645;</td>
+                            <td>كيان في نموذج ER</td>
+                        </tr>
+                        <tr>
+                            <td>شكل بيضاوي</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9711;</td>
+                            <td>صفة في نموذج ER</td>
+                        </tr>
+                        <tr>
+                            <td>معين</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9671;</td>
+                            <td>علاقة بين الكيانات</td>
+                        </tr>
+                        <tr>
+                            <td>خط</td>
+                            <td style="text-align: center; font-size: 1.5em;">&mdash;</td>
+                            <td>يربط الصفة بالكيان</td>
+                        </tr>
+                        <tr>
+                            <td>شكل بيضاوي مزدوج</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9711;&#9711;</td>
+                            <td>صفة متعددة القيم</td>
+                        </tr>
+                        <tr>
+                            <td>مستطيل مزدوج</td>
+                            <td style="text-align: center; font-size: 1.5em;">&#9645;&#9645;</td>
+                            <td>كيان ضعيف</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tip-box">
+                <h4>تذكر</h4>
+                <p>هذه الرموز القياسية معترف بها عالمياً. استخدامها بشكل متسق يجعل مخططات ER الخاصة بك مفهومة لأي شخص على دراية بتصميم قواعد البيانات.</p>
+            </div>
+        </section>
+
+        <!-- Section 7: Building an ER Model -->
+        <section id="building" class="content-section">
+            <h2>7. بناء نموذج الكيان-العلاقة</h2>
+
+            <p>عند بناء نموذج ER، يجب اتباع هذه الخطوات:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>الخطوة 1: تحديد الكيانات</h4>
+                    <p>تحديد الكائنات أو المفاهيم الرئيسية التي تحتاج لتخزين بيانات (مثل: طالب، مقرر، قسم)</p>
+                </div>
+                <div class="property-item">
+                    <h4>الخطوة 2: تحديد الصفات</h4>
+                    <p>سرد خصائص كل كيان (مثل: رقم الطالب، الاسم، البريد الإلكتروني لكيان الطالب)</p>
+                </div>
+                <div class="property-item">
+                    <h4>الخطوة 3: تحديد العلاقات</h4>
+                    <p>تحديد كيف ترتبط الكيانات ببعضها (مثل: الطالب يسجل في المقرر)</p>
+                </div>
+                <div class="property-item">
+                    <h4>الخطوة 4: تحديد أنواع العلاقات</h4>
+                    <p>تصنيف كل علاقة كـ 1:1 أو 1:M أو M:M بناءً على قواعد العمل</p>
+                </div>
+                <div class="property-item">
+                    <h4>الخطوة 5: رسم مخطط ER</h4>
+                    <p>استخدام الرموز القياسية لإنشاء تمثيل بصري للنموذج</p>
+                </div>
+                <div class="property-item">
+                    <h4>الخطوة 6: المراجعة والتحسين</h4>
+                    <p>التحقق من دقة النموذج واكتماله وصحة أنواع العلاقات</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>مهم:</strong> هذا التحليل خطوة بخطوة ضروري. تخطي الخطوات يؤدي إلى تصميمات قواعد بيانات ناقصة أو غير صحيحة.</p>
+            </div>
+        </section>
+
+        <!-- Section 8: ER Modeling vs. Tables -->
+        <section id="er-vs-tables" class="content-section">
+            <h2>8. نمذجة الكيان-العلاقة مقابل الجداول</h2>
+
+            <div class="key-message">
+                <p><strong>النقطة الأساسية:</strong> نمذجة ER تأتي دائماً قبل إنشاء الجداول. إنها خطوة تخطيطية وليست خطوة تنفيذية.</p>
+            </div>
+
+            <div class="visual-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الجانب</th>
+                            <th>نموذج ER</th>
+                            <th>جداول قاعدة البيانات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>الغرض</td>
+                            <td>التصميم المفاهيمي والتخطيط</td>
+                            <td>تخزين البيانات الفعلي</td>
+                        </tr>
+                        <tr>
+                            <td>المرحلة</td>
+                            <td>قبل التنفيذ</td>
+                            <td>أثناء التنفيذ</td>
+                        </tr>
+                        <tr>
+                            <td>الشكل</td>
+                            <td>مخطط بصري برموز</td>
+                            <td>صفوف وأعمدة ببيانات</td>
+                        </tr>
+                        <tr>
+                            <td>التركيز</td>
+                            <td>البنية والعلاقات</td>
+                            <td>تخزين واسترجاع البيانات</td>
+                        </tr>
+                        <tr>
+                            <td>نوع الأداة</td>
+                            <td>تفكير وتحليل</td>
+                            <td>تنفيذ وتشغيل</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tip-box">
+                <h4>فكر بهذه الطريقة</h4>
+                <p>نموذج ER يشبه المخطط المعماري &mdash; يُظهر الخطة. جداول قاعدة البيانات تشبه المبنى الفعلي &mdash; تحتوي على البيانات الحقيقية. دائماً ترسم المخطط أولاً!</p>
+            </div>
+        </section>
+
+        <!-- Section 9: Common Mistakes -->
+        <section id="mistakes" class="content-section">
+            <h2>9. الأخطاء الشائعة في نمذجة الكيان-العلاقة</h2>
+
+            <p>الأخطاء الشائعة تشمل:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>كيانات مفقودة</h4>
+                    <p>نسيان تضمين كائنات واقعية مهمة ككيانات في النموذج</p>
+                </div>
+                <div class="property-item">
+                    <h4>أنواع علاقات خاطئة</h4>
+                    <p>تحديد علاقة متعدد لمتعدد بشكل خاطئ كعلاقة واحد لمتعدد، أو العكس</p>
+                </div>
+                <div class="property-item">
+                    <h4>صفات مفقودة</h4>
+                    <p>عدم تضمين جميع الخصائص الضرورية للكيان</p>
+                </div>
+                <div class="property-item">
+                    <h4>بدون مفتاح أساسي</h4>
+                    <p>الفشل في تحديد معرف فريد لكل كيان</p>
+                </div>
+                <div class="property-item">
+                    <h4>كيانات زائدة</h4>
+                    <p>إنشاء كيانات منفصلة لمفاهيم يجب أن تكون صفات</p>
+                </div>
+                <div class="property-item">
+                    <h4>تخطي خطوة ER</h4>
+                    <p>الانتقال مباشرة إلى إنشاء الجداول دون التخطيط للنموذج أولاً</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>تحذير</h4>
+                <p>تجنب هذه الأخطاء يحسن جودة التصميم. خذ دائماً وقتاً لتحليل السيناريو بعناية قبل رسم مخطط ER.</p>
+            </div>
+        </section>
+
+        <!-- Section 10: Role of ER Modeling -->
+        <section id="role" class="content-section">
+            <h2>10. دور نمذجة الكيان-العلاقة في تصميم قواعد البيانات</h2>
+
+            <p>تلعب نمذجة ER دوراً حاسماً في عملية تصميم قواعد البيانات:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>جسر بين التحليل والتنفيذ</h4>
+                    <p>نمذجة ER تعمل كجسر بين فهم المشكلة وبناء الحل</p>
+                </div>
+                <div class="property-item">
+                    <h4>تواصل واضح</h4>
+                    <p>توفر لغة بصرية يمكن لكل من أصحاب المصلحة التقنيين وغير التقنيين فهمها</p>
+                </div>
+                <div class="property-item">
+                    <h4>أساس للجداول</h4>
+                    <p>الكيانات تصبح جداول، والصفات تصبح حقول، والعلاقات تصبح مفاتيح خارجية</p>
+                </div>
+                <div class="property-item">
+                    <h4>منع الأخطاء</h4>
+                    <p>تحدد المشاكل المحتملة قبل أن تصبح مشاكل تنفيذ مكلفة</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>الخلاصة:</strong> نمذجة ER تعمل كجسر بين التحليل والتنفيذ. تضمن أن قاعدة بياناتك مخططة جيداً قبل البدء في بنائها.</p>
+            </div>
+        </section>
+
+        <!-- Activity 1 -->
+        <section id="activity1" class="content-section">
+            <h2>11. النشاط 1: نظام تسجيل الطلاب</h2>
+
+            <div class="example">
+                <h4>السيناريو</h4>
+                <p>تريد كلية بناء نظام قاعدة بيانات لإدارة الطلاب والمقررات.</p>
+                <ul>
+                    <li>كل طالب لديه <strong>رقم طالب</strong> و<strong>اسم</strong> و<strong>بريد إلكتروني</strong></li>
+                    <li>كل مقرر لديه <strong>رقم مقرر</strong> و<strong>اسم المقرر</strong></li>
+                    <li>يمكن للطالب التسجيل في <strong>عدة مقررات</strong></li>
+                    <li>كل مقرر يمكن أن يضم <strong>عدة طلاب</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>المهمة:</strong> ارسم مخطط ER يوضح: الكيانات، الصفات، العلاقات، ونوع العلاقة.</p>
+            </div>
+        </section>
+
+        <!-- Activity 2 -->
+        <section id="activity2" class="content-section">
+            <h2>12. النشاط 2: الأقسام والموظفين</h2>
+
+            <div class="example">
+                <h4>السيناريو</h4>
+                <p>تريد شركة تخزين معلومات عن الأقسام والموظفين.</p>
+                <ul>
+                    <li>كل قسم لديه <strong>رقم قسم</strong> و<strong>اسم القسم</strong></li>
+                    <li>كل موظف لديه <strong>رقم موظف</strong> و<strong>اسم</strong> و<strong>راتب</strong></li>
+                    <li>كل موظف يعمل في <strong>قسم واحد</strong></li>
+                    <li>كل قسم يضم <strong>عدة موظفين</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>المهمة:</strong> أنشئ مخطط ER يمثل هذا السيناريو.</p>
+            </div>
+        </section>
+
+        <!-- Activity 3 -->
+        <section id="activity3" class="content-section">
+            <h2>13. النشاط 3: نظام المدرسة</h2>
+
+            <div class="example">
+                <h4>السيناريو</h4>
+                <p>تحتاج مدرسة إلى نظام قاعدة بيانات لإدارة المعلمين والطلاب والفصول.</p>
+                <ul>
+                    <li>كل معلم لديه <strong>رقم معرف</strong> و<strong>اسم</strong></li>
+                    <li>كل فصل لديه <strong>رقم فصل</strong> و<strong>اسم الفصل</strong></li>
+                    <li>كل طالب لديه <strong>رقم طالب</strong> و<strong>اسم</strong></li>
+                    <li>المعلم يدرّس <strong>عدة فصول</strong></li>
+                    <li>الطلاب يحضرون <strong>عدة فصول</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>المهمة:</strong> حلل السيناريو وارسم مخطط ER.</p>
+            </div>
+        </section>
+
+        <!-- Activity 4 -->
+        <section id="activity4" class="content-section">
+            <h2>14. النشاط 4: نظام المستشفى</h2>
+
+            <div class="example">
+                <h4>السيناريو</h4>
+                <p>يريد مستشفى إدارة الأطباء والمرضى.</p>
+                <ul>
+                    <li>كل طبيب لديه <strong>رقم طبيب</strong> و<strong>اسم</strong> و<strong>تخصص</strong></li>
+                    <li>كل مريض لديه <strong>رقم مريض</strong> و<strong>اسم</strong> و<strong>عمر</strong></li>
+                    <li>الطبيب يعالج <strong>عدة مرضى</strong></li>
+                    <li>المريض يمكن أن يُعالج من قبل <strong>عدة أطباء</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>المهمة:</strong> أنشئ مخطط ER يمثل النظام.</p>
+            </div>
+        </section>
+
+        <!-- Activity 5 -->
+        <section id="activity5" class="content-section">
+            <h2>15. النشاط 5: نظام الجامعة</h2>
+
+            <div class="example">
+                <h4>السيناريو</h4>
+                <p>تريد جامعة تخزين معلومات عن الطلاب والمقررات والأقسام.</p>
+                <ul>
+                    <li>كل قسم لديه <strong>رقم قسم</strong> و<strong>اسم</strong></li>
+                    <li>كل مقرر ينتمي إلى <strong>قسم واحد</strong></li>
+                    <li>كل طالب يسجل في <strong>عدة مقررات</strong></li>
+                    <li>المقررات لديها <strong>رموز مقررات</strong> و<strong>عناوين</strong></li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>المهمة:</strong> حلل السيناريو وارسم مخطط ER كاملاً.</p>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary" class="content-section summary">
+            <h2>الملخص والنقاط الرئيسية</h2>
+
+            <h3>ما تعلمناه</h3>
+            <ol>
+                <li><strong>مفهوم نمذجة ER:</strong> نموذج ER هو أداة تصميم مفاهيمية تُستخدم لتمثيل بنية قاعدة البيانات قبل التنفيذ.</li>
+                <li><strong>الكيانات والصفات:</strong> الكيانات تمثل كائنات واقعية (تصبح جداول)، والصفات تصف الكيانات (تصبح حقول).</li>
+                <li><strong>العلاقات وأنواعها:</strong> العلاقات تصف كيف ترتبط الكيانات، وتُصنف كـ 1:1 أو 1:M أو M:M.</li>
+                <li><strong>مخططات ER:</strong> تُستخدم رموز قياسية (مستطيلات، أشكال بيضاوية، معينات، خطوط) لتمثيل النموذج بصرياً.</li>
+                <li><strong>تحليل ER القائم على المهارات:</strong> تحليل السيناريوهات الواقعية يساعد في ممارسة تحديد الكيانات والصفات والعلاقات.</li>
+            </ol>
+
+            <div class="key-message">
+                <p><strong>نظرة للمستقبل:</strong> في المحاضرة القادمة، سنستكشف تقنيات تسوية قواعد البيانات للتخلص من التكرار وتحسين سلامة البيانات.</p>
+            </div>
+        </section>
+
+        <!-- Review Questions -->
+        <section id="review" class="content-section">
+            <h2>أسئلة المراجعة</h2>
+
+            <h3>املأ الفراغات</h3>
+            <div class="example">
+                <ol>
+                    <li>نموذج ER هو أداة تصميم ________ تُستخدم قبل بناء قاعدة البيانات.</li>
+                    <li>________ يمثل كائناً أو مفهوماً في العالم الحقيقي في مخطط ER.</li>
+                    <li>الصفات تصبح لاحقاً ________ في جداول قاعدة البيانات.</li>
+                    <li>يُستخدم رمز ________ لتمثيل العلاقة في مخطط ER.</li>
+                    <li>كل كيان سيصبح لاحقاً ________ في قاعدة البيانات.</li>
+                    <li>________ تصف كيف ترتبط الكيانات ببعضها.</li>
+                    <li>نمذجة ER تأتي دائماً ________ إنشاء الجداول.</li>
+                    <li>المستطيل في مخطط ER يمثل ________.</li>
+                    <li>الشكل البيضاوي في مخطط ER يمثل ________.</li>
+                    <li>الخطوة الأولى في بناء نموذج ER هي تحديد ________.</li>
+                </ol>
+            </div>
+
+            <h3>صح أم خطأ</h3>
+            <div class="example">
+                <ol>
+                    <li>نمذجة ER هي أداة تنفيذ. (____)</li>
+                    <li>الكيانات تصبح جداول في قاعدة البيانات. (____)</li>
+                    <li>الصفات تصف خصائص الكيان. (____)</li>
+                    <li>شكل المعين يمثل كياناً في مخطط ER. (____)</li>
+                    <li>نمذجة ER يجب أن تتم بعد إنشاء الجداول. (____)</li>
+                    <li>العلاقات تعكس قواعد العالم الحقيقي. (____)</li>
+                    <li>علاقة متعدد لمتعدد تعني أن سجل واحد يرتبط بسجل واحد. (____)</li>
+                    <li>الشكل البيضاوي المزدوج يمثل صفة متعددة القيم. (____)</li>
+                    <li>مخططات ER تساعد في تقليل أخطاء التصميم. (____)</li>
+                    <li>يمكنك تخطي نمذجة ER والانتقال مباشرة إلى إنشاء الجداول. (____)</li>
+                </ol>
+            </div>
+
+            <h3>اختيار من متعدد</h3>
+            <div class="example">
+                <ol>
+                    <li>ماذا يمثل نموذج ER؟
+                        <br>أ) جداول فعلية &nbsp; ب) بنية مفاهيمية &nbsp; ج) استعلامات SQL &nbsp; د) ملفات نسخ احتياطي</li>
+                    <li>أي شكل يمثل كياناً في مخطط ER؟
+                        <br>أ) معين &nbsp; ب) بيضاوي &nbsp; ج) مستطيل &nbsp; د) دائرة</li>
+                    <li>ماذا يمثل شكل المعين؟
+                        <br>أ) كيان &nbsp; ب) صفة &nbsp; ج) علاقة &nbsp; د) جدول</li>
+                    <li>الشكل البيضاوي في مخطط ER يمثل:
+                        <br>أ) كيان &nbsp; ب) علاقة &nbsp; ج) صفة &nbsp; د) مفتاح</li>
+                    <li>ما نوع العلاقة عندما يسجل طالب في عدة مقررات وكل مقرر يضم عدة طلاب؟
+                        <br>أ) 1:1 &nbsp; ب) 1:M &nbsp; ج) M:M &nbsp; د) لا شيء</li>
+                    <li>نمذجة ER تأتي:
+                        <br>أ) بعد إنشاء الجداول &nbsp; ب) قبل إنشاء الجداول &nbsp; ج) أثناء إدخال البيانات &nbsp; د) بعد النسخ الاحتياطي</li>
+                    <li>أي مما يلي ليس رمزاً في مخطط ER؟
+                        <br>أ) مستطيل &nbsp; ب) معين &nbsp; ج) مثلث &nbsp; د) بيضاوي</li>
+                    <li>الصفات في نموذج ER تصبح:
+                        <br>أ) جداول &nbsp; ب) سجلات &nbsp; ج) حقول &nbsp; د) قواعد بيانات</li>
+                    <li>الكيان الضعيف يُمثل بـ:
+                        <br>أ) مستطيل مفرد &nbsp; ب) مستطيل مزدوج &nbsp; ج) معين &nbsp; د) بيضاوي</li>
+                    <li>الغرض الرئيسي من نمذجة ER هو:
+                        <br>أ) تخزين البيانات &nbsp; ب) التخطيط لبنية قاعدة البيانات &nbsp; ج) حذف السجلات &nbsp; د) طباعة التقارير</li>
+                </ol>
+            </div>
+
+            <h3>أسئلة إجابة قصيرة</h3>
+            <div class="example">
+                <ol>
+                    <li>ما هو الغرض من نمذجة ER في تصميم قواعد البيانات؟</li>
+                    <li>اشرح الفرق بين الكيان والصفة مع أمثلة.</li>
+                    <li>اذكر ثلاثة أنواع من العلاقات مع مثال لكل منها.</li>
+                    <li>اذكر أربعة رموز قياسية تُستخدم في مخططات ER وماذا تمثل.</li>
+                    <li>ما هي خطوات بناء نموذج ER؟</li>
+                    <li>اذكر ثلاثة أخطاء شائعة في نمذجة ER.</li>
+                    <li>اشرح كيف تختلف نمذجة ER عن إنشاء الجداول.</li>
+                    <li>لماذا تُعتبر نمذجة ER جسراً بين التحليل والتنفيذ؟</li>
+                    <li>بالنظر إلى نظام مكتبة يحتوي على كتب وأعضاء، حدد الكيانات والصفات والعلاقات.</li>
+                    <li>لماذا يجب دائماً إجراء نمذجة ER قبل إنشاء جداول قاعدة البيانات؟</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>المصادر</h2>
+            <p>مادة مقرر أساسيات قواعد البيانات</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index_ar.html">العودة إلى الصفحة الرئيسية &rarr;</a>
+        </p>
+    </footer>
+</body>
+</html>
