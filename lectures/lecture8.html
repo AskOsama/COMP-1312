@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 8: Conditional Formatting in Forms</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="lecture8_ar.html" class="lang-button" title="Switch to Arabic">العربية</a>
+    </div>
+
+    <header>
+        <h1>Conditional Formatting in Forms</h1>
+        <p class="subtitle">Lecture 8: Database Fundamentals</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#objectives">Learning Objectives</a></li>
+            <li><a href="#introduction">1. Introduction: How Can Colors and Styles Help Us Understand Data Faster?</a></li>
+            <li><a href="#overview">2. Overview of Lecture Contents</a></li>
+            <li><a href="#cf-intro">3. Introduction to Conditional Formatting</a></li>
+            <li><a href="#purpose">4. Purpose of Conditional Formatting</a></li>
+            <li><a href="#where">5. Where Conditional Formatting Is Used</a></li>
+            <li><a href="#conditions">6. Conditions</a></li>
+            <li><a href="#types">7. Types of Conditions</a></li>
+            <li><a href="#activity1">8. Activity 1: Choose the Appropriate Formatting</a></li>
+            <li><a href="#actions">9. Formatting Actions</a></li>
+            <li><a href="#importance">10. Importance of Conditional Formatting</a></li>
+            <li><a href="#integrity">11. Conditional Formatting and Data Integrity</a></li>
+            <li><a href="#scenarios">12. Analyzing Conditional Formatting Scenarios</a></li>
+            <li><a href="#practices">13. Good Practices</a></li>
+            <li><a href="#activity2">14. Activity 2: Analyze the Scenario</a></li>
+            <li><a href="#summary">Summary</a></li>
+            <li><a href="#references">References</a></li>
+            <li><a href="#review">Review Questions</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Learning Objectives -->
+        <section id="objectives" class="learning-objectives">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this lecture, you will be able to:</p>
+            <ul>
+                <li>Understand the concept of conditional formatting</li>
+                <li>Explain why conditional formatting is used in forms</li>
+                <li>Identify situations where conditional formatting is useful</li>
+                <li>Analyze form scenarios and choose suitable formatting rules</li>
+                <li>Understand how conditional formatting improves usability and accuracy</li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Introduction -->
+        <section id="introduction" class="content-section">
+            <h2>1. Introduction: How Can Colors and Styles Help Us Understand Data Faster?</h2>
+
+            <div class="key-message">
+                <p><strong>Key Question:</strong> When a form holds many records, reading every value becomes slow. How do we let users <em>spot</em> the important rows instead of reading every one?</p>
+            </div>
+
+            <p>When users work with forms that contain many records, reading every value becomes difficult. <strong>Conditional formatting</strong> helps users quickly notice important information by changing how data <em>looks</em> based on specific conditions.</p>
+
+            <p>This technique improves usability, accuracy, and decision-making when working with forms.</p>
+
+            <div class="tip-box">
+                <h4>Key Insight</h4>
+                <p>Conditional formatting changes only the <em>appearance</em> of data &mdash; never the data itself. The value in the table stays exactly the same; only the way it is displayed changes.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Overview -->
+        <section id="overview" class="content-section">
+            <h2>2. Overview of Lecture Contents</h2>
+
+            <p>This lecture covers the essential ideas behind using conditional formatting in database forms:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">🎨</div>
+                    <h4>Concept</h4>
+                    <p>What conditional formatting is and what it changes</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🎯</div>
+                    <h4>Purpose</h4>
+                    <p>Why conditional formatting is added to a form</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">📍</div>
+                    <h4>Where It's Used</h4>
+                    <p>Common places to find conditional formatting</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🧠</div>
+                    <h4>Conditions &amp; Logical Rules</h4>
+                    <p>The rules that decide when formatting fires</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🧪</div>
+                    <h4>Types of Conditions</h4>
+                    <p>Comparison, logical, value-based rules</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✨</div>
+                    <h4>Formatting Actions</h4>
+                    <p>What changes when a condition is met</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🛡️</div>
+                    <h4>Data Integrity</h4>
+                    <p>How formatting helps protect data quality</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">✅</div>
+                    <h4>Good Practices</h4>
+                    <p>Using formatting effectively without overdoing it</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Introduction to Conditional Formatting -->
+        <section id="cf-intro" class="content-section">
+            <h2>3. Introduction to Conditional Formatting</h2>
+
+            <div class="definition">
+                <h3>What is Conditional Formatting?</h3>
+                <p><strong>Conditional formatting</strong> is a technique used to change the appearance of data in a form based on specific conditions. It helps users quickly notice important information without having to read all of the data.</p>
+            </div>
+
+            <p>The form's underlying values do not change. Only the visual presentation &mdash; color, font weight, background, icon, etc. &mdash; reacts to whether a rule is satisfied.</p>
+
+            <div class="key-message">
+                <p><strong>Remember:</strong> Conditional formatting is a <em>presentation</em> tool, not a <em>storage</em> tool. It does not edit, delete, or save anything to the underlying table.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Purpose -->
+        <section id="purpose" class="content-section">
+            <h2>4. Purpose of Conditional Formatting</h2>
+
+            <p>Conditional formatting is used to:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Highlight Important Data</h4>
+                    <p>Make critical or unusual values stand out among ordinary records</p>
+                </div>
+                <div class="property-item">
+                    <h4>Improve Readability</h4>
+                    <p>Help the eye find what matters without reading every value</p>
+                </div>
+                <div class="property-item">
+                    <h4>Guide the User</h4>
+                    <p>Visually steer the user toward fields that need attention</p>
+                </div>
+                <div class="property-item">
+                    <h4>Support Decision Making</h4>
+                    <p>Surface patterns (low grades, overdue items, out-of-stock products) at a glance</p>
+                </div>
+                <div class="property-item">
+                    <h4>Reduce Data-Entry Errors</h4>
+                    <p>Visual cues warn the user when an entered value looks suspicious</p>
+                </div>
+                <div class="property-item">
+                    <h4>Make Forms More Interactive</h4>
+                    <p>The form responds to the data instead of staying static</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p>The combined effect: forms become more <strong>interactive and informative</strong>.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Where It's Used -->
+        <section id="where" class="content-section">
+            <h2>5. Where Conditional Formatting Is Used</h2>
+
+            <p>Conditional formatting is commonly used in:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Data Entry Forms</h4>
+                    <p>Warn the user as they type values that violate a rule (e.g., a negative price)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Data Review Forms</h4>
+                    <p>Help reviewers spot records that need follow-up while scrolling through results</p>
+                </div>
+                <div class="property-item">
+                    <h4>Monitoring Dashboards</h4>
+                    <p>Flag KPIs that have crossed a threshold so they jump out visually</p>
+                </div>
+                <div class="property-item">
+                    <h4>Reporting &amp; Analysis Forms</h4>
+                    <p>Mark trends, outliers, and exceptional records for the reader</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Concrete Examples</h4>
+                <ul>
+                    <li><strong>Highlighting low grades</strong> in a student-records form &mdash; e.g., grade &lt; 60 turns the cell red</li>
+                    <li><strong>Marking overdue records</strong> in a task or invoice form &mdash; e.g., due date in the past turns the row orange</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 6: Conditions -->
+        <section id="conditions" class="content-section">
+            <h2>6. Conditions</h2>
+
+            <div class="definition">
+                <h3>What is a Condition?</h3>
+                <p>A <strong>condition</strong> is a logical rule that determines <em>when</em> formatting is applied. The rule is evaluated for each record; if the rule returns true, the formatting fires.</p>
+            </div>
+
+            <p>Conditions are based on:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Field Values</h4>
+                    <p>The value stored in a specific field of the current record</p>
+                </div>
+                <div class="property-item">
+                    <h4>Comparisons</h4>
+                    <p>Comparisons against constants or other fields (less than, greater than, equal to, between)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Logical Combinations</h4>
+                    <p>Multiple sub-conditions combined with AND / OR / NOT</p>
+                </div>
+                <div class="property-item">
+                    <h4>Date and Time Rules</h4>
+                    <p>Comparisons with today's date, deadlines, or date ranges</p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h4>Example Condition</h4>
+                <p><code>If <strong>Grade</strong> is less than <strong>60</strong>, then highlight in red.</code></p>
+            </div>
+        </section>
+
+        <!-- Section 7: Types of Conditions -->
+        <section id="types" class="content-section">
+            <h2>7. Types of Conditions</h2>
+
+            <p>Common condition types include:</p>
+
+            <div class="visual-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>What It Checks</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Comparison</td>
+                            <td>Compares the field value to a constant or to another field</td>
+                            <td><code>Grade &lt; 60</code></td>
+                        </tr>
+                        <tr>
+                            <td>Equality</td>
+                            <td>Tests whether a field equals a specific value</td>
+                            <td><code>Status = "Cancelled"</code></td>
+                        </tr>
+                        <tr>
+                            <td>Range</td>
+                            <td>Tests whether a value falls inside or outside a range</td>
+                            <td><code>Quantity BETWEEN 1 AND 10</code></td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td>Compares a date field to today's date or a deadline</td>
+                            <td><code>DueDate &lt; Today()</code></td>
+                        </tr>
+                        <tr>
+                            <td>Logical (AND / OR)</td>
+                            <td>Combines several sub-conditions with logical operators</td>
+                            <td><code>Stock = 0 AND Active = True</code></td>
+                        </tr>
+                        <tr>
+                            <td>Text Pattern</td>
+                            <td>Tests whether text contains, starts with, or matches a pattern</td>
+                            <td><code>Email NOT LIKE "%@%"</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="key-message">
+                <p>Conditions allow flexible control over data appearance &mdash; you can react to <em>any</em> rule that can be expressed logically.</p>
+            </div>
+        </section>
+
+        <!-- Activity 1 -->
+        <section id="activity1" class="content-section">
+            <h2>8. Activity 1: Choose the Appropriate Formatting</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>A form displays student grades. Some grades are very low.</p>
+                <ul>
+                    <li>Which condition should be used?</li>
+                    <li>What formatting action would help users notice these values quickly?</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Format:</strong> Short group discussion &middot; <strong>Time:</strong> 2&ndash;4 minutes</p>
+            </div>
+        </section>
+
+        <!-- Section 9: Formatting Actions -->
+        <section id="actions" class="content-section">
+            <h2>9. Formatting Actions</h2>
+
+            <p>When a condition is met, the form applies a <strong>formatting action</strong>. Common actions include:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Change Text Color</h4>
+                    <p>Turn the value red, green, or another color to signal status</p>
+                </div>
+                <div class="property-item">
+                    <h4>Change Background Color</h4>
+                    <p>Highlight the cell or row with a colored fill</p>
+                </div>
+                <div class="property-item">
+                    <h4>Bold or Italicize</h4>
+                    <p>Use font weight or style to draw attention to the value</p>
+                </div>
+                <div class="property-item">
+                    <h4>Show an Icon</h4>
+                    <p>Add a small icon (warning, check, flag) next to the field</p>
+                </div>
+                <div class="property-item">
+                    <h4>Hide or Disable</h4>
+                    <p>Make a field invisible or read-only when it shouldn't apply</p>
+                </div>
+                <div class="property-item">
+                    <h4>Add a Border</h4>
+                    <p>Wrap the field in a colored border for emphasis</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p>These actions help users <strong>recognize data status quickly</strong> &mdash; status, urgency, or category becomes obvious without reading.</p>
+            </div>
+        </section>
+
+        <!-- Section 10: Importance -->
+        <section id="importance" class="content-section">
+            <h2>10. Importance of Conditional Formatting</h2>
+
+            <p>Conditional formatting:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Makes Forms Easier to Understand</h4>
+                    <p>Important values are visible without reading the entire screen</p>
+                </div>
+                <div class="property-item">
+                    <h4>Speeds Up User Tasks</h4>
+                    <p>Users can scan a form in seconds instead of minutes</p>
+                </div>
+                <div class="property-item">
+                    <h4>Reduces Mistakes</h4>
+                    <p>Visual warnings catch suspicious entries before they are saved</p>
+                </div>
+                <div class="property-item">
+                    <h4>Supports Better Decisions</h4>
+                    <p>Patterns and exceptions become visible immediately</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 11: Data Integrity -->
+        <section id="integrity" class="content-section">
+            <h2>11. Conditional Formatting and Data Integrity</h2>
+
+            <p>Conditional formatting supports data integrity by:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Visually Flagging Invalid Data</h4>
+                    <p>Out-of-range or missing values are made obvious so the user can correct them</p>
+                </div>
+                <div class="property-item">
+                    <h4>Encouraging Review</h4>
+                    <p>Highlighted records draw attention during data review and audits</p>
+                </div>
+                <div class="property-item">
+                    <h4>Guiding Correct Entry</h4>
+                    <p>Color cues during data entry signal whether the value being typed is acceptable</p>
+                </div>
+                <div class="property-item">
+                    <h4>Supporting Validation Rules</h4>
+                    <p>Reinforces the same rules enforced by the database, but visually</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Important</h4>
+                <p>Conditional formatting <strong>complements</strong> validation rules &mdash; it does not replace them. The database engine still has to enforce the actual constraints.</p>
+            </div>
+        </section>
+
+        <!-- Section 12: Analyzing Scenarios -->
+        <section id="scenarios" class="content-section">
+            <h2>12. Analyzing Conditional Formatting Scenarios</h2>
+
+            <p>When applying conditional formatting, students should:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Step 1: Identify Important Fields</h4>
+                    <p>Decide which fields actually need visual emphasis &mdash; not every field does</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 2: Define Clear Conditions</h4>
+                    <p>Translate the business rule ("low grade", "overdue") into a precise logical condition</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 3: Choose the Formatting Action</h4>
+                    <p>Pick a visual treatment that fits the meaning (red for danger, green for OK, bold for emphasis)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 4: Test with Real Data</h4>
+                    <p>Try the rule against typical and edge-case values to make sure it fires correctly</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 5: Review Overall Effect</h4>
+                    <p>Make sure the form still looks calm; too many formatted fields cancel each other out</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p>This <strong>analysis skill</strong> is essential for effective form design &mdash; choosing <em>where</em> and <em>how</em> to format is more important than the formatting itself.</p>
+            </div>
+        </section>
+
+        <!-- Section 13: Good Practices -->
+        <section id="practices" class="content-section">
+            <h2>13. Good Practices</h2>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Use Clear, Meaningful Colors</h4>
+                    <p>Stick to conventional meanings: red = danger, green = OK, yellow = caution</p>
+                </div>
+                <div class="property-item">
+                    <h4>Format Only When Needed</h4>
+                    <p>Highlight only fields that genuinely need attention &mdash; the rest stays neutral</p>
+                </div>
+                <div class="property-item">
+                    <h4>Stay Consistent Across Forms</h4>
+                    <p>Use the same color for the same meaning in every form of the system</p>
+                </div>
+                <div class="property-item">
+                    <h4>Keep Conditions Simple</h4>
+                    <p>Complex nested rules are hard to maintain and harder for users to predict</p>
+                </div>
+                <div class="property-item">
+                    <h4>Document the Rules</h4>
+                    <p>Write down which condition triggers which formatting, so future maintainers understand it</p>
+                </div>
+                <div class="property-item">
+                    <h4>Don't Rely on Color Alone</h4>
+                    <p>Pair color with text or icons so colorblind users still get the message</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Warning</h4>
+                <p>Poor formatting can confuse users. Too many colors, conflicting rules, or formatting on every field defeat the entire purpose of conditional formatting.</p>
+            </div>
+        </section>
+
+        <!-- Activity 2 -->
+        <section id="activity2" class="content-section">
+            <h2>14. Activity 2: Analyze the Scenario</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>A form uses many colors and styles on every field.</p>
+                <ul>
+                    <li>Is this good practice? Why or why not?</li>
+                    <li>Suggest one improvement.</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Format:</strong> Group or individual reflection &middot; <strong>Time:</strong> 2 minutes</p>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary" class="content-section summary">
+            <h2>Summary and Key Takeaways</h2>
+
+            <h3>What We've Learned</h3>
+            <ol>
+                <li><strong>Meaning:</strong> Conditional formatting changes how data <em>looks</em> in a form, not the data itself.</li>
+                <li><strong>Purpose and Importance:</strong> It highlights important information, improves readability, and supports better decisions.</li>
+                <li><strong>Conditions:</strong> Logical rules that decide when formatting fires &mdash; based on values, comparisons, ranges, dates, and logical combinations.</li>
+                <li><strong>Formatting Actions:</strong> Color, background, font weight, icons, borders &mdash; chosen to fit the meaning of the rule.</li>
+                <li><strong>Skill-Based Analysis:</strong> Choosing <em>where</em> to apply formatting is itself a design skill: identify, define, choose, test, review.</li>
+                <li><strong>Good Practices:</strong> Use formatting sparingly, consistently, and never as a replacement for real validation.</li>
+            </ol>
+
+            <div class="key-message">
+                <p><strong>Looking Ahead:</strong> In the next lecture (Lecture 9), we will explore <em>Add Controls to Forms</em> &mdash; adding richer interactive controls (combo boxes, list boxes, check boxes, command buttons) on top of the form structure.</p>
+            </div>
+        </section>
+
+        <!-- References -->
+        <section id="references" class="content-section">
+            <h2>References</h2>
+            <ul>
+                <li>Hernandez, M. J. <em>Database Design for Mere Mortals</em>, Third Edition.</li>
+                <li>Course coordinator: Ensaf Bashir &middot; Course code: 1312 Comp.</li>
+            </ul>
+        </section>
+
+        <!-- Review Questions -->
+        <section id="review" class="content-section">
+            <h2>Review Questions</h2>
+
+            <h3>Fill in the Blanks</h3>
+            <div class="example">
+                <ol>
+                    <li>A technique that changes data appearance based on conditions is called ________.</li>
+                    <li>A logical rule that controls when formatting is applied is called a ________.</li>
+                    <li>A change applied to data appearance is called a ________.</li>
+                    <li>The visual part of a form used to display data is the ________.</li>
+                    <li>A rule based on comparing values is a ________ condition.</li>
+                    <li>The use of colors or styles to highlight data is called ________ formatting.</li>
+                    <li>A form used to enter data is called a ________ form.</li>
+                    <li>A form used to review data is called a ________ form.</li>
+                    <li>The process of guiding users during data entry is called ________.</li>
+                    <li>The ability to understand data quickly is called ________.</li>
+                </ol>
+                <details>
+                    <summary>Show Answer Key</summary>
+                    <ol>
+                        <li>Conditional formatting</li>
+                        <li>Condition</li>
+                        <li>Formatting action</li>
+                        <li>Form</li>
+                        <li>Comparison</li>
+                        <li>Visual</li>
+                        <li>Data entry</li>
+                        <li>Data review</li>
+                        <li>User guidance</li>
+                        <li>Readability</li>
+                    </ol>
+                </details>
+            </div>
+
+            <h3>True or False</h3>
+            <div class="example">
+                <ol>
+                    <li>Conditional formatting changes how data looks, not the data itself. (____)</li>
+                    <li>Conditional formatting is only used in reports. (____)</li>
+                    <li>Conditions are based on logical rules. (____)</li>
+                    <li>Conditional formatting can help reduce data entry errors. (____)</li>
+                    <li>Too many colors improve form clarity. (____)</li>
+                    <li>Conditional formatting supports data integrity. (____)</li>
+                    <li>Formatting actions are applied when conditions are met. (____)</li>
+                    <li>Conditional formatting makes forms less interactive. (____)</li>
+                    <li>Conditional formatting is useful in monitoring data. (____)</li>
+                    <li>Conditional formatting replaces validation rules. (____)</li>
+                </ol>
+                <details>
+                    <summary>Show Answer Key</summary>
+                    <ol>
+                        <li>True</li>
+                        <li>False</li>
+                        <li>True</li>
+                        <li>True</li>
+                        <li>False</li>
+                        <li>True</li>
+                        <li>True</li>
+                        <li>False</li>
+                        <li>True</li>
+                        <li>False</li>
+                    </ol>
+                </details>
+            </div>
+
+            <h3>Multiple Choice</h3>
+            <div class="example">
+                <ol>
+                    <li>What is the main purpose of conditional formatting?
+                        <br>a) Store data &nbsp; b) Highlight important information &nbsp; c) Delete records &nbsp; d) Print forms</li>
+                    <li>Conditional formatting is applied based on:
+                        <br>a) File size &nbsp; b) Conditions &nbsp; c) Hardware &nbsp; d) Users</li>
+                    <li>Which is an example of a formatting action?
+                        <br>a) Insert data &nbsp; b) Change text color &nbsp; c) Delete record &nbsp; d) Save file</li>
+                    <li>Conditional formatting is mainly used to:
+                        <br>a) Decorate forms &nbsp; b) Improve readability &nbsp; c) Replace tables &nbsp; d) Store data</li>
+                    <li>Which condition type checks value comparison?
+                        <br>a) Logical &nbsp; b) Comparison &nbsp; c) Storage &nbsp; d) Output</li>
+                    <li>Which form benefits most from conditional formatting?
+                        <br>a) Empty form &nbsp; b) Data entry form &nbsp; c) Design form &nbsp; d) Print form</li>
+                    <li>Conditional formatting helps users to:
+                        <br>a) Ignore data &nbsp; b) Identify important values quickly &nbsp; c) Delete data &nbsp; d) Hide data</li>
+                    <li>Which of the following is a good practice?
+                        <br>a) Use many colors &nbsp; b) Apply formatting everywhere &nbsp; c) Use formatting only when needed &nbsp; d) Ignore formatting rules</li>
+                    <li>Conditional formatting supports:
+                        <br>a) Data loss &nbsp; b) Data integrity &nbsp; c) File deletion &nbsp; d) Hardware use</li>
+                    <li>Conditional formatting improves:
+                        <br>a) Data readability &nbsp; b) Storage size &nbsp; c) Printer speed &nbsp; d) Keyboard input</li>
+                </ol>
+                <details>
+                    <summary>Show Answer Key</summary>
+                    <ol>
+                        <li>b) Highlight important information</li>
+                        <li>b) Conditions</li>
+                        <li>b) Change text color</li>
+                        <li>b) Improve readability</li>
+                        <li>b) Comparison</li>
+                        <li>b) Data entry form</li>
+                        <li>b) Identify important values quickly</li>
+                        <li>c) Use formatting only when needed</li>
+                        <li>b) Data integrity</li>
+                        <li>a) Data readability</li>
+                    </ol>
+                </details>
+            </div>
+
+            <h3>Short Answer Questions ("Mention two…")</h3>
+            <div class="example">
+                <ol>
+                    <li>Mention two purposes of conditional formatting.</li>
+                    <li>Mention two places where conditional formatting is used.</li>
+                    <li>Mention two examples of conditions.</li>
+                    <li>Mention two formatting actions.</li>
+                    <li>Mention two benefits of conditional formatting.</li>
+                    <li>Mention two problems caused by poor formatting.</li>
+                    <li>Mention two steps to analyze a formatting scenario.</li>
+                    <li>Mention two good practices for conditional formatting.</li>
+                    <li>Mention two ways conditional formatting supports usability.</li>
+                    <li>Mention two skills needed to apply conditional formatting correctly.</li>
+                </ol>
+                <details>
+                    <summary>Show Sample Answers</summary>
+                    <ol>
+                        <li>Highlight important data; improve readability</li>
+                        <li>Data entry forms; data review forms</li>
+                        <li>Greater than; equal to</li>
+                        <li>Change text color; change background color</li>
+                        <li>Reduce errors; improve accuracy</li>
+                        <li>User confusion; misinterpretation</li>
+                        <li>Identify important fields; choose conditions</li>
+                        <li>Use clear colors; avoid overuse</li>
+                        <li>Faster recognition; clear guidance</li>
+                        <li>Logical thinking; data analysis</li>
+                    </ol>
+                </details>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>Credits</h2>
+            <p>Database Fundamentals Course Material &middot; Coordinator: Ensaf Bashir &middot; 1312 Comp</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html">&larr; Back to Course Home</a>
+        </p>
+    </footer>
+</body>
+</html>
