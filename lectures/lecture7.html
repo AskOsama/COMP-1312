@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 7: Create and Design Forms</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="lecture7_ar.html" class="lang-button" title="Switch to Arabic">العربية</a>
+    </div>
+
+    <header>
+        <h1>Create and Design Forms</h1>
+        <p class="subtitle">Lecture 7: Database Fundamentals</p>
+    </header>
+
+    <nav class="table-of-contents no-print">
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#objectives">Learning Objectives</a></li>
+            <li><a href="#introduction">1. Introduction: Why Don't Users Enter Data Directly into Tables?</a></li>
+            <li><a href="#overview">2. Overview of Lecture Contents</a></li>
+            <li><a href="#forms-intro">3. Introduction to Forms</a></li>
+            <li><a href="#purpose">4. Purpose of Using Forms</a></li>
+            <li><a href="#forms-vs-tables">5. Forms vs. Tables</a></li>
+            <li><a href="#activity1">6. Activity 1: Forms or Tables?</a></li>
+            <li><a href="#structure">7. Form Structure</a></li>
+            <li><a href="#elements">8. Basic Form Elements</a></li>
+            <li><a href="#design">9. Importance of Form Design</a></li>
+            <li><a href="#activity2">10. Activity 2: Form Design</a></li>
+            <li><a href="#interaction">11. User Interaction Through Forms</a></li>
+            <li><a href="#integrity">12. Forms and Data Integrity</a></li>
+            <li><a href="#flow">13. Logical Flow of a Form</a></li>
+            <li><a href="#design-process">14. Forms in the Database Design Process</a></li>
+            <li><a href="#summary">Summary</a></li>
+            <li><a href="#references">References</a></li>
+            <li><a href="#review">Review Questions</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Learning Objectives -->
+        <section id="objectives" class="learning-objectives">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this lecture, you will be able to:</p>
+            <ul>
+                <li>Understand the concept of forms in databases</li>
+                <li>Explain the purpose of using forms</li>
+                <li>Distinguish between tables and forms</li>
+                <li>Identify basic form elements</li>
+                <li>Understand how forms support data entry and usability</li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Introduction -->
+        <section id="introduction" class="content-section">
+            <h2>1. Introduction: Why Don't Users Enter Data Directly into Tables?</h2>
+
+            <div class="key-message">
+                <p><strong>Key Question:</strong> Tables permanently store our data &mdash; so why don't we just let end users type into them directly? Because tables are not designed for human interaction.</p>
+            </div>
+
+            <p>Although tables store data permanently, they are not designed for direct user interaction. <strong>Forms</strong> provide a safe and user-friendly way for users to enter, view, and edit data without affecting the database structure.</p>
+
+            <p>Understanding forms helps improve usability, reduce errors, and protect data integrity. A form allows users to enter, view, and edit data easily without working directly with tables.</p>
+
+            <div class="tip-box">
+                <h4>Key Insight</h4>
+                <p>Think of a form as the <em>dashboard of a car</em>. The engine (table) does the real work, but the driver (user) interacts only through the steering wheel and dials &mdash; not by reaching into the engine block.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Overview -->
+        <section id="overview" class="content-section">
+            <h2>2. Overview of Lecture Contents</h2>
+
+            <p>This lecture covers the essential concepts of designing and using database forms. Here are the key topics we will explore:</p>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <div class="concept-icon">📝</div>
+                    <h4>Concept of Forms</h4>
+                    <p>Understanding forms in database systems</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🎯</div>
+                    <h4>Purpose of Forms</h4>
+                    <p>Why we use forms instead of raw tables</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🆚</div>
+                    <h4>Forms vs. Tables</h4>
+                    <p>How forms and tables differ in role</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🧩</div>
+                    <h4>Form Structure</h4>
+                    <p>Header, Detail, and Footer sections</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🔘</div>
+                    <h4>Basic Form Elements</h4>
+                    <p>Labels, text boxes, and command buttons</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">👤</div>
+                    <h4>User Interaction</h4>
+                    <p>How users work with data through forms</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🛡️</div>
+                    <h4>Data Integrity</h4>
+                    <p>Role of forms in protecting data quality</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">🎨</div>
+                    <h4>Form Design</h4>
+                    <p>Importance of good design and logical flow</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Introduction to Forms -->
+        <section id="forms-intro" class="content-section">
+            <h2>3. Introduction to Forms</h2>
+
+            <div class="definition">
+                <h3>What is a Form?</h3>
+                <p>A <strong>form</strong> is a database object used to interact with data stored in tables. Forms provide a user-friendly interface that allows users to enter, view, and edit data easily without working directly with tables.</p>
+            </div>
+
+            <p>Forms act as a <strong>bridge between users and database tables</strong>. The user sees only the form; behind the scenes, the form reads from and writes to one or more tables.</p>
+
+            <div class="key-message">
+                <p><strong>Remember:</strong> Tables are for storage. Forms are for interaction. The same record can be displayed beautifully in a form while remaining safely stored in a table.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Purpose of Using Forms -->
+        <section id="purpose" class="content-section">
+            <h2>4. Purpose of Using Forms</h2>
+
+            <p>Forms exist to make data work for people. They are used to:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Simplify Data Entry</h4>
+                    <p>Provide an easy, structured way for end users to enter new records without seeing the underlying table</p>
+                </div>
+                <div class="property-item">
+                    <h4>Display Information Clearly</h4>
+                    <p>Show only the fields the user needs, in a layout that is easy to read</p>
+                </div>
+                <div class="property-item">
+                    <h4>Edit Existing Records</h4>
+                    <p>Let users update data through a controlled, validated interface</p>
+                </div>
+                <div class="property-item">
+                    <h4>Improve Usability</h4>
+                    <p>Reduce mistakes by guiding the user through the data entry process</p>
+                </div>
+                <div class="property-item">
+                    <h4>Protect the Database Structure</h4>
+                    <p>Prevent users from accidentally changing the schema or unrelated data</p>
+                </div>
+                <div class="property-item">
+                    <h4>Support Data Integrity</h4>
+                    <p>Apply validation rules and limit what users can enter</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Forms vs Tables -->
+        <section id="forms-vs-tables" class="content-section">
+            <h2>5. Forms vs. Tables</h2>
+
+            <div class="key-message">
+                <p><strong>Key Point:</strong> Forms and tables both work with data, but they have different purposes. Tables store; forms interact.</p>
+            </div>
+
+            <div class="visual-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Table</th>
+                            <th>Form</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Main Role</td>
+                            <td>Permanently stores data</td>
+                            <td>Interface for entering and viewing data</td>
+                        </tr>
+                        <tr>
+                            <td>Audience</td>
+                            <td>Designed for the database engine</td>
+                            <td>Designed for end users</td>
+                        </tr>
+                        <tr>
+                            <td>Layout</td>
+                            <td>Rows and columns (a grid)</td>
+                            <td>Custom layout with labels, fields, buttons</td>
+                        </tr>
+                        <tr>
+                            <td>Used For</td>
+                            <td>Storage, querying, joining</td>
+                            <td>Data entry, viewing, editing</td>
+                        </tr>
+                        <tr>
+                            <td>Direct Editing Risk</td>
+                            <td>High &mdash; users could damage the schema</td>
+                            <td>Low &mdash; the form controls what is editable</td>
+                        </tr>
+                        <tr>
+                            <td>Created</td>
+                            <td>First, during schema design</td>
+                            <td>After tables and relationships are defined</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Activity 1 -->
+        <section id="activity1" class="content-section">
+            <h2>6. Activity 1: Forms or Tables?</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>A database allows users to enter data directly into tables, with no forms in between.</p>
+                <ul>
+                    <li>What problems might occur?</li>
+                    <li>Why are forms a better solution?</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Format:</strong> Short group discussion &middot; <strong>Time:</strong> 2&ndash;3 minutes</p>
+            </div>
+        </section>
+
+        <!-- Section 7: Form Structure -->
+        <section id="structure" class="content-section">
+            <h2>7. Form Structure</h2>
+
+            <p>A form is divided into three sections that organize how data appears on the screen:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Header</h4>
+                    <p>Appears at the top of the form. Used for the title, the company logo, instructions, or the date. Stays visible while the user navigates records.</p>
+                </div>
+                <div class="property-item">
+                    <h4>Detail Section</h4>
+                    <p>The main area of the form, where the actual data is displayed. Each record's fields are shown here for entry, viewing, or editing.</p>
+                </div>
+                <div class="property-item">
+                    <h4>Footer</h4>
+                    <p>Appears at the bottom of the form. Typically contains totals, page numbers, summary information, or navigation buttons.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Why the Three Sections Matter</h4>
+                <p>Separating header / detail / footer keeps the form readable: persistent context stays at the top and bottom, while the changing record data sits in the middle.</p>
+            </div>
+        </section>
+
+        <!-- Section 8: Basic Form Elements -->
+        <section id="elements" class="content-section">
+            <h2>8. Basic Form Elements</h2>
+
+            <p>Forms contain a small set of elements used to display and enter data. Each element has a specific role:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Label</h4>
+                    <p>An element that displays descriptive text on the form (for example, "Student Name:"). Labels do not accept input &mdash; they tell the user what the next field means.</p>
+                </div>
+                <div class="property-item">
+                    <h4>Text Box</h4>
+                    <p>The main input element. Users type values into a text box, and what they type is saved into the underlying table field.</p>
+                </div>
+                <div class="property-item">
+                    <h4>Command Button</h4>
+                    <p>A button that performs an action when clicked &mdash; for example, <em>Save</em>, <em>Cancel</em>, <em>Next Record</em>, or <em>Close</em>.</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p>Each form element plays a specific role: labels <em>describe</em>, text boxes <em>collect</em>, command buttons <em>act</em>.</p>
+            </div>
+        </section>
+
+        <!-- Section 9: Importance of Form Design -->
+        <section id="design" class="content-section">
+            <h2>9. Importance of Form Design</h2>
+
+            <p>Good form design directly affects how reliable and pleasant the database is to use. A well-designed form:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Reduces Errors</h4>
+                    <p>Clear labels and a logical layout make it less likely the user will type the wrong value into the wrong field</p>
+                </div>
+                <div class="property-item">
+                    <h4>Speeds Up Data Entry</h4>
+                    <p>Familiar grouping and tab order help the user move quickly without thinking about the layout</p>
+                </div>
+                <div class="property-item">
+                    <h4>Improves User Experience</h4>
+                    <p>Users feel confident with the system instead of frustrated by it</p>
+                </div>
+                <div class="property-item">
+                    <h4>Makes Training Easier</h4>
+                    <p>A self-explanatory form requires far less explanation to new staff</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>Warning</h4>
+                <p>Poorly designed forms can confuse users and lead to incorrect data being saved into the database. Bad form design is a common source of dirty data.</p>
+            </div>
+        </section>
+
+        <!-- Activity 2 -->
+        <section id="activity2" class="content-section">
+            <h2>10. Activity 2: Form Design</h2>
+
+            <div class="example">
+                <h4>Scenario</h4>
+                <p>Look at a form whose fields are placed randomly on the screen, with labels far from their text boxes and no clear order.</p>
+                <ul>
+                    <li>How does this affect the user experience?</li>
+                    <li>Mention one improvement that would make the form easier to use.</li>
+                </ul>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Format:</strong> Individual thinking, then sharing &middot; <strong>Time:</strong> 3 minutes</p>
+            </div>
+        </section>
+
+        <!-- Section 11: User Interaction -->
+        <section id="interaction" class="content-section">
+            <h2>11. User Interaction Through Forms</h2>
+
+            <p>Through forms, users can:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Add New Records</h4>
+                    <p>Enter a fresh row of data into the underlying table</p>
+                </div>
+                <div class="property-item">
+                    <h4>View Existing Records</h4>
+                    <p>Browse records one at a time in a readable layout</p>
+                </div>
+                <div class="property-item">
+                    <h4>Edit Records</h4>
+                    <p>Update specific fields without touching the rest of the table</p>
+                </div>
+                <div class="property-item">
+                    <h4>Delete Records</h4>
+                    <p>Remove records through a controlled action, often with confirmation</p>
+                </div>
+                <div class="property-item">
+                    <h4>Navigate Records</h4>
+                    <p>Move between records using buttons such as <em>Next</em>, <em>Previous</em>, <em>First</em>, or <em>Last</em></p>
+                </div>
+                <div class="property-item">
+                    <h4>Trigger Actions</h4>
+                    <p>Run commands such as Save, Print, Search, or Close through buttons on the form</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p>This kind of structured interaction improves <strong>efficiency</strong> and <strong>usability</strong> at the same time.</p>
+            </div>
+        </section>
+
+        <!-- Section 12: Forms and Data Integrity -->
+        <section id="integrity" class="content-section">
+            <h2>12. Forms and Data Integrity</h2>
+
+            <p>Forms help support <strong>data integrity</strong> &mdash; the accuracy and consistency of data &mdash; in several ways:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Limit Direct Table Access</h4>
+                    <p>Users never touch the table directly, so they cannot accidentally delete columns or rename fields</p>
+                </div>
+                <div class="property-item">
+                    <h4>Validate Input</h4>
+                    <p>The form can reject invalid values (wrong type, out of range, missing required fields) before saving</p>
+                </div>
+                <div class="property-item">
+                    <h4>Restrict Editable Fields</h4>
+                    <p>Some fields can be made read-only on the form so users cannot change them</p>
+                </div>
+                <div class="property-item">
+                    <h4>Provide Defaults</h4>
+                    <p>Pre-fill values such as today's date or a current user, so the user doesn't have to remember them</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>Remember</h4>
+                <p>This combined effect protects the database from incorrect data entry. Validation on the form is the first line of defense before the data even reaches the table.</p>
+            </div>
+        </section>
+
+        <!-- Section 13: Logical Flow -->
+        <section id="flow" class="content-section">
+            <h2>13. Logical Flow of a Form</h2>
+
+            <p>A well-designed form should follow a logical flow that matches how the user actually thinks about the data:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Group Related Fields</h4>
+                    <p>Keep "Personal Information" together, "Address" together, "Payment" together &mdash; not scattered across the form</p>
+                </div>
+                <div class="property-item">
+                    <h4>Order Fields Naturally</h4>
+                    <p>Follow the order users expect (e.g., First Name &rarr; Last Name, not the other way around)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Use Consistent Tab Order</h4>
+                    <p>Pressing <kbd>Tab</kbd> should move to the next logical field, top to bottom, left to right</p>
+                </div>
+                <div class="property-item">
+                    <h4>Place Action Buttons Predictably</h4>
+                    <p>Save / Cancel / Close belong in the same place on every form so users find them instinctively</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Logical flow improves the speed and accuracy of data entry.</strong> The user shouldn't have to hunt around the form to figure out what to do next.</p>
+            </div>
+        </section>
+
+        <!-- Section 14: Forms in the Design Process -->
+        <section id="design-process" class="content-section">
+            <h2>14. Forms in the Database Design Process</h2>
+
+            <p>Forms come <strong>after</strong> the underlying data structure has been built. They are not the first thing you design.</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>Step 1: Design Tables</h4>
+                    <p>Decide what data needs to be stored and how it is organized into tables and fields</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 2: Define Relationships</h4>
+                    <p>Connect the tables using primary and foreign keys (one-to-one, one-to-many, many-to-many)</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 3: Design Forms</h4>
+                    <p>Build the user interface on top of the now-stable table structure</p>
+                </div>
+                <div class="property-item">
+                    <h4>Step 4: Test with Real Users</h4>
+                    <p>Let actual end users enter data through the form and refine the layout based on their feedback</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p><strong>Why this order?</strong> Designing forms first would lock the user interface to a structure that hasn't been validated yet. Building tables first ensures the forms are based on a correct database structure.</p>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary" class="content-section summary">
+            <h2>Summary and Key Takeaways</h2>
+
+            <h3>What We've Learned</h3>
+            <ol>
+                <li><strong>What forms are:</strong> A database object used to interact with data stored in tables.</li>
+                <li><strong>Why forms are used:</strong> To make data entry, viewing, and editing safe and user-friendly.</li>
+                <li><strong>Forms vs. tables:</strong> Tables store data; forms are the user-facing interface to that data.</li>
+                <li><strong>Form structure:</strong> Header, Detail, and Footer sections organize how the form appears.</li>
+                <li><strong>Basic elements:</strong> Labels, text boxes, and command buttons are the building blocks of a form.</li>
+                <li><strong>Importance of design:</strong> Good design improves usability, reduces errors, and protects data integrity.</li>
+                <li><strong>Role in database systems:</strong> Forms are designed after tables and relationships, on top of a stable schema.</li>
+            </ol>
+
+            <div class="key-message">
+                <p><strong>Looking Ahead:</strong> In the next lecture (Lecture 8), we will explore <em>Conditional Formatting in Forms</em> &mdash; making forms automatically change appearance based on the data they display.</p>
+            </div>
+        </section>
+
+        <!-- References -->
+        <section id="references" class="content-section">
+            <h2>References</h2>
+            <ul>
+                <li>Hernandez, M. J. <em>Database Design for Mere Mortals</em>, Third Edition.</li>
+                <li>Course coordinator: Ensaf Bashir &middot; Course code: 1312 Comp.</li>
+            </ul>
+        </section>
+
+        <!-- Review Questions -->
+        <section id="review" class="content-section">
+            <h2>Review Questions</h2>
+
+            <h3>Fill in the Blanks</h3>
+            <div class="example">
+                <ol>
+                    <li>A database object used to enter and display data is called a ________.</li>
+                    <li>The permanent storage object in a database is the ________.</li>
+                    <li>The visual interface used by users to interact with data is the ________.</li>
+                    <li>The main section of a form where data is displayed is the ________ section.</li>
+                    <li>A text element used to enter data in a form is called a ________.</li>
+                    <li>An element that displays descriptive text on a form is called a ________.</li>
+                    <li>A button used to perform actions on a form is called a ________ button.</li>
+                    <li>The process of arranging form elements logically is called ________.</li>
+                    <li>The interaction between user and database through a form is called the ________.</li>
+                    <li>The process of adding new data through a form is called ________.</li>
+                </ol>
+                <details>
+                    <summary>Show Answer Key</summary>
+                    <ol>
+                        <li>Form</li>
+                        <li>Table</li>
+                        <li>Form</li>
+                        <li>Detail section</li>
+                        <li>Text box</li>
+                        <li>Label</li>
+                        <li>Command button</li>
+                        <li>Form design</li>
+                        <li>User interface</li>
+                        <li>Data entry</li>
+                    </ol>
+                </details>
+            </div>
+
+            <h3>True or False</h3>
+            <div class="example">
+                <ol>
+                    <li>Forms are used to store data permanently. (____)</li>
+                    <li>Tables should be used directly by end users for data entry. (____)</li>
+                    <li>Forms make data entry easier for users. (____)</li>
+                    <li>Poor form design can cause data entry errors. (____)</li>
+                    <li>Forms are created before tables. (____)</li>
+                    <li>Forms help protect data integrity. (____)</li>
+                    <li>Forms can display data from tables. (____)</li>
+                    <li>Forms have no effect on user experience. (____)</li>
+                    <li>Logical form flow improves data entry speed. (____)</li>
+                    <li>Forms are only used for printing data. (____)</li>
+                </ol>
+                <details>
+                    <summary>Show Answer Key</summary>
+                    <ol>
+                        <li>False</li>
+                        <li>False</li>
+                        <li>True</li>
+                        <li>True</li>
+                        <li>False</li>
+                        <li>True</li>
+                        <li>True</li>
+                        <li>False</li>
+                        <li>True</li>
+                        <li>False</li>
+                    </ol>
+                </details>
+            </div>
+
+            <h3>Multiple Choice</h3>
+            <div class="example">
+                <ol>
+                    <li>What is the main purpose of a form?
+                        <br>a) Store data &nbsp; b) Enter and view data &nbsp; c) Print reports &nbsp; d) Define relationships</li>
+                    <li>Which object stores data permanently?
+                        <br>a) Form &nbsp; b) Query &nbsp; c) Table &nbsp; d) Report</li>
+                    <li>Why are forms preferred for data entry?
+                        <br>a) They delete data &nbsp; b) They improve usability &nbsp; c) They store data &nbsp; d) They print data</li>
+                    <li>Which form section displays the data?
+                        <br>a) Header &nbsp; b) Footer &nbsp; c) Detail &nbsp; d) Title</li>
+                    <li>Which element is used to enter data?
+                        <br>a) Label &nbsp; b) Text box &nbsp; c) Button &nbsp; d) Header</li>
+                    <li>Forms should be designed after:
+                        <br>a) Reports &nbsp; b) Tables &nbsp; c) Printers &nbsp; d) Files</li>
+                    <li>Which improves form usability?
+                        <br>a) Random layout &nbsp; b) Logical field order &nbsp; c) Duplicate fields &nbsp; d) Long forms</li>
+                    <li>Forms help reduce:
+                        <br>a) Data storage &nbsp; b) Data redundancy &nbsp; c) Data entry errors &nbsp; d) Hardware use</li>
+                    <li>Which users mainly use forms?
+                        <br>a) Designers &nbsp; b) Administrators &nbsp; c) End users &nbsp; d) Programmers</li>
+                    <li>Forms mainly support:
+                        <br>a) Data entry &nbsp; b) File storage &nbsp; c) Hardware control &nbsp; d) Network access</li>
+                </ol>
+                <details>
+                    <summary>Show Answer Key</summary>
+                    <ol>
+                        <li>b) Enter and view data</li>
+                        <li>c) Table</li>
+                        <li>b) They improve usability</li>
+                        <li>c) Detail</li>
+                        <li>b) Text box</li>
+                        <li>b) Tables</li>
+                        <li>b) Logical field order</li>
+                        <li>c) Data entry errors</li>
+                        <li>c) End users</li>
+                        <li>a) Data entry</li>
+                    </ol>
+                </details>
+            </div>
+
+            <h3>Short Answer Questions ("Mention two…")</h3>
+            <div class="example">
+                <ol>
+                    <li>Mention two purposes of using forms.</li>
+                    <li>Mention two differences between forms and tables.</li>
+                    <li>Mention two basic form elements.</li>
+                    <li>Mention two benefits of good form design.</li>
+                    <li>Mention two user actions supported by forms.</li>
+                    <li>Mention two ways forms support data integrity.</li>
+                    <li>Mention two characteristics of a good form layout.</li>
+                    <li>Mention two reasons forms should follow workflow.</li>
+                    <li>Mention two problems caused by poor form design.</li>
+                    <li>Mention two stages completed before form design.</li>
+                </ol>
+                <details>
+                    <summary>Show Sample Answers</summary>
+                    <ol>
+                        <li>Simplify data entry; improve user interaction</li>
+                        <li>Forms are interfaces; tables store data</li>
+                        <li>Text boxes; labels</li>
+                        <li>Reduce errors; improve accuracy</li>
+                        <li>Add records; edit records</li>
+                        <li>Limit input; reduce direct table access</li>
+                        <li>Logical order; clear grouping</li>
+                        <li>Faster entry; less confusion</li>
+                        <li>Data errors; user confusion</li>
+                        <li>Table creation; relationship definition</li>
+                    </ol>
+                </details>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="credits">
+            <h2>Credits</h2>
+            <p>Database Fundamentals Course Material &middot; Coordinator: Ensaf Bashir &middot; 1312 Comp</p>
+        </section>
+
+        <p style="text-align: center; margin-top: 2rem;">
+            <a href="../index.html">&larr; Back to Course Home</a>
+        </p>
+    </footer>
+</body>
+</html>
