@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz 2 — Course Selection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:    #f4f0e6;
+    --paper-2:  #ece6d6;
+    --ink:      #21201b;
+    --ink-soft: #5b574c;
+    --line:     #c8c0aa;
+    --accent:   #9a5b2e;
+    --accent-d: #7c4622;
+    --error:    #a8362b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Spline Sans', sans-serif;
+    background: var(--paper);
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(154,91,46,0.06), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(33,32,27,0.05), transparent 45%);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 520px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.6) inset,
+      0 24px 48px -24px rgba(33,32,27,0.35);
+    padding: 44px 40px 36px;
+    animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+
+  .lead {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .rule {
+    height: 1px;
+    background: var(--line);
+    margin: 0 0 26px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 9px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .select-wrap {
+    position: relative;
+  }
+
+  /* Custom chevron via SVG background */
+  select {
+    width: 100%;
+    font-family: 'Spline Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'><path fill='none' stroke='%239a5b2e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M1 1l6 6 6-6'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 15px 44px 15px 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(154,91,46,0.14);
+  }
+
+  select.invalid {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(168,54,43,0.13);
+  }
+
+  select option {
+    color: var(--ink);
+    background: var(--paper);
+  }
+
+  button {
+    font-family: 'Spline Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: #f6f1e3;
+    background: var(--accent);
+    border: none;
+    border-radius: 3px;
+    padding: 15px 18px;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.06s ease;
+  }
+
+  button:hover { background: var(--accent-d); }
+  button:active { transform: translateY(1px); }
+  button:disabled { opacity: 0.65; cursor: default; }
+
+  .msg {
+    min-height: 18px;
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .msg.error { color: var(--error); }
+  .msg.ok { color: var(--accent-d); }
+
+  .foot {
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+</style>
+</head>
+<body>
+
+  <main class="card">
+    <div class="eyebrow">Quiz&nbsp;2 &middot; Examination Portal</div>
+    <h1>Select your course</h1>
+    <p class="lead">Choose your course from the list below to be directed to your assigned exam server.</p>
+
+    <div class="rule"></div>
+
+    <div class="field">
+      <div>
+        <label for="courseSelect">Course</label>
+        <div class="select-wrap">
+          <select id="courseSelect" aria-describedby="msg">
+            <option value="" disabled selected>— Select your course —</option>
+            <option value="1">COMP 2411 — Visual Programming — Weeks 6, 7 &amp; 9 (V2)</option>
+            <option value="2">IS 2511 — Risk Management — Lectures 8–10 (V2)</option>
+            <option value="3">COMP 1211 — Operating Systems — Weeks 5–8 (V2)</option>
+            <option value="4">IS 1305 — Network &amp; Internet Security — Chapters 8–10 (V2)</option>
+            <option value="5">IS 2512 — Digital Forensics — Weeks 5–8 (V2)</option>
+            <option value="6">COMP 2413 — Database Programming — Lecture 7 to 2NF (V2)</option>
+            <option value="7">COMP 1312 — Fundamentals of Database — Lectures 6–8 (V2)</option>
+            <option value="8">COMP 1311 — Computer Programming 2 — Lectures 6–8 (Theory) (V2)</option>
+          </select>
+        </div>
+      </div>
+      <button id="submitBtn" type="button">Continue to exam</button>
+    </div>
+
+    <div class="msg" id="msg" role="status" aria-live="polite"></div>
+
+    <div class="foot">
+      You will be redirected automatically. If nothing happens, refresh the page and try again.
+    </div>
+  </main>
+
+<script>
+  // Course → destination URL (order matches the screenshot exactly)
+  var COURSES = {
+    "1": {
+      name: "COMP 2411 — Visual Programming",
+      url:  "https://quiz-platform-site2-699967266575.me-central1.run.app/verification?exam_token=c40b9c82-a1ae-4f07-b177-2e432f3f79cf"
+    },
+    "2": {
+      name: "IS 2511 — Risk Management",
+      url:  "https://quiz-platform-site3-699967266575.me-central1.run.app/verification?exam_token=31cca4da-222f-4846-9781-2d8c281c3b8a"
+    },
+    "3": {
+      name: "COMP 1211 — Operating Systems",
+      url:  "https://quiz-platform-site3-699967266575.me-central1.run.app/verification?exam_token=d9415a44-fb24-4129-8b72-f3ddca03a517"
+    },
+    "4": {
+      name: "IS 1305 — Network & Internet Security",
+      url:  "https://quiz-platform-site3-699967266575.me-central1.run.app/verification?exam_token=f8407924-5a6d-41c1-a51c-8b78c672bb70"
+    },
+    "5": {
+      name: "IS 2512 — Digital Forensics",
+      url:  "https://quiz-platform-site3-699967266575.me-central1.run.app/verification?exam_token=c73c3e8c-ca9e-4c2f-b54f-c81e7e31bf15"
+    },
+    "6": {
+      name: "COMP 2413 — Database Programming",
+      url:  "https://quiz-platform-site3-699967266575.me-central1.run.app/verification?exam_token=e37f7716-5bf3-4194-84a1-a8803efca1ac"
+    },
+    "7": {
+      name: "COMP 1312 — Fundamentals of Database",
+      url:  "https://quiz-platform-site3-699967266575.me-central1.run.app/verification?exam_token=cec021b9-5304-4544-b0b5-a181db9d048c"
+    },
+    "8": {
+      name: "COMP 1311 — Computer Programming 2",
+      url:  "https://quiz-platform-site3-699967266575.me-central1.run.app/verification?exam_token=88f11f8e-c23e-41a5-b625-d481c8deef3b"
+    }
+  };
+
+  var select = document.getElementById("courseSelect");
+  var button = document.getElementById("submitBtn");
+  var msg    = document.getElementById("msg");
+
+  function setMessage(text, type) {
+    msg.textContent = text;
+    msg.className = "msg" + (type ? " " + type : "");
+  }
+
+  function handleSubmit() {
+    var value = select.value;
+
+    if (!value || !COURSES[value]) {
+      select.classList.add("invalid");
+      setMessage("Please select your course from the list.", "error");
+      select.focus();
+      return;
+    }
+
+    select.classList.remove("invalid");
+
+    var course = COURSES[value];
+
+    button.disabled = true;
+    select.disabled = true;
+
+    setMessage("Redirecting to " + course.name + "\u2026", "ok");
+    window.location.href = course.url;
+  }
+
+  button.addEventListener("click", handleSubmit);
+
+  select.addEventListener("change", function () {
+    if (select.classList.contains("invalid")) {
+      select.classList.remove("invalid");
+      setMessage("", "");
+    }
+  });
+
+  select.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") handleSubmit();
+  });
+
+  select.focus();
+</script>
+
+</body>
+</html>
